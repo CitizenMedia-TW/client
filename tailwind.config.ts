@@ -8,13 +8,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        globalbg: 'var(--background-color)',
+        divider: 'var(--color-divider)',
+        menu_blue: 'var(--color-menu-blue)',
+        topbar_button: 'var(--color-topbar-btn)',
+        menu_yellow: 'var(--color-menu-yellow)',
+        menu_line: 'var(--color-menu-line)',
+        newstories_line: 'var(--color-newstories-line)',
+        storyblock: 'var(--color-storyblock)',
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: [],
+  },
+  plugins: [require('daisyui')],
+  darkMode: 'class',
 }
 export default config
