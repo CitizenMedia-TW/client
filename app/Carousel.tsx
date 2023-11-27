@@ -34,7 +34,7 @@ export default function Carousel() {
           stories.map((data) => (
             <div
               key={`${data._id}`}
-              className="carousel-item mx-3 h-40 w-36 bg-white bg-opacity-50 rounded-md flex flex-col"
+              className="carousel-item mx-3 h-40 w-60 md:w-72 bg-white bg-opacity-50 rounded-md flex flex-col"
             >
               <Link href="/stories/[id]" as={`/stories/${data._id}`}>
                 <h1 className="text-xl font-bold">{data.title}</h1>
@@ -43,7 +43,10 @@ export default function Carousel() {
               <p>{new Date(data.createdAt).toLocaleDateString()}</p>
               {login && (
                 // TODO: implement like button
-                <button onClick={() => console.log('liked')}>
+                <button
+                  onClick={() => console.log('liked')}
+                  className="flex justify-end"
+                >
                   <AiOutlineHeart />
                 </button>
               )}

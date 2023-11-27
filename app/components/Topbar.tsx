@@ -24,32 +24,33 @@ const Topbar = () => {
         <button onClick={() => signOut()} className="items-end">
           Sign Out
         </button>
-        <button onClick={() => console.log(session)}>Console</button>
+        <button onClick={() => console.log(session)} className="hidden md:block">Console</button>
         <button
           onClick={() => setTheme('dark')}
-          className="text-black dark:text-white"
+          className="text-black dark:text-white hidden md:block"
         >
           dark
         </button>
         <button
           onClick={() => setTheme('light')}
-          className="text-black dark:text-white"
+          className="text-black dark:text-white hidden md:block"
         >
           light
         </button>
         <button
           onClick={() => setTheme('system')}
-          className="text-black dark:text-white"
+          className="text-black dark:text-white hidden md:block"
         >
           system
         </button>
-        <p className="ml-8">current theme: {theme}</p>
+        <p className="ml-8 hidden md:block">current theme: {theme}</p>
         <Image
           unoptimized
           src={session?.user?.avatar as string}
           alt="here was a logo:("
           width={30}
           height={30}
+          className="hidden md:block"
         />
         <Sidebar />
       </header>
