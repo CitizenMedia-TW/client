@@ -10,6 +10,12 @@ import parse from 'html-react-parser'
 // Use CSS Modules to style story body component
 import storyStyles from './story.module.css'
 
+import dynamic from 'next/dynamic'
+import { OutputData } from '@editorjs/editorjs'
+const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
+  ssr: false,
+})
+
 interface Story {
   _id: string
   author: string
@@ -22,7 +28,44 @@ interface Story {
   tags: string[]
 }
 
-export default function Home({ params }: { params: { storyid: string } }) {
+export default function tmpFunction({
+  params,
+}: {
+  params: { storyid: string }
+}) {
+  const [data, setData] = React.useState<Story | null>(null)
+  const [content, setContent] = React.useState<OutputData>({
+    blocks: [
+      {
+        type: 'text',
+        data: 'Loading',
+      },
+    ],
+  })
+
+  React.useEffect(() => {
+    StoryServices.getStoryById(params.storyid).then((res) => {
+      if (res && res.data != 'Story not found') setData(res.data)
+    })
+  }, [params.storyid])
+
+  React.useEffect(() => {
+    setContent(JSON.parse(data?.content ?? '{}'))
+  }, [data?.content])
+
+  return (
+    <div>
+      <EditorBlock
+        data={content}
+        onDataChange={setContent}
+        holder="editorjs-container"
+        readOnly={true}
+      />
+    </div>
+  )
+}
+
+function Home({ params }: { params: { storyid: string } }) {
   const [data, setData] = React.useState<Story | null>(null)
   const [content, setContent] = React.useState<string | null>(null)
 
