@@ -2,7 +2,8 @@
 import React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import Logo from '../../public/logo-white.svg'
+import LogoDark from '../../public/logoDarkS.svg'
+import LogoLight from '../../public/logoLightS.svg'
 import { useTheme } from 'next-themes'
 import Sidebar from '../components/Sidebar'
 
@@ -19,12 +20,26 @@ const Topbar = () => {
   if (session && session.user) {
     return (
       <header className="flex flex-row gap-4 w-full items-center bg-globalbg text-black dark:text-white sticky top-0">
-        <Image src={Logo} alt="here was a logo:(" className="h-20" />
+        <Image
+          src={LogoLight}
+          alt="here was a logo:("
+          className="h-20 dark:hidden"
+        />
+        <Image
+          src={LogoDark}
+          alt="here was a logo:("
+          className="h-20 hidden dark:block"
+        />
         <p>{session.user.email}</p>
         <button onClick={() => signOut()} className="items-end">
           Sign Out
         </button>
-        <button onClick={() => console.log(session)} className="hidden md:block">Console</button>
+        <button
+          onClick={() => console.log(session)}
+          className="hidden md:block"
+        >
+          Console
+        </button>
         <button
           onClick={() => setTheme('dark')}
           className="text-black dark:text-white hidden md:block"
@@ -59,7 +74,16 @@ const Topbar = () => {
 
   return (
     <header className="flex gap-2 sticky top-0">
-      <Image src={Logo} alt="here was a logo:(" className="bg-white" />
+      <Image
+        src={LogoLight}
+        alt="here was a logo:("
+        className="h-20 dark:hidden"
+      />
+      <Image
+        src={LogoDark}
+        alt="here was a logo:("
+        className="h-20 hidden dark:block"
+      />
       <button onClick={() => signIn()} className="items-end text-sky-700">
         Sign in
       </button>
