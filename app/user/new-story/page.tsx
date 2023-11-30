@@ -1,34 +1,29 @@
 'use client'
 import React, { useState } from 'react'
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import ListItem from '@tiptap/extension-list-item'
-import OrderedList from '@tiptap/extension-ordered-list'
-import BulletList from '@tiptap/extension-bullet-list'
-import Menubar from './Menubar'
 import { useSession } from 'next-auth/react'
 import { StoryServices } from '@/api/services'
 import Tags from '@yaireo/tagify/dist/react.tagify'
 import '@yaireo/tagify/dist/tagify.css'
-import Image from '@tiptap/extension-image'
 
-import editorStyles from './editor.module.css'
-import { imageDropHandler } from './imageDropHandler'
+import dynamic from 'next/dynamic'
+import { OutputData } from '@editorjs/editorjs'
+const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
+  ssr: false,
+})
 
 interface storyData {
   title: string
   subTitle: string
-  content: string
 }
 
 const Home = () => {
   const { data: session } = useSession()
 
+  const [content, setContent] = React.useState<OutputData>()
+
   const [storyData, setStoryData] = useState<storyData>({
     title: '',
     subTitle: '',
-    content:
-      '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"Hello World! 🌎️"}]}]}',
   })
   const [tags, setTags] = useState<{ tags: string[] }>({ tags: [] })
 
@@ -47,16 +42,18 @@ const Home = () => {
     if (
       storyData.title === '' ||
       storyData.subTitle === '' ||
-      storyData.content === ''
+      content == (undefined || null)
     ) {
       window.alert('Please fill all the fields')
       return
     }
+    console.log(session)
     // Post the story
     const response = await StoryServices.newStory(
       {
         id: session?.user.id,
         ...storyData,
+        content: JSON.stringify(content),
         ...tags,
       },
       session?.user.jwtToken as string
@@ -71,27 +68,6 @@ const Home = () => {
     /* TODO: handle save */
     console.log('save')
   }
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        orderedList: {
-          HTMLAttributes: { class: 'list-decimal' },
-        },
-        bulletList: {
-          HTMLAttributes: { class: 'list-disc' },
-        },
-      }),
-      Image,
-    ],
-    editorProps: {
-      handleDrop: imageDropHandler,
-    },
-    content: '<p>Hello World! 🌎️</p>',
-    onUpdate: ({ editor }) => {
-      setStoryData({ ...storyData, content: JSON.stringify(editor.getJSON()) })
-    },
-  })
 
   const tagOnChange = React.useCallback((e: any) => {
     const allTags: [] = e.detail.tagify
@@ -126,16 +102,14 @@ const Home = () => {
           className="w-64 text-black"
         />
       </section>
-      <EditorContent
-        editor={editor}
-        /* className="list-inside" */
-        /* className="min-h-[70vh] p-5 border rounded-md border-black dark:border-white" */
-        className={editorStyles.editor}
-      />
-      <Menubar
-        editor={editor}
-        className="sticky bottom-20 mt-6 flex justify-center"
-      />
+      <div className="justify-items-center mx-20">
+        <EditorBlock
+          data={content}
+          onDataChange={setContent}
+          holder="editorjs-container"
+          readOnly={false}
+        />
+      </div>
       <div className="h-10" />
       <Tags
         onChange={tagOnChange}

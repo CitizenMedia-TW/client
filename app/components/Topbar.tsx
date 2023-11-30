@@ -19,7 +19,7 @@ const Topbar = () => {
 
   if (session && session.user) {
     return (
-      <header className="flex flex-row gap-4 w-full items-center bg-globalbg text-black dark:text-white sticky top-0">
+      <header className="flex flex-row gap-4 w-full items-center bg-globalbg text-black dark:text-white sticky top-0 z-50">
         <Image
           src={LogoLight}
           alt="here was a logo:("
