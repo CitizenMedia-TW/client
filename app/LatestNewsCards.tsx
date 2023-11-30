@@ -34,6 +34,7 @@ export default function Page({ className }: { className: string }) {
   const { tags } = useTags()
   console.log(tags)
 
+  // TODO: Replace with real story's data
   return (
     <main className={className}>
       <div className="carousel carousel-vertical flex w-full max-h-[calc(90%)]">
@@ -69,7 +70,15 @@ export default function Page({ className }: { className: string }) {
               </div>
 
               <div>
-                <div className="round-md w-[284px] h-[156px] bg-[#D9D9D9]" />
+                {/* <div className="round-md w-full h-full bg-[#D9D9D9]" /> */}
+                <Image
+                  src="https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg"
+                  alt="image"
+                  width={204}
+                  height={204}
+                  className="overflow-hidden"
+                  unoptimized
+                />
               </div>
             </div>
           ))}
