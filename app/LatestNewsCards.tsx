@@ -34,6 +34,7 @@ export default function Page({ className }: { className: string }) {
   const { tags } = useTags()
   console.log(tags)
 
+  // TODO: Replace with real story's data
   return (
     <main className={className}>
       <div className="carousel carousel-vertical flex w-full max-h-[calc(90%)]">
