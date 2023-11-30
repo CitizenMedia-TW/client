@@ -19,8 +19,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  // suppressHydrationWarning -> suppress next-theme warning
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="h-screen relative">
         <ThemeProvider>
           <Providers>
