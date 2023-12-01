@@ -7,7 +7,7 @@ import LatestNews from './LatestNews'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-16">
+    <main className="flex min-h-screen flex-col items-center p-4 md:p-16">
       <div className="flex flex-col w-full p-2">
         <div className="flex flex-row items-center">
           <FiThumbsUp />

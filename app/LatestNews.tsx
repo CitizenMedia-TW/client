@@ -23,8 +23,8 @@ export default function Page() {
   return (
     <TagChosen.Provider value={{ tags, setTags }}>
       <main className="flex flex-col md:flex-row w-full">
-        <LatestNewsCards className="w-[50%] h-[50%] p-2" />
-        <LatestNewsTags className="w-[50%] p-2" />
+        <LatestNewsCards className="w-full md:w-[50%] h-[50%] p-2" />
+        <LatestNewsTags className="w-full md:w-[50%] p-2" />
       </main>
     </TagChosen.Provider>
   )
