@@ -14,7 +14,6 @@ declare module 'next-auth' {
       id?: string
       jwtToken?: string
       avatar?: string
-      loginType?: LoginType
     } & DefaultSession['user']
   }
   interface User {
@@ -24,14 +23,12 @@ declare module 'next-auth' {
     id?: string
     jwtToken?: string
     avatar?: string
-    loginType?: LoginType
   }
   interface Account {
     user: {
       id?: string
       jwtToken?: string
       avatar?: string
-      loginType?: LoginType
     }
   }
 }
