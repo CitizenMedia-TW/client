@@ -2,8 +2,9 @@
 import React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import LogoDark from '../../public/logoDarkS.svg'
-import LogoLight from '../../public/logoLightS.svg'
+import LogoDark from '@/public/logoDarkS.svg'
+import LogoLight from '@/public/logoLightS.svg'
+import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import Sidebar from '../components/Sidebar'
 
@@ -19,17 +20,19 @@ const Topbar = () => {
 
   if (session && session.user) {
     return (
-      <header className="flex flex-row gap-4 w-full items-center bg-globalbg text-black dark:text-white sticky top-0 z-50">
-        <Image
-          src={LogoLight}
-          alt="here was a logo:("
-          className="h-20 dark:hidden"
-        />
-        <Image
-          src={LogoDark}
-          alt="here was a logo:("
-          className="h-20 hidden dark:block"
-        />
+      <header className="flex flex-row gap-4 w-full items-center bg-base drop-shadow-md text-black dark:text-white sticky top-0 z-50">
+        <Link href="/">
+          <Image
+            src={LogoLight}
+            alt="here was a logo:("
+            className="h-20 dark:hidden"
+          />
+          <Image
+            src={LogoDark}
+            alt="here was a logo:("
+            className="h-20 hidden dark:block"
+          />
+        </Link>
         <p>{session.user.email}</p>
         <button onClick={() => signOut()} className="items-end">
           Sign Out
