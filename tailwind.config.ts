@@ -9,14 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        globalbg: 'var(--background-color)',
-        divider: 'var(--color-divider)',
-        menu_blue: 'var(--color-menu-blue)',
-        topbar_button: 'var(--color-topbar-btn)',
-        menu_yellow: 'var(--color-menu-yellow)',
-        menu_line: 'var(--color-menu-line)',
-        newstories_line: 'var(--color-newstories-line)',
-        storyblock: 'var(--color-storyblock)',
+        primary: {
+          DEFAULT: 'var(--color-primary)',
+          content: 'var(--color-primary-content)',
+          footer: 'var(--color-primary-footer)',
+          sidebar: 'var(--color-primary-sidebar)',
+        },
+        secondary: {
+          DEFAULT: 'var(--color-secondary)',
+          content: 'var(--color-secondary-content)',
+        },
+        accent: {
+          DEFAULT: '#FFFFFF',
+        },
+        base: {
+          DEFAULT: 'var(--background-color)',
+          content: 'var(--color-text-primary)',
+          footer: 'var(--color-text-secondary)',
+        },
       },
     },
   },

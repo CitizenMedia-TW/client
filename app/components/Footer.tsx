@@ -1,12 +1,12 @@
 import React from 'react'
 import { FiFacebook, FiInstagram, FiHome } from 'react-icons/fi'
-import Logo from '../../public/logo-blue.svg'
+import Logo from '@/public/logoFoot.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <div className="w-full bg-[#133157] items-center bottom-0">
+    <div className="w-full bg-primary-footer items-center bottom-0">
       <div className="h-7" />
       <div className="sm:flex flex-wrap">
         <div className="ml-20">

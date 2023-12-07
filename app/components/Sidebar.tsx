@@ -84,7 +84,7 @@ export default function Sidebar() {
 
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-        <ul className="menu p-4 w-80 min-h-full bg-menu_blue text-base-content">
+        <ul className="menu p-4 w-80 min-h-full bg-primary-sidebar text-primary-content">
           {/* Sidebar content here */}
           <div className="flex flex-col justify-end items-start h-40">
             <div className="flex justify-between w-full items-center">
@@ -118,13 +118,13 @@ export default function Sidebar() {
             </div>
           </div>
           <SidebarItem href="/" setOpen={setOpen} display="Home" />
-          <hr className="h-0.5 my-1 bg-menu_line border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
+          <hr className="h-0.5 my-1 bg-[#24456D] border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
           <SidebarItem href="/user" setOpen={setOpen} display="User" />
-          <hr className="h-0.5 my-1 bg-menu_line border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
+          <hr className="h-0.5 my-1 bg-[#24456D] border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
           <SidebarItem href="/" setOpen={setOpen} display="Notifications" />
-          <hr className="h-0.5 my-1 bg-menu_line border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
+          <hr className="h-0.5 my-1 bg-[#24456D] border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
           <SidebarItem href="/settings" setOpen={setOpen} display="Settings" />
-          <hr className="h-0.5 my-1 bg-menu_line border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
+          <hr className="h-0.5 my-1 bg-[#24456D] border-0 dark:bg-gray-700 ml-4 mr-10"></hr>
           <div className="flex items-center mt-3 ml-2">
             <button
               onClick={() => signOut()}

@@ -6,37 +6,38 @@
   --background-color: #FFFFFF;
   --color-text-primary: #333333;
   
+  --color-primary: #0F3E7A;
+  --color-primary-footer: #133157;
+  --color-primary-sidebar: #426CA3;
+  --color-primary-content: #FFFFFF;
+
+  --color-secondary: #F8B61C;
+  --color-secondary-content: #0F3E7A;
+
+  /* daisyui overwrite */
   --color-btn-primary: #0F3E7A;
-  --color-divider: #0F3E7A;
-
-  --color-topbar-btn: #515861;
-
-  /* Global Config */
-  --color-menu-blue: #426CA3;
-  --color-menu-yellow: #FFC342;
-  --color-menu-line: #24456D;
-  --color-newstories-line: #0F3E7A;
-  --color-story-block: #466D9E;
 }
 
 .dark {
   --background-color: #4E4E4E;
   --color-text-primary: #FFFFFF;
 
-  --color-btn-primary: #FFD37E;
-  --color-divider: #FFFFFF;
+  --color-primary: #456FA3;
+  --color-primary-footer: #3D4A5B;
+  --color-primary-sidebar: #4F617A;
+  --color-primary-content: #FFFFFF;
 
-  --color-topbar-btn: #FFFFFF;
+  --color-secondary: #F8B61C;
+  --color-secondary-content: #FFFFFF;
+
+  /* daisyui overwrite */
+  --color-btn-primary: #FFD37E;
 }
 
-/* daisyui color configuration start */
+/* daisyui modifier overwrite start */
 
 .btn-primary {
   color: var(--color-btn-primary);
-}
-
-.menu {
-  background: #426CA3
 }
 
 body {

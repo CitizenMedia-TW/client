@@ -57,7 +57,7 @@ export default function Page() {
           Workspace
         </button>
       </section>
-      <hr className="h-[3px] bg-divider mx-16 my-5" />
+      <hr className="h-[3px] bg-primary dark:bg-white mx-16 my-5" />
       <div className="h-1/5 overflow-y-scroll">
         {account === activeStyle && <Account />}
         {security === activeStyle && <Security />}
