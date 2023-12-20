@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 import Footer from './components/Footer'
-import Providers from './components/Providers'
+import SessionProvider from './components/providers/SessionProvider'
 import Topbar from './components/Topbar'
-import ThemeProvider from './components/ThemeProvider'
+import ThemeProvider from './components/providers/ThemeProvider'
 
 /* const inter = Inter({ subsets: ['latin'] }) */
 
@@ -24,11 +24,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="h-screen relative">
         <ThemeProvider>
-          <Providers>
+          <SessionProvider>
             <Topbar />
             <div className="min-h-[calc(100%-80px)]">{children}</div>
             <Footer />
-          </Providers>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

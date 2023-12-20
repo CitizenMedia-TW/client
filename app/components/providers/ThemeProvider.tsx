@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const Providers = (props: Props) => {
+const Provider = (props: Props) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
       {props.children}
@@ -14,4 +14,4 @@ const Providers = (props: Props) => {
   )
 }
 
-export default Providers
+export default Provider
