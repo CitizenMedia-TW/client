@@ -13,6 +13,19 @@ type Props = {
   readOnly: boolean
 }
 
+function RedactorPadding() {
+  return (
+    <style>
+      {`
+          /* Resize the redactor padding */
+          .codex-editor__redactor {
+            padding-bottom: 2rem !important;
+          }
+        `}
+    </style>
+  )
+}
+
 const EditorBlock = ({ data, onDataChange, holder, readOnly }: Props) => {
   // Add a reference to editor
   const ref = useRef<EditorJS>()
@@ -58,7 +71,12 @@ const EditorBlock = ({ data, onDataChange, holder, readOnly }: Props) => {
     }
   }, [])
 
-  return <div id={holder} className="w-full prose" />
+  return (
+    <>
+      <div id={holder} className="w-full prose" />
+      {readOnly ? <RedactorPadding /> : <></>}
+    </>
+  )
 }
 
 export default memo(EditorBlock)
