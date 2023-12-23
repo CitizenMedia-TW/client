@@ -1,5 +1,8 @@
 import type { Config } from 'tailwindcss'
 
+import plugin from 'tailwindcss/plugin'
+import customPlugins from './components/tailwind/section'
+
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -33,7 +36,15 @@ const config: Config = {
   daisyui: {
     themes: [],
   },
-  plugins: [require('daisyui'), require('@tailwindcss/typography')],
+  plugins: [
+    require('daisyui'),
+    require('@tailwindcss/typography'),
+    plugin(function ({ addComponents }) {
+      addComponents({
+        ...customPlugins,
+      })
+    }),
+  ],
   darkMode: 'class',
 }
 export default config
