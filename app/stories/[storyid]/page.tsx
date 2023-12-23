@@ -1,15 +1,17 @@
 // Note: This is a dynamic route
 'use client'
 import React from 'react'
-import { StoryServices } from '@/api/services'
+import Image from 'next/image'
+import { UserServices, StoryServices } from '@/api/services'
 
 import dynamic from 'next/dynamic'
 import { OutputData } from '@editorjs/editorjs'
+import Comments from './Comments'
 const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
   ssr: false,
 })
 
-interface Story {
+type Story = {
   _id: string
   author: string
   authorId: string
@@ -19,6 +21,43 @@ interface Story {
   createdAt: string
   comments: string[]
   tags: string[]
+}
+
+type AuthorInfo = {
+  name: string
+  email: string
+  avatar: string
+  profileLinks: any
+}
+
+function AuthorSection({ data }: { data: Story }) {
+  const [authorInfo, setAuthorInfo] = React.useState<AuthorInfo | null>(null)
+  React.useEffect(() => {
+    async function fetchData() {
+      const res = await UserServices.getPublicUser(data.authorId)
+      if (res && !res.data.error) {
+        console.log(res.data)
+        setAuthorInfo(res.data)
+      }
+    }
+    fetchData()
+  }, [data.authorId])
+
+  if (!authorInfo) {
+    return <span className="loading loading-spinner" />
+  }
+
+  return (
+    <div>
+      <Image
+        src={authorInfo.avatar}
+        alt="author image"
+        width="30"
+        height="30"
+      />
+      <p>{authorInfo.name}</p>
+    </div>
+  )
 }
 
 export default function Page({ params }: { params: { storyid: string } }) {
@@ -39,21 +78,41 @@ export default function Page({ params }: { params: { storyid: string } }) {
   }, [params.storyid])
 
   return (
-    <div>
-      {dataReady && content ? (
-        <div className="prose">
-          <h1>{data?.title}</h1>
-          <EditorBlock
-            data={content}
-            onDataChange={setContent}
-            holder="editorjs-container"
-            readOnly={true}
-          />
-          <p>Tags: {data && data.tags.join(', ')}</p>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="flex flex-col md:flex-row px-10">
+      <section className="basis-3/4">
+        <div className="h-9" />
+        {dataReady && content ? (
+          <div className="prose">
+            <h1>{data?.title}</h1>
+            <EditorBlock
+              data={content}
+              onDataChange={setContent}
+              holder="editorjs-container"
+              readOnly={true}
+            />
+            <p>Tags: {data && data.tags.join(', ')}</p>
+            <div className="h-9" />
+          </div>
+        ) : (
+          <span className="loading loading-spinner" />
+        )}
+        <section className="section">
+          <p className="section-title">Comments</p>
+          <Comments />
+        </section>
+      </section>
+      <div className="h-9 block md:hidden" />
+      <section className="basis-1/4">
+        <div className="h-9" />
+        <section className="section">
+          {dataReady && data ? (
+            // <p>{data.author}</p>
+            <AuthorSection data={data} />
+          ) : (
+            <span className="loading loading-spinner" />
+          )}
+        </section>
+      </section>
     </div>
   )
 }
