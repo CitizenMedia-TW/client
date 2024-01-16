@@ -17,32 +17,32 @@ import {
 type SubPagesType = {
   [key: string]: {
     activate: boolean
-    component: JSX.Element
+    component: (key: string) => JSX.Element
   }
 }
 const subPages: SubPagesType = {
   Account: {
     activate: true,
-    component: <Account />,
+    component: (key) => <Account key={key} />,
   },
   Security: {
     activate: false,
-    component: <Security />,
+    component: (key) => <Security key={key} />,
   },
   Notification: {
     activate: false,
-    component: <Notification />,
+    component: (key) => <Notification key={key} />,
   },
   Workspace: {
     activate: false,
-    component: <Workspace />,
+    component: (key) => <Workspace key={key} />,
   },
 }
 
 export default function Page() {
   const [currentSubPage, setCurrentSubPage] = React.useState('Account')
 
-  function useSubPages(name: string): void {
+  function setSubPages(name: string): void {
     subPages[name].activate = true
     subPages[currentSubPage].activate = false
     setCurrentSubPage(name) // This will forse re-render
@@ -55,8 +55,9 @@ export default function Page() {
       <section className="sm:flex flex-row m-4 space-x-4 transition-transform duration-100 hidden">
         {Object.keys(subPages).map((key) => (
           <Button
+            key={key}
             variant={subPages[key].activate ? 'outline' : 'ghost'}
-            onClick={() => useSubPages(key)}
+            onClick={() => setSubPages(key)}
           >
             {key}
           </Button>
@@ -64,7 +65,7 @@ export default function Page() {
       </section>
       {/* Hidden on @media (max-width: 640px) */}
       <section className="sm:hidden flex justify-center">
-        <Select onValueChange={(val) => useSubPages(val)}>
+        <Select onValueChange={(val) => setSubPages(val)}>
           <SelectTrigger className="w-24">
             <SelectValue placeholder="Account" defaultValue={'account'} />
           </SelectTrigger>
@@ -81,7 +82,7 @@ export default function Page() {
       <hr className="h-[3px] bg-primary mx-16 my-5" />
       <div className="h-1/5 overflow-y-scroll">
         {Object.keys(subPages).map(
-          (key) => subPages[key].activate && subPages[key].component
+          (key) => subPages[key].activate && subPages[key].component(key)
         )}
       </div>
     </main>
