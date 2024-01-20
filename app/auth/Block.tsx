@@ -12,7 +12,7 @@ export default function Block({
           <div className="w-full md:h-1/6 flex items-end">
             <div className="relative left-[8%] translate-y-1/2 flex flex-col-reverse">
               <div className="relative -left-2 h-5 bg-[#fbd06e] w-36" />
-              <div className="relative top-1.5   text-[#0F3E7A] font-medium font-sans text-6xl -tracking-[2%] relative not-italic leading-10">
+              <div className="top-1.5 text-[#0F3E7A] font-medium font-sans text-6xl -tracking-[2%] relative not-italic leading-10">
                 {title}
               </div>
             </div>
