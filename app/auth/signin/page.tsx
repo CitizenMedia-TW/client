@@ -4,7 +4,7 @@ import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ImFacebook2 } from 'react-icons/im'
 import { FcGoogle } from 'react-icons/fc'
-import Block from './Block'
+import Block from '../Block'
 
 async function credentials(data: { email: string; password: string }) {
   const result = await signIn('credentials', {
