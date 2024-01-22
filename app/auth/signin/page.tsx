@@ -4,7 +4,7 @@ import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ImFacebook2 } from 'react-icons/im'
 import { FcGoogle } from 'react-icons/fc'
-import Block from '../Block'
+import Block from './Block'
 
 async function credentials(data: { email: string; password: string }) {
   const result = await signIn('credentials', {
@@ -58,7 +58,7 @@ export default function Home() {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="5"
-              height="368"
+              height="300"
               viewBox="0 0 5 368"
               fill="none"
             >
@@ -70,7 +70,7 @@ export default function Home() {
             </svg>
           </div>
 
-          <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-5 md:py-3">
+          <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5 md:py-3">
             <input
               type="email"
               className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
@@ -89,7 +89,7 @@ export default function Home() {
             >
               LOGIN
             </button>
-            <div className="relative left-1/2 -translate-x-1/2 flex justify-center md:-translate-y-1/8">
+            <div className="relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8">
               <Link
                 href="/auth/signin/forget-password"
                 className="text-[#0F3E7A] font-sans text-[16px] not-italic font-normal leading-[50px] underline"
@@ -97,7 +97,7 @@ export default function Home() {
                 Forget password?
               </Link>
             </div>
-            <div className="relative left-1/2 -translate-x-1/2 flex justify-center md:-translate-y-1/2">
+            <div className="relative left-1/2 -translate-x-1/2 flex justify-center -translate-y-3 md:-translate-y-1/2">
               <Link
                 href="/auth/register"
                 className="text-[#0F3E7A] font-sans not-italic font-normal leading-[50px] underline"
