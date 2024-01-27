@@ -6,7 +6,7 @@ import LogoDark from '@/public/logoDarkS.svg'
 import LogoLight from '@/public/logoLightS.svg'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import Sidebar from '../components/Sidebar'
+import Sidebar from './Sidebar/Sidebar'
 
 const HeaderLogo = () => {
   const { theme } = useTheme()
