@@ -1,38 +1,38 @@
-"use client";
-import React, { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
-import { ImFacebook2 } from "react-icons/im";
-import { FcGoogle } from "react-icons/fc";
-import Block from "../Block";
+'use client'
+import React, { useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { ImFacebook2 } from 'react-icons/im'
+import { FcGoogle } from 'react-icons/fc'
+import Block from '../Block'
 
 async function credentials(data: { email: string; password: string }) {
-  const result = await signIn("credentials", {
+  const result = await signIn('credentials', {
     email: data.email,
     password: data.password,
     redirect: false,
-  });
+  })
   if (result?.error) {
-    console.log(result.error);
-    return window.alert("Please check your email and password");
+    console.log(result.error)
+    return window.alert('Please check your email and password')
   }
 }
 
 async function google() {
-  await signIn("google", { redirect: true });
+  await signIn('google', { redirect: true })
 }
 
 export default function Home() {
-  const [cred, setCred] = useState({ email: "", password: "" });
+  const [cred, setCred] = useState({ email: '', password: '' })
 
   /* Redirect to homepage if user is logged in */
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   if (session) {
-    return window.location.replace("/");
+    return window.location.replace('/')
   }
 
   return (
-    <Block title={"LOGIN"}>
+    <Block title={'LOGIN'}>
       <div>
         <div className="w-full h-5/6 flex flex-col md:flex-row justify-around grow justify-items-center gap-y-2">
           <div className="md:h-full md:w-1/2 w-full flex flex-col relative md:py-14 gap-y-2 md:gap-y-6">
@@ -109,5 +109,5 @@ export default function Home() {
         </div>
       </div>
     </Block>
-  );
+  )
 }

@@ -1,31 +1,31 @@
-"use client";
-import React, { useState } from "react";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import Block from "../Block";
-const API_URL = process.env.API_URL || "http://localhost:8080";
+'use client'
+import React, { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import axios from 'axios'
+import Block from '../Block'
+const API_URL = process.env.API_URL || 'http://localhost:8080'
 
 async function sendMail(email: string) {
-  const result = await axios.post(API_URL + "/auth/forget-password", {
+  const result = await axios.post(API_URL + '/auth/forget-password', {
     email: email,
-  });
-  console.log("result");
-  console.log(result);
-  if (result.data.message === "User not found") window.alert("User not found");
+  })
+  console.log('result')
+  console.log(result)
+  if (result.data.message === 'User not found') window.alert('User not found')
   else {
-    window.alert("Email sent");
-    return window.location.replace("/auth/signin");
+    window.alert('Email sent')
+    return window.location.replace('/auth/signin')
   }
 }
 
 export default function Home() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('')
 
   /* Redirect to homepage if user is logged in */
-  const { data: session } = useSession();
-  if (session) return window.location.replace("/");
+  const { data: session } = useSession()
+  if (session) return window.location.replace('/')
   return (
-    <Block title={"Forget Password"}>
+    <Block title={'Forget Password'}>
       <div className="flex justify-center">
         <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5 md:py-3">
           <input
@@ -43,5 +43,5 @@ export default function Home() {
         </div>
       </div>
     </Block>
-  );
+  )
 }

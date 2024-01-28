@@ -2,8 +2,8 @@ export default function Block({
   title,
   children,
 }: {
-  title?: string;
-  children: React.ReactNode;
+  title?: string
+  children: React.ReactNode
 }) {
   return (
     <div
@@ -22,5 +22,5 @@ export default function Block({
         <div className="relative top-[15%]">{children}</div>
       </div>
     </div>
-  );
+  )
 }

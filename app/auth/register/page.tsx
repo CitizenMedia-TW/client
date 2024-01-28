@@ -1,31 +1,31 @@
-"use client";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import axios from "axios";
-import Block from "../Block";
-const API_URL = "http://localhost:8080";
+'use client'
+import React from 'react'
+import { Button } from '@/components/ui/button'
+import axios from 'axios'
+import Block from '../Block'
+const API_URL = 'http://localhost:8080'
 
 type User = {
-  username: string;
-  email: string;
-  password: string;
-};
+  username: string
+  email: string
+  password: string
+}
 
 async function register(newUser: User) {
-  const res = await axios.post(`${API_URL}/auth/register`, newUser);
-  if (res.status != 200) return window.alert("Error");
-  window.alert("Success");
-  window.location.href = "/auth/signin";
+  const res = await axios.post(`${API_URL}/auth/register`, newUser)
+  if (res.status != 200) return window.alert('Error')
+  window.alert('Success')
+  window.location.href = '/auth/signin'
 }
 
 export default function Page() {
   const [newUser, setNewUser] = React.useState<User>({
-    username: "",
-    email: "",
-    password: "",
-  });
+    username: '',
+    email: '',
+    password: '',
+  })
   return (
-    <Block title={"Register"}>
+    <Block title={'Register'}>
       <div className="flex justify-center">
         <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5 md:py-3">
           <input
@@ -59,5 +59,5 @@ export default function Page() {
         </div>
       </div>
     </Block>
-  );
+  )
 }
