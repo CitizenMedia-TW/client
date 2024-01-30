@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 import axios from 'axios'
 import Block from '../Block'
 const API_URL = process.env.API_URL || 'http://localhost:8080'
@@ -40,6 +41,23 @@ export default function Home() {
           >
             Send email
           </button>
+          <div className="relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8">
+            Have an account?&nbsp;&nbsp;
+            <Link
+              href="/auth/signin"
+              className="text-[#0F3E7A] font-sans not-italic underline"
+            >
+              Signin
+            </Link>
+          </div>
+          <div className="relative left-1/2 -translate-x-1/2 flex justify-center -translate-y-3 md:-translate-y-1/2">
+            <Link
+              href="/auth/register"
+              className="text-[#0F3E7A] font-sans not-italic font-normal leading-[50px] underline"
+            >
+              Create account
+            </Link>
+          </div>
         </div>
       </div>
     </Block>

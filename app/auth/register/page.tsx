@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import axios from 'axios'
 import Block from '../Block'
 const API_URL = 'http://localhost:8080'
@@ -56,6 +57,15 @@ export default function Page() {
           >
             Register
           </button>
+          <div className="relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8">
+            Have an account?&nbsp;&nbsp;
+            <Link
+              href="/auth/signin"
+              className="text-[#0F3E7A] font-sans not-italic underline"
+            >
+              Signin
+            </Link>
+          </div>
         </div>
       </div>
     </Block>
