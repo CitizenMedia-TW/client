@@ -76,21 +76,9 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            'h1, h2, h3, h4, h5': { color: 'hsl(var(--foreground))' },
-            color: 'hsl(var(--foreground))',
-          },
-        },
-      },
     },
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    require('@tailwindcss/typography'),
-    require('daisyui'),
-  ],
+  plugins: [require('tailwindcss-animate'), require('daisyui')],
   daisyui: {
     themes: [],
     base: false,

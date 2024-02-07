@@ -6,6 +6,8 @@ import { CustomImage } from './EditorTools'
 
 import { ImageServices } from '@/app/api/services'
 
+import './editor.css'
+
 type Props = {
   data?: OutputData
   onDataChange(val: OutputData): void
@@ -73,7 +75,7 @@ const EditorBlock = ({ data, onDataChange, holder, readOnly }: Props) => {
 
   return (
     <>
-      <div id={holder} className="w-full prose" />
+      <div id={holder} className="w-full" />
       {readOnly ? <RedactorPadding /> : <></>}
     </>
   )
