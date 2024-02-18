@@ -7,6 +7,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { PrimarySection, SectionContent } from '@/components/PrimarySection'
 import { Loading } from '@/components/Loading'
 
+import Comments from './comments'
+
 import dynamic from 'next/dynamic'
 import { OutputData } from '@editorjs/editorjs'
 const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
@@ -111,9 +113,11 @@ export default function Page({ params }: { params: { storyid: string } }) {
         <section className="section">
           <p className="section-title">Comments</p>
           {/* <Comments /> */}
+            <Comments/>
         </section>
       </section>
       <div className="h-9 block md:hidden" />
+      
       <section className="basis-1/4">
         <div className="h-9" />
         <section className="section">
