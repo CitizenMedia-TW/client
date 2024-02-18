@@ -45,7 +45,7 @@ export default function Page() {
   return (
     <div className="w-full grid justify-items-center my-8">
       <div className="w-[86%] grid justify-items-end">
-        <div className="w-full text-3xl font-bold text-sky-800">
+        <div className="w-full text-3xl font-bold text-primary">
           Notifications
         </div>
         <Separator className="my-4 h-0.5 bg-slate-400" />
