@@ -9,7 +9,7 @@ interface Story {
   author: string
   title: string
   createdAt: Date
-  _id: string
+  id: string
 }
 export default function Carousel() {
   const { data: session } = useSession()
@@ -22,7 +22,8 @@ export default function Carousel() {
   React.useEffect(() => {
     const getStory = async () => {
       const data = await StoryServices.getCarouselStories()
-      if (data) setStories(data.data)
+      if (data) console.log(data.data.storyIdList)
+      setStories(data.data as Story[])
     }
     getStory()
   }, [])
@@ -31,12 +32,12 @@ export default function Carousel() {
     <div className="w-full h-48 flex m-2">
       <div className="carousel rounded-box">
         {stories &&
-          stories.map((data) => (
+          stories.map((data, idx) => (
             <div
-              key={`${data._id}`}
+              key={idx}
               className="carousel-item mx-3 h-40 w-60 md:w-72 bg-white bg-opacity-50 rounded-md flex flex-col"
             >
-              <Link href="/stories/[id]" as={`/stories/${data._id}`}>
+              <Link href="/stories/[id]" as={`/stories/${data.id}`}>
                 <h1 className="text-xl font-bold">{data.title}</h1>
               </Link>
               <p>{data.author}</p>

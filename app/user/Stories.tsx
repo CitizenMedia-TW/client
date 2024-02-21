@@ -4,7 +4,7 @@ import { StoryServices } from '@/api/services'
 import { useSession } from 'next-auth/react'
 
 interface Story {
-  _id: string
+  id: string
   author: string
   authorId: string
   content: string
@@ -41,8 +41,8 @@ export default function Stories({ className }: { className: string }) {
       <h1>Stories</h1>
       {data.map((story) => (
         <Link
-          href={`/stories/${story._id}`}
-          key={story._id}
+          href={`/stories/${story.id}`}
+          key={story.id}
           className="card border-2"
         >
           <div className="card-title">{story.title}</div>

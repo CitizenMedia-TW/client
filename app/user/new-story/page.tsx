@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { StoryServices } from '@/api/services'
 import Tags from '@yaireo/tagify/dist/react.tagify'
 import '@yaireo/tagify/dist/tagify.css'
 
@@ -15,6 +14,8 @@ interface storyData {
   title: string
   subTitle: string
 }
+
+import { POST } from './story'
 
 const Home = () => {
   const { data: session } = useSession()
@@ -49,19 +50,28 @@ const Home = () => {
     }
     console.log(session)
     // Post the story
-    const response = await StoryServices.newStory(
-      {
-        id: session?.user.id,
-        ...storyData,
-        content: JSON.stringify(content),
-        ...tags,
-      },
-      session?.user.jwtToken as string
-    )
-    console.log(response.data)
-    if (response.data.message === 'Story created') {
+    // const response = await StoryServices.newStory(
+    //   {
+    //     id: session?.user.id,
+    //     ...storyData,
+    //     content: JSON.stringify(content),
+    //     ...tags,
+    //   },
+    //   session?.user.jwtToken as string
+    // )
+    if (!session?.user.id) {
+      return
+    }
+    const response = await POST({
+      ...storyData,
+      content: JSON.stringify(content),
+      ...tags,
+      jwtToken: session?.user.jwtToken as string,
+    })
+    console.log('res.data: ', response.data)
+    if (response.data.message === 'Success') {
       window.alert('Story created')
-      window.location.href = `/stories/${response.data.newStoryId}`
+      window.location.href = `/stories/${response.data.storyId}`
     }
   }
   const handleSave = async () => {

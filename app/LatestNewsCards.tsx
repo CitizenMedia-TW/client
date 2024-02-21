@@ -10,7 +10,7 @@ interface Story {
   author: string
   title: string
   createdAt: Date
-  _id: string
+  id: string
 }
 
 export default function Page({ className }: { className: string }) {
@@ -26,7 +26,8 @@ export default function Page({ className }: { className: string }) {
   React.useEffect(() => {
     const getStory = async () => {
       const data = await StoryServices.getCarouselStories()
-      if (data) setStories(data.data)
+      console.log(data.data)
+      if (data) setStories(data.data as Story[])
     }
     getStory()
   }, [])
@@ -39,9 +40,9 @@ export default function Page({ className }: { className: string }) {
     <main className={className}>
       <div className="carousel carousel-vertical flex w-full max-h-[calc(90%)]">
         {stories &&
-          stories.map((data) => (
+          stories.map((data, idx) => (
             <div
-              key={`${data._id}`}
+              key={idx}
               className="carousel-item mb-3 bg-white bg-opacity-50 rounded-md flex w-full h-[204px] justify-between"
             >
               <div className="flex flex-col">
@@ -57,7 +58,7 @@ export default function Page({ className }: { className: string }) {
                   <p className="font-medium text-back">{data.author}</p>
                 </div>
                 <div className="mt-2 h-24">
-                  <Link href="/stories/[id]" as={`/stories/${data._id}`}>
+                  <Link href="/stories/[id]" as={`/stories/${data.id}`}>
                     <h1 className="text-base font-bold">{data.title}</h1>
                   </Link>
                 </div>
