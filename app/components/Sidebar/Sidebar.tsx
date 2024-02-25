@@ -19,7 +19,7 @@ export default function Sidebar() {
     { href: '/', display: 'Home' },
     { href: '/user', display: 'User' },
     { href: '/', display: 'Notifications' },
-    { href: '/settings', display: 'Settings' },
+    { href: '/settings/account', display: 'Settings' },
   ]
 
   return (
