@@ -1,5 +1,6 @@
 import axios from 'axios'
-const BROKER_SERVICE_URL = process.env.BROKER_SERVICE_URL || 'http://localhost:8080'
+const BROKER_SERVICE_URL =
+  process.env.BROKER_SERVICE_URL || 'http://localhost:8080'
 
 class UserServices {
   async getProfileLinks(jwtToken: string) {

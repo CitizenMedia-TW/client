@@ -1,6 +1,6 @@
-import React from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
+import React from 'react'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
 
 export default function Notification() {
   return (
@@ -71,5 +71,5 @@ export default function Notification() {
         </div>
       </div>
     </div>
-  );
+  )
 }
