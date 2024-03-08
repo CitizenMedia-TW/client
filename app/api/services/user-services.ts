@@ -6,7 +6,7 @@ class UserServices {
   async getProfileLinks(jwtToken: string) {
     if (!jwtToken) return { data: 'No token' }
     return await axios.get(`${BROKER_SERVICE_URL}/user/profile-links`, {
-      headers: { Authorization: `Bearer ${jwtToken}` },
+      headers: { Authorization: jwtToken },
     })
   }
   async getPublicUser(id: string) {
