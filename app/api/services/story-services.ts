@@ -11,6 +11,27 @@ interface newStoryData {
   subtitle: string
   tags: string[]
 }
+interface time {
+  seconds: number
+  nanos: number
+}
+export interface Comment {
+  id: string
+  content: string
+  commenter: string
+  commenterId: string
+}
+export interface Story {
+  id: string // Not given by story-service
+  author: string
+  authorId: string
+  content: string
+  comments: Comment[]
+  title: string
+  subTitle: string
+  createdAt: time
+  tags: string[]
+}
 
 class StoryServices {
   async newStory(data: newStoryData, jwtToken: string) {
@@ -18,12 +39,23 @@ class StoryServices {
       headers: { Authorization: jwtToken },
     })
   }
+
+  // Temporarily using get recommended stories as get my stories
   async getMyStories(jwtToken: string) {
-    return axios.get(`${STORY_SERVICE_URL}/recommend`, {
-      data: { usedId: '', count: 2, skip: 0 },
+    const res = await axios.get(`${STORY_SERVICE_URL}/recommend`, {
+      params: { usedId: '', count: 2, skip: 0 },
       headers: { Authorization: jwtToken },
     })
+    if (res.status != 200) return null
+    let stories: Story[] = []
+    for (let id of res.data.storyIdList) {
+      const singleStory = await this.getStoryById(id)
+      if (singleStory.status == 200)
+        stories.push({ ...singleStory.data.story, id: id })
+    }
+    return stories
   }
+
   async getStoryById(_id: string) {
     return axios.get(`${STORY_SERVICE_URL}/story`, { params: { storyId: _id } })
   }
