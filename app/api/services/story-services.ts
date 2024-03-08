@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = process.env.API_URL || 'http://localhost:8080'
+const BROKER_SERVICE_URL = process.env.BROKER_SERVICE_URL || 'http://localhost:8080'
 const STORY_SERVICE_URL =
   process.env.STORY_SERVICE_URL || 'http://localhost:50051'
 
@@ -28,7 +28,7 @@ class StoryServices {
   }
 
   async getCarouselStories() {
-    return axios.get(`${API_URL}/story/retrieve-eight`)
+    return axios.get(`${BROKER_SERVICE_URL}/story/retrieve-eight`)
   }
 }
 
