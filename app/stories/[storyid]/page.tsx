@@ -14,7 +14,6 @@ const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
 })
 
 type Story = {
-  _id: string
   author: string
   authorId: string
   content: string
@@ -80,9 +79,9 @@ export default function Page({ params }: { params: { storyid: string } }) {
   React.useEffect(() => {
     async function fetchData() {
       const res = await StoryServices.getStoryById(params.storyid)
-      if (res && res.data != 'Story not found') {
-        setData(res.data)
-        setContent(JSON.parse(res.data.content))
+      if (res && res.status == 200) {
+        setData(res.data.story)
+        setContent(JSON.parse(res.data.story.content))
         setDataReady(true)
       }
     }
