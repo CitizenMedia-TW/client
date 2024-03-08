@@ -53,8 +53,8 @@ const EditorBlock = ({ data, onDataChange, holder, readOnly }: Props) => {
         },
         data,
         async onChange(api, _event) {
+          if (readOnly) return
           const data = await api.saver.save()
-          console.log(data)
           onDataChange(data)
         },
         hideToolbar: false,
