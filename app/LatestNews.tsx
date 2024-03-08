@@ -8,7 +8,10 @@ type tagContextType = {
   setTags: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const tagContextDefaultValue: tagContextType = { tags: [], setTags: () => [] }
+const tagContextDefaultValue: tagContextType = {
+  tags: ['Machine Learning', '', 'Writing', '', 'Psychology', ''],
+  setTags: () => [],
+}
 
 const TagChosen = React.createContext(tagContextDefaultValue)
 
@@ -21,11 +24,23 @@ export default function Page() {
   const [tags, setTags] = React.useState<string[]>([])
 
   return (
-    <TagChosen.Provider value={{ tags, setTags }}>
-      <main className="flex flex-col md:flex-row w-full">
-        <LatestNewsCards className="w-full md:w-[50%] h-[50%] p-2" />
-        <LatestNewsTags className="w-full md:w-[50%] p-2" />
-      </main>
-    </TagChosen.Provider>
+    <main className="flex flex-col md:flex-row w-full">
+      <div className="w-full sm:w-1/2 pr-6 pl-16">
+        <LatestNewsCards className="w-full h-full pt-2" />
+      </div>
+
+      <div className="w-full sm:w-1/2 h-full flex pt-2 pl-6 pr-7">
+        <div className="w-full h-full">
+          <p className="pl-6 font-medium text-lg text-slate-400">
+            Recommanded Topic
+          </p>
+          <div className="w-full h-64 px-12 pt-8 pb-8">
+            <LatestNewsTags className="overflow-hidden w-full h-full flex flex-wrap content-between gap-y-5 gap-x-2 lg:gap-x-3 xl:pr-44 pr-10" />
+          </div>
+          <hr className="mx-5 h-px bg-border" />
+          <div className="w-full"></div>
+        </div>
+      </div>
+    </main>
   )
 }
