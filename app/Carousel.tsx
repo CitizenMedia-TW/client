@@ -83,8 +83,8 @@ export default function carousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="bg-yellow-500" />
-          <CarouselNext className="bg-yellow-500" />
+          <CarouselPrevious className="bg-yellow-500 ml-12" />
+          <CarouselNext className="bg-yellow-500 mr-12" />
         </Carousel>
       </div>
     )
