@@ -7,16 +7,14 @@ import { UserServices } from '@/api/services'
 export default function Userbar() {
   const { data: session, status } = useSession()
   const username = session?.user?.name
-
-  const [profile, setProfile] = React.useState({} as { [key: string]: string })
+  const [profile, setProfile] = React.useState([])
 
   React.useEffect(() => {
     const getProfileLinks = async () => {
-      await UserServices.getProfileLinks(session?.user.jwtToken as string).then(
-        (res) => {
-          setProfile(res.data.profileLinks as { [key: string]: string })
-        }
+      const res = await UserServices.getProfileLinks(
+        session?.user.jwtToken as string
       )
+      setProfile(res.data.profileLinks)
     }
     getProfileLinks()
   }, [status, session?.user.jwtToken])

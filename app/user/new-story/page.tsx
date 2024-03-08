@@ -13,7 +13,7 @@ const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
 
 interface storyData {
   title: string
-  subTitle: string
+  subtitle: string
 }
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
 
   const [storyData, setStoryData] = useState<storyData>({
     title: '',
-    subTitle: '',
+    subtitle: '',
   })
   const [tags, setTags] = useState<{ tags: string[] }>({ tags: [] })
 
@@ -41,7 +41,7 @@ const Home = () => {
     // Check if all the fields are filled
     if (
       storyData.title === '' ||
-      storyData.subTitle === '' ||
+      storyData.subtitle === '' ||
       content == (undefined || null)
     ) {
       window.alert('Please fill all the fields')
@@ -49,19 +49,20 @@ const Home = () => {
     }
     console.log(session)
     // Post the story
+    if (!session || !session.user || !session.user.id)
+      return window.alert('You need to be logged in to post a story')
     const response = await StoryServices.newStory(
       {
-        id: session?.user.id,
+        authorId: session.user.id,
         ...storyData,
         content: JSON.stringify(content),
         ...tags,
       },
       session?.user.jwtToken as string
     )
-    console.log(response.data)
-    if (response.data.message === 'Story created') {
+    if (response.status === 200) {
       window.alert('Story created')
-      window.location.href = `/stories/${response.data.newStoryId}`
+      window.location.href = `/stories/${response.data.storyId}`
     }
   }
   const handleSave = async () => {
@@ -97,7 +98,7 @@ const Home = () => {
           type="text"
           placeholder="Subtitle"
           onChange={(e) => {
-            setStoryData({ ...storyData, subTitle: e.target.value })
+            setStoryData({ ...storyData, subtitle: e.target.value })
           }}
           className="w-64 text-black"
         />

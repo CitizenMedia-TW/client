@@ -1,11 +1,11 @@
 import axios from 'axios'
-const IMAGE_API_URL = process.env.API_URL || 'http://localhost:80'
+const IMAGE_SERVICE_URL = process.env.IMAGE_SERVICE_URL || 'http://localhost:80'
 
 class ImageService {
   async postImage(formData: FormData) {
     try {
       const res = await axios.post(
-        `${IMAGE_API_URL}/upload?collection=editor`,
+        `${IMAGE_SERVICE_URL}/upload?collection=editor`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -14,7 +14,7 @@ class ImageService {
       return {
         success: 1,
         file: {
-          url: `${IMAGE_API_URL}/display?_id=${res.data.id}&collection=editor`,
+          url: `${IMAGE_SERVICE_URL}/display?_id=${res.data.id}&collection=editor`,
           _id: res.data.id,
         },
       }
@@ -25,7 +25,9 @@ class ImageService {
     }
   }
   async deleteImage(_id: string) {
-    return axios.delete(`${IMAGE_API_URL}/delete?_id=${_id}&collection=editor`)
+    return axios.delete(
+      `${IMAGE_SERVICE_URL}/delete?_id=${_id}&collection=editor`
+    )
   }
 }
 

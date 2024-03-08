@@ -1,41 +1,35 @@
 import axios from 'axios'
-const API_URL = process.env.API_URL || 'http://localhost:8080'
+const BROKER_SERVICE_URL =
+  process.env.BROKER_SERVICE_URL || 'http://localhost:8080'
+const STORY_SERVICE_URL =
+  process.env.STORY_SERVICE_URL || 'http://localhost:50051'
 
 interface newStoryData {
-  id?: string | null
+  authorId: string
   content: string
   title: string
-  subTitle: string
+  subtitle: string
   tags: string[]
 }
 
 class StoryServices {
-  /*
-   * req.body = {
-   *  id: string,
-   *  content: string,
-   *  title: string,
-   *  subTitle: string,
-   *  tags: string[],
-   * }
-   */
   async newStory(data: newStoryData, jwtToken: string) {
-    console.log(data)
-    return axios.post(`${API_URL}/story/create`, data, {
-      headers: { authorization: `Bearer ${jwtToken}` },
+    return axios.post(`${STORY_SERVICE_URL}/story`, data, {
+      headers: { Authorization: jwtToken },
     })
   }
   async getMyStories(jwtToken: string) {
-    return axios.get(`${API_URL}/story/retrieve`, {
-      headers: { authorization: `Bearer ${jwtToken}` },
+    return axios.get(`${STORY_SERVICE_URL}/recommend`, {
+      data: { usedId: '', count: 2, skip: 0 },
+      headers: { Authorization: jwtToken },
     })
   }
   async getStoryById(_id: string) {
-    return axios.post(`${API_URL}/story/retrieve-by-id`, { _id: _id })
+    return axios.get(`${STORY_SERVICE_URL}/story`, { params: { storyId: _id } })
   }
 
   async getCarouselStories() {
-    return axios.get(`${API_URL}/story/retrieve-eight`)
+    return axios.get(`${BROKER_SERVICE_URL}/story/retrieve-eight`)
   }
 }
 

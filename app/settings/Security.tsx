@@ -127,7 +127,7 @@ export default function Account() {
       </section>
 
       <section className="flex flex-col pl-28">
-        <section flex-col bg-yellow-50>
+        <section className="flex-col bg-yellow-50">
           <button
             className="bg-transparent"
             onClick={() =>

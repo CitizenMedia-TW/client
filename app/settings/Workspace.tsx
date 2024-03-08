@@ -1,5 +1,8 @@
 import React from 'react'
 import { useTheme } from 'next-themes'
+import { Switch } from '@/components/ui/switch'
+import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
 
 export default function Workspace() {
   const { theme, setTheme } = useTheme()
@@ -31,40 +34,35 @@ export default function Workspace() {
 
   return (
     <div>
-      <p>Workspace</p>
-      <div className="form-control">
-        <label className="label cursor-pointer">
-          <span className="label-text">System Default</span>
-          <input
-            type="checkbox"
-            className="toggle"
-            checked={themeMode}
-            onChange={() => toggleThemeMode()}
-          />
-        </label>
-        {!themeMode && (
-          <section>
-            <label className="label cursor-pointer">
-              <span className="label-text">Light Mode</span>
-              <input
-                type="checkbox"
-                className="toggle"
-                checked={!darkMode}
-                onChange={() => toggleDarkMode()}
-              />
-            </label>
-            <label className="label cursor-pointer">
-              <span className="label-text">Dark Mode</span>
-              <input
-                type="checkbox"
-                className="toggle"
-                checked={darkMode}
-                onChange={() => toggleDarkMode()}
-              />
-            </label>
-          </section>
-        )}
+      <div className="flex px-36 place-content-between">
+        <p className="text-2xl font-bold">System default</p>
+        <Switch
+          id=""
+          checked={themeMode}
+          onCheckedChange={() => toggleThemeMode()}
+        />
       </div>
+
+      {!themeMode && (
+        <section className="pt-8 pl-48">
+          <div className="flex gap-x-7 items-center">
+            <Checkbox
+              className="h-4 w-4 rounded-full"
+              checked={!darkMode}
+              onCheckedChange={() => toggleDarkMode()}
+            />
+            <p className="font-medium text-2xl">Dark</p>
+          </div>
+          <div className="flex pt-1.5 gap-x-7 items-center">
+            <Checkbox
+              className="h-4 w-4 rounded-full"
+              checked={darkMode}
+              onCheckedChange={() => toggleDarkMode()}
+            />
+            <p className="font-medium text-2xl">Light</p>
+          </div>
+        </section>
+      )}
     </div>
   )
 }
