@@ -34,6 +34,15 @@ export interface Story {
 }
 
 class StoryServices {
+  // Private methods
+  private async getRecommended(jwtToken: string) {
+    return await axios.get(`${STORY_SERVICE_URL}/recommend`, {
+      params: { usedId: '', count: 2, skip: 0 },
+      headers: { Authorization: jwtToken },
+    })
+  }
+
+  // Public methods
   async newStory(data: newStoryData, jwtToken: string) {
     return axios.post(`${STORY_SERVICE_URL}/story`, data, {
       headers: { Authorization: jwtToken },
@@ -42,10 +51,7 @@ class StoryServices {
 
   // Temporarily using get recommended stories as get my stories
   async getMyStories(jwtToken: string) {
-    const res = await axios.get(`${STORY_SERVICE_URL}/recommend`, {
-      params: { usedId: '', count: 2, skip: 0 },
-      headers: { Authorization: jwtToken },
-    })
+    const res = await this.getRecommended(jwtToken)
     if (res.status != 200) return null
     let stories: Story[] = []
     for (let id of res.data.storyIdList) {
@@ -61,7 +67,7 @@ class StoryServices {
   }
 
   async getCarouselStories() {
-    return axios.get(`${BROKER_SERVICE_URL}/story/retrieve-eight`)
+    return await this.getMyStories('tmp')
   }
 }
 

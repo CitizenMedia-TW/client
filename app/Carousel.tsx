@@ -5,16 +5,17 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { StoryServices } from '@/api/services'
 import Link from 'next/link'
 
-interface Story {
-  author: string
-  title: string
-  createdAt: Date
-  _id: string
-}
+import { Story } from '@/api/services/story-services'
+// interface Story {
+//   author: string
+//   title: string
+//   createdAt: Date
+//   id: string
+// }
 export default function Carousel() {
   const { data: session } = useSession()
   const [login, setLogin] = React.useState(false)
-  const [stories, setStories] = React.useState([{} as Story])
+  const [stories, setStories] = React.useState<Story[]>([])
   React.useEffect(() => {
     if (session) setLogin(true)
     else setLogin(false)
@@ -22,7 +23,7 @@ export default function Carousel() {
   React.useEffect(() => {
     const getStory = async () => {
       const data = await StoryServices.getCarouselStories()
-      if (data) setStories(data.data)
+      if (data) setStories(data)
     }
     getStory()
   }, [])
@@ -33,14 +34,14 @@ export default function Carousel() {
         {stories &&
           stories.map((data) => (
             <div
-              key={`${data._id}`}
+              key={`${data.id}`}
               className="carousel-item mx-3 h-40 w-60 md:w-72 bg-white bg-opacity-50 rounded-md flex flex-col"
             >
-              <Link href="/stories/[id]" as={`/stories/${data._id}`}>
+              <Link href="/stories/[id]" as={`/stories/${data.id}`}>
                 <h1 className="text-xl font-bold">{data.title}</h1>
               </Link>
               <p>{data.author}</p>
-              <p>{new Date(data.createdAt).toLocaleDateString()}</p>
+              {/* <p>{new Date(data.createdAt).toLocaleDateString()}</p> */}
               {login && (
                 // TODO: implement like button
                 <button
