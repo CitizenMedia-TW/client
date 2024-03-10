@@ -36,7 +36,15 @@ const comments = Array.from({ length: comments_quantity }).map((_, i) => ({
 
 
 
-export default function Comments() {
+export default function Comments({ isShow, setShow }: { isShow: string, setShow: Function }) {
+  const handleClick_close = () => {
+    if (isShow == "hidden") {
+      setShow("")
+    } else {
+      setShow("hidden")
+    }
+  }
+
   const { data: session } = useSession()
 
   const [data, setData] = useState(comments)
@@ -67,83 +75,116 @@ export default function Comments() {
   ));
 
   return (
-    <Drawer direction="bottom">
-      <DrawerTrigger asChild>
-        <Button className="border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200">
-          Show more
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent className="w-80 fixed right-12 h-5/6 bottom-12 z-50 flex flex-col">
-        <div className="w-full h-full bg-background rounded-2xl">
-          <DrawerHeader className="flex flex-row h-1/12 items-end">
-            <DrawerClose asChild>
-              <div className="h-[10%] w-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M12 4L4 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
-                  <path d="M4 4L12 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </div>
-            </DrawerClose>
-          </DrawerHeader>
-          <div className="w-full h-[70%] border-t-2 grid justify-items-center">
-            <ScrollArea className="h-full w-11/12 m-2">
-              {comments.map((comment, index) => (
-                <div key={index} className="w-full flex flex-col">
-                  <div className="w-full flex flex-row">
-                    <div className="w-1/6 m-2">
-                      <Image
-                        src={comment.Head}
-                        alt=""
-                        className="w-2/3"
-                      />
+    // <Drawer direction="bottom">
+    //   <DrawerTrigger asChild>
+    //     <Button className="border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200">
+    //       Show more
+    //     </Button>
+    //   </DrawerTrigger>
+    //   <DrawerContent className="w-80 fixed right-12 h-5/6 bottom-12 z-50 flex flex-col">
+    <div className="w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200">
+      {/* <DrawerHeader className="flex flex-row h-1/12 items-end">
+        <DrawerClose asChild>
+          <div className="h-[10%] w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M12 4L4 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 4L12 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </DrawerClose>
+      </DrawerHeader> */}
+      <div className="h-[7%] w-full">
+        <div className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2" onClick={handleClick_close}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M24 8L8 24" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M8 8L24 24" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+      </div>
+      <div className="h-[95%] w-full border-t-2 grid justify-items-center">
+        <ScrollArea className="h-full w-11/12 m-2">
+          {comments.map((comment, index) => (
+            <div key={index} className="w-full flex flex-col">
+              <div className="w-full flex flex-row">
+                <div className="w-1/6 m-2">
+                  <Image
+                    src={comment.Head}
+                    alt=""
+                    className="w-2/3"
+                  />
+                </div>
+                <div className="w-5/6 flex flex-col">
+                  <div className="w-full text-xs">
+                    {comment.Text}
+                  </div>
+                  <div className="w-full flex flex-row gap-2 mt-1">
+                    <div className="hover:-translate-y-0.5">
+                      <FaRegStar />
                     </div>
-                    <div className="w-5/6 flex flex-col">
-                      <div className="w-full text-xs">
-                        {comment.Text}
-                      </div>
-                      <div className="w-full flex flex-row gap-2 mt-1">
-                        <FaRegStar />
-                        <div onClick={() => handleClick(index, 'Like')}>
-                          {comment.Like ? <FaThumbsUp /> : <FaRegThumbsUp />}
-                        </div>
-                        <div onClick={() => handleClick(index, 'Dislike')}>
-                          {comment.Dislike ? <FaThumbsDown /> : <FaRegThumbsDown />}
-                        </div>
-                        <BiComment />
-                      </div>
+                    <div onClick={() => handleClick(index, 'Like')} className="hover:-translate-y-0.5">
+                      {comment.Like ? <FaThumbsUp /> : <FaRegThumbsUp />}
+                    </div>
+                    <div onClick={() => handleClick(index, 'Dislike')} className="hover:-translate-y-0.5">
+                      {comment.Dislike ? <FaThumbsDown /> : <FaRegThumbsDown />}
+                    </div>
+                    <div className="hover:-translate-y-0.5">
+                      <BiComment />
                     </div>
                   </div>
-                  <Separator className="my-1" />
-                </div>
-              ))}
-            </ScrollArea>
-          </div>
-          <DrawerFooter>
-            <div className="flex flex-row">
-              <div className="w-2/12 h-full content-center mt-3">
-                <Image
-                  unoptimized
-                  src={session?.user?.avatar as string}
-                  alt="here was a logo:("
-                  width={30}
-                  height={30}
-                  className="rounded-full w-8 h-8 m-1 content-center"
-                />
-              </div>
-              <div className="flex flex-col m-2 gap-1">
-                <div className="flex flex-row">
-                  <>{stars}</>
-                </div>
-                <div className="w-full flex flex-row gap-1">
-                  <Input placeholder="comment" className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200" />
-                  <Button type="submit" className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700">Submit</Button>
                 </div>
               </div>
+              <Separator className="my-1" />
             </div>
-
-          </DrawerFooter>
+          ))}
+        </ScrollArea>
+        <div className="flex flex-row">
+          <div className="w-2/12 content-center mt-3">
+            <Image
+              unoptimized
+              src={session?.user?.avatar as string}
+              alt="here was a logo:("
+              width={30}
+              height={30}
+              className="rounded-full w-8 h-8 m-1 content-center"
+            />
+          </div>
+          <div className="flex flex-col m-2 gap-1">
+            <div className="flex flex-row">
+              <>{stars}</>
+            </div>
+            <div className="w-full flex flex-row gap-1">
+              <Input placeholder="comment" className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200" />
+              <Button type="submit" className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700">Submit</Button>
+            </div>
+          </div>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </div>
+      {/* <DrawerFooter>
+        <div className="flex flex-row">
+          <div className="w-2/12 h-full content-center mt-3">
+            <Image
+              unoptimized
+              src={session?.user?.avatar as string}
+              alt="here was a logo:("
+              width={30}
+              height={30}
+              className="rounded-full w-8 h-8 m-1 content-center"
+            />
+          </div>
+          <div className="flex flex-col m-2 gap-1">
+            <div className="flex flex-row">
+              <>{stars}</>
+            </div>
+            <div className="w-full flex flex-row gap-1">
+              <Input placeholder="comment" className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200" />
+              <Button type="submit" className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700">Submit</Button>
+            </div>
+          </div>
+        </div>
+
+      </DrawerFooter> */}
+    </div>
+    //   </DrawerContent>
+    // </Drawer>
   )
 }
