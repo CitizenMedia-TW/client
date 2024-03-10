@@ -18,7 +18,7 @@ export default function Sidebar() {
   const sideBarLinks = [
     { href: '/', display: 'Home' },
     { href: '/user', display: 'User' },
-    { href: '/', display: 'Notifications' },
+    { href: '/notifications', display: 'Notifications' },
     { href: '/settings', display: 'Settings' },
   ]
 
