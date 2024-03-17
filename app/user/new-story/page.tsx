@@ -13,7 +13,7 @@ const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
 
 interface storyData {
   title: string
-  subtitle: string
+  subTitle: string
 }
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
 
   const [storyData, setStoryData] = useState<storyData>({
     title: '',
-    subtitle: '',
+    subTitle: '',
   })
   const [tags, setTags] = useState<{ tags: string[] }>({ tags: [] })
 
@@ -41,7 +41,7 @@ const Home = () => {
     // Check if all the fields are filled
     if (
       storyData.title === '' ||
-      storyData.subtitle === '' ||
+      storyData.subTitle === '' ||
       content == (undefined || null)
     ) {
       window.alert('Please fill all the fields')
@@ -98,7 +98,7 @@ const Home = () => {
           type="text"
           placeholder="Subtitle"
           onChange={(e) => {
-            setStoryData({ ...storyData, subtitle: e.target.value })
+            setStoryData({ ...storyData, subTitle: e.target.value })
           }}
           className="w-64 text-black"
         />

@@ -8,7 +8,7 @@ interface newStoryData {
   authorId: string
   content: string
   title: string
-  subtitle: string
+  subTitle: string
   tags: string[]
 }
 interface time {
@@ -27,6 +27,15 @@ export interface Story {
   authorId: string
   content: string
   comments: Comment[]
+  title: string
+  subTitle: string
+  createdAt: time
+  tags: string[]
+}
+
+export interface StoryPreview {
+  id: string
+  author: string
   title: string
   subTitle: string
   createdAt: time
@@ -68,6 +77,21 @@ class StoryServices {
 
   async getCarouselStories() {
     return await this.getMyStories('tmp')
+  }
+
+  async getLatestStories() {
+    const tmp = await axios.get(`${STORY_SERVICE_URL}/recommend`, {
+      params: { usedId: '', count: 2, skip: 0 },
+    })
+    if (tmp.status != 200) return null
+    let stories: StoryPreview[] = []
+    for (let id of tmp.data.storyIdList) {
+      const singleStory = await this.getStoryById(id)
+      if (singleStory.status == 200)
+        stories.push({ ...singleStory.data.story, id: id } as StoryPreview)
+    }
+    console.log(stories)
+    return stories
   }
 }
 

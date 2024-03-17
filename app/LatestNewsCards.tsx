@@ -5,18 +5,12 @@ import { StoryServices } from '@/api/services'
 import Link from 'next/link'
 import { useTags } from './LatestNews'
 import Image from 'next/image'
-
-interface Story {
-  author: string
-  title: string
-  createdAt: Date
-  _id: string
-}
+import { StoryPreview } from '@/api/services/story-services'
 
 export default function Page({ className }: { className: string }) {
   const { data: session } = useSession()
   const [login, setLogin] = React.useState(false)
-  const [stories, setStories] = React.useState([{} as Story])
+  const [stories, setStories] = React.useState<StoryPreview[]>([])
 
   React.useEffect(() => {
     if (session) setLogin(true)
@@ -25,14 +19,15 @@ export default function Page({ className }: { className: string }) {
 
   React.useEffect(() => {
     const getStory = async () => {
-      const data = await StoryServices.getCarouselStories()
-      if (data) setStories(data.data)
+      const data = await StoryServices.getLatestStories()
+      if (data) setStories(data)
+      console.log(data)
     }
     getStory()
   }, [])
 
-  const { tags } = useTags()
-  console.log(tags)
+  // const { tags } = useTags()
+  // console.log(tags)
 
   // TODO: Replace with real story's data
   return (
@@ -41,7 +36,7 @@ export default function Page({ className }: { className: string }) {
         {stories &&
           stories.map((data) => (
             <div
-              key={`${data._id}`}
+              key={`${data.id}`}
               className="carousel-item mb-3 bg-white bg-opacity-50 rounded-md flex w-full h-[204px] justify-between"
             >
               <div className="flex flex-col">
@@ -57,15 +52,13 @@ export default function Page({ className }: { className: string }) {
                   <p className="font-medium text-back">{data.author}</p>
                 </div>
                 <div className="mt-2 h-24">
-                  <Link href="/stories/[id]" as={`/stories/${data._id}`}>
+                  <Link href="/stories/[id]" as={`/stories/${data.id}`}>
                     <h1 className="text-base font-bold">{data.title}</h1>
                   </Link>
                 </div>
 
                 <div className="flex flex-row m-1 gap-1">
-                  <p className="text-xs text-black">
-                    {new Date(data.createdAt).toLocaleDateString()}
-                  </p>
+                  {/* <p className="text-xs text-black"> {new Date(data.createdAt).toLocaleDateString()} </p> */}
                 </div>
               </div>
 
