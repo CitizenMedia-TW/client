@@ -1,18 +1,30 @@
 'use client'
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import { AiOutlineHeart } from 'react-icons/ai'
 import { StoryServices } from '@/api/services'
 import Link from 'next/link'
-
+import { useState, useEffect } from 'react'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { AiOutlineClockCircle } from 'react-icons/ai'
+import { FaRegBookmark } from 'react-icons/fa6'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Story } from '@/api/services/story-services'
-// interface Story {
-//   author: string
-//   title: string
-//   createdAt: Date
-//   id: string
-// }
-export default function Carousel() {
+
+export default function carousel() {
   const { data: session } = useSession()
   const [login, setLogin] = React.useState(false)
   const [stories, setStories] = React.useState<Story[]>([])
@@ -28,32 +40,122 @@ export default function Carousel() {
     getStory()
   }, [])
 
-  return (
-    <div className="w-full h-48 flex m-2">
-      <div className="carousel rounded-box">
-        {stories &&
-          stories.map((data) => (
-            <div
-              key={`${data.id}`}
-              className="carousel-item mx-3 h-40 w-60 md:w-72 bg-white bg-opacity-50 rounded-md flex flex-col"
-            >
-              <Link href="/stories/[id]" as={`/stories/${data.id}`}>
-                <h1 className="text-xl font-bold">{data.title}</h1>
-              </Link>
-              <p>{data.author}</p>
-              {/* <p>{new Date(data.createdAt).toLocaleDateString()}</p> */}
-              {login && (
-                // TODO: implement like button
-                <button
-                  onClick={() => console.log('liked')}
-                  className="flex justify-end"
-                >
-                  <AiOutlineHeart />
-                </button>
-              )}
-            </div>
-          ))}
+  const useRWD = () => {
+    const [device, setDevice] = useState('mobile')
+
+    const handleRWD = () => {
+      if (window.innerWidth > 768) setDevice('PC')
+      else if (window.innerWidth > 576) setDevice('tablet')
+      else setDevice('mobile')
+    }
+
+    useEffect(() => {
+      window.addEventListener('resize', handleRWD)
+      handleRWD()
+      return () => {
+        window.removeEventListener('resize', handleRWD)
+      }
+    }, [])
+
+    return device
+  }
+  const device = useRWD()
+  if (device == 'PC' || device == 'tablet') {
+    return (
+      <div className="bg-footer">
+        <Carousel className="flex items-center h-[250px]">
+          <CarouselContent className="-ml-1">
+            {stories &&
+              stories.map((data) => (
+                <CarouselItem key={data.id} className="basis-[600px]">
+                  <Link href="/stories/[id]" as={`/stories/${data.id}`}>
+                    <Card className="h-[185px] bg-slate-400 border-0">
+                      <CardHeader>
+                        <CardTitle className="flex items-center space-x-3">
+                          <Avatar>
+                            <AvatarImage
+                              src={session?.user?.avatar as string}
+                              alt="here was a logo:("
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <div className="font-semibold text-xl line-clamp-1 text-ellipsis">
+                            {data.title}
+                          </div>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-left font-bold text-xl line-clamp-2 text-ellipsis w-48 -mt-2">
+                          {data.author}
+                          {data.subTitle}
+                        </p>
+                        <div className="flex flex-row py-3">
+                          <div className="w-[87.5%] flex items-center space-x-1">
+                            <AiOutlineClockCircle />
+                            <div className="">Mar 11.6 min read </div>
+                          </div>
+                          <div className="w-[12.5%] flex items-center">
+                            <FaRegBookmark className="text-footer text-2xl" />
+                            <AiOutlineHeart className="text-footer text-3xl" />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </CarouselItem>
+              ))}
+          </CarouselContent>
+          <CarouselPrevious className="bg-yellow-500 ml-12" />
+          <CarouselNext className="bg-yellow-500 mr-12" />
+        </Carousel>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return (
+      <div className="bg-footer">
+        <Carousel className="flex items-center w-full h-[250px]">
+          <CarouselContent className="-ml-1">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <CarouselItem key={index} className="basis-[300px]">
+                <Card className="h-[185px] bg-slate-400 border-0">
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-3">
+                      <Avatar>
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="@shadcn"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="font-semibold text-xl line-clamp-2 text-ellipsis">
+                        Guodong (Trou) Zhao in Bootcamp
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-left font-bold text-xl line-clamp-2 text-ellipsis -mt-3">
+                      A step-by-step guild to building a chatbot based on your
+                      own document with GPT
+                    </p>
+                    <div className="flex flex-row py-2">
+                      <div className="w-[75%] flex items-center space-x-1">
+                        <AiOutlineClockCircle />
+                        <div className="">Mar 11.6 min read </div>
+                      </div>
+                      <div className="w-[25%] flex items-center">
+                        <FaRegBookmark className="text-footer text-2xl" />
+                        <AiOutlineHeart className="text-footer text-3xl" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="bg-yellow-500 ml-12" />
+          <CarouselNext className="bg-yellow-500 mr-12" />
+        </Carousel>
+      </div>
+    )
+  }
 }
