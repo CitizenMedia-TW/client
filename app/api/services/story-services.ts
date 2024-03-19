@@ -46,7 +46,7 @@ class StoryServices {
   // Private methods
   private async getRecommended(jwtToken: string) {
     return await axios.get(`${STORY_SERVICE_URL}/recommend`, {
-      params: { usedId: '', count: 2, skip: 0 },
+      params: { usedId: '', count: 10, skip: 0 },
       headers: { Authorization: jwtToken },
     })
   }
