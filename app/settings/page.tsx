@@ -1,10 +1,10 @@
-'use client'
-import React from 'react'
-import Account from './Account'
-import Security from './Security'
-import Notification from './Notification'
-import Workspace from './Workspace'
-import { Button } from '@/components/ui/button'
+"use client";
+import React from "react";
+import Account from "./Account";
+import Security from "./Security";
+import Notification from "./Notification";
+import Workspace from "./Workspace";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -12,14 +12,17 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
+
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type SubPagesType = {
   [key: string]: {
-    activate: boolean
-    component: (key: string) => JSX.Element
-  }
-}
+    activate: boolean;
+    component: (key: string) => JSX.Element;
+  };
+};
 const subPages: SubPagesType = {
   Account: {
     activate: true,
@@ -37,16 +40,31 @@ const subPages: SubPagesType = {
     activate: false,
     component: (key) => <Workspace key={key} />,
   },
-}
+};
 
 export default function Page() {
-  const [currentSubPage, setCurrentSubPage] = React.useState('Account')
-
-  function setSubPages(name: string): void {
-    subPages[name].activate = true
-    subPages[currentSubPage].activate = false
-    setCurrentSubPage(name) // This will forse re-render
+  const [currentSubPage, setCurrentSubPage] = React.useState("Account");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  function setSubPages(key: string): void {
+    if (key && subPages[key]) {
+      const updatedSubPages = { ...subPages };
+      Object.keys(updatedSubPages).forEach((subPageKey) => {
+        updatedSubPages[subPageKey].activate = subPageKey === key;
+      });
+      setCurrentSubPage(key);
+    }
   }
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab != null) {
+      setSubPages(tab);
+    } else {
+      setSubPages("Account");
+    }
+  }, [searchParams]);
 
   return (
     <main className="h-full">
@@ -56,8 +74,11 @@ export default function Page() {
         {Object.keys(subPages).map((key) => (
           <Button
             key={key}
-            variant={subPages[key].activate ? 'outline' : 'ghost'}
-            onClick={() => setSubPages(key)}
+            variant={subPages[key].activate ? "outline" : "ghost"}
+            onClick={() => {
+              console.log(pathname + "?" + "tab=" + key);
+              router.push(pathname + "?" + "tab=" + key);
+            }}
           >
             {key}
           </Button>
@@ -65,9 +86,9 @@ export default function Page() {
       </section>
       {/* Hidden on @media (max-width: 640px) */}
       <section className="sm:hidden flex justify-center">
-        <Select onValueChange={(val) => setSubPages(val)}>
+        <Select>
           <SelectTrigger className="w-24">
-            <SelectValue placeholder="Account" defaultValue={'account'} />
+            <SelectValue placeholder="Account" defaultValue={"account"} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -86,5 +107,5 @@ export default function Page() {
         )}
       </div>
     </main>
-  )
+  );
 }
