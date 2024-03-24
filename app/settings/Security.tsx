@@ -51,14 +51,13 @@ export default function Account() {
 
   return (
     <div>
-      <section className="flex flex-col pl-28">
+      <section className="flex flex-col pl-14">
         <section className="mt-16 mb-12">
-          {<p className="text-blue-950  font-bold text-lg">E-Mail</p>}
-          <section className="flex flex-row my-3 ">
-            <section className=" w-80">
-              {<p className="text-blue-950 left-10">{email}</p>}
+          {<p className="text-2xl font-bold">E-Mail</p>}
+          <section className="flex flex-row my-3 place-content-between pr-32">
+            <section className="w-80 pl-14">
+              {<p className="font-normal text-xl">{email}</p>}
             </section>
-            <section className="w-80" />
             <button
               className="bg-transparent border-2 border-slate-400 h-6 w-28 rounded btn-info"
               onClick={() => changeEmail()}
@@ -68,29 +67,31 @@ export default function Account() {
           </section>
         </section>
         <section className="">
-          {<p className="text-blue-950 font-bold text-lg mb-5">Password</p>}
-          <div className=" pl-10 ">
-            <section className="flex flex-row  my-3">
-              <section className=" w-48">
-                <p className="text-blue-950">Current password</p>
+          {<p className="text-2xl font-bold">Password</p>}
+          <div className=" pl-14">
+            <div className="flex flex-row place-content-between pr-32">
+              <section className="flex flex-row my-3">
+                <section className=" w-64 my-3">
+                  <p className="font-normal text-xl">Current password</p>
+                </section>
+                <input
+                  type="password"
+                  placeholder="current password"
+                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </section>
-              <input
-                type="password"
-                placeholder="current password"
-                className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                onChange={(e) => setPassword(e.target.value)}
-              />
               <button
                 className="bg-transparent"
                 onClick={() => forgetPassword()}
               >
                 <p className="ml-3 text-cyan-800 text-xs">Forget password?</p>
               </button>
-            </section>
+            </div>
 
             <section className="flex flex-row my-3">
-              <section className=" w-48">
-                {<p className="text-blue-950">New password</p>}
+              <section className=" w-64">
+                {<p className="font-normal text-xl">New password</p>}
               </section>
               <input
                 type="password"
@@ -99,42 +100,44 @@ export default function Account() {
                 onChange={(e) => setNewPassword(e.target.value)}
               />
             </section>
-
-            <section className="flex flex-row my-3">
-              <section className="w-48">
-                {<p className="text-blue-950 ">Confirm new password</p>}
+            <div className="flex flex-row place-content-between pr-32">
+              <section className="flex flex-row my-3">
+                <section className="w-64">
+                  {<p className="font-normal text-xl">Confirm new password</p>}
+                </section>
+                <input
+                  type="password"
+                  placeholder="confirm new password"
+                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
               </section>
-              <input
-                type="password"
-                placeholder="confirm new password"
-                className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-              />
-              <section className=" w-48"></section>
               <button
                 className="bg-slate-400 h-6 w-20 rounded btn-accent"
                 onClick={() => resetPassword()}
               >
                 <p className="text-white text-sm">Confirm</p>
               </button>
-            </section>
+            </div>
           </div>
         </section>
       </section>
 
-      <section className="flex flex-col pl-16">
+      <section className="flex flex-col">
         <hr className="mt-10 mb-6 h-1 bg-slate-600" />
       </section>
 
-      <section className="flex flex-col pl-28">
-        <section className="flex-col bg-yellow-50">
+      <section className="flex flex-col pl-14">
+        <section className="flex-col">
           <button
             className="bg-transparent"
             onClick={() =>
               (document.getElementById('deactivateModal')! as any).showModal()
             }
           >
-            <p className="my-2 text-rose-700">Deactivate account</p>
+            <p className="font-normal text-xl text-rose-700">
+              Deactivate account
+            </p>
           </button>
           <dialog id="deactivateModal" className="modal">
             <div className="modal-box bg-white w-11/12 max-w-2xl h-96">
@@ -186,19 +189,22 @@ export default function Account() {
             </div>
           </dialog>
 
-          <p className="ml-8 mb text-gray-500">
+          <p className="pl-10 font-normal text-sm text-gray-500">
             suspend your account until you sign back in
           </p>
         </section>
 
-        <section>
+        <section className="pt-5">
           <button
-            className="bg-transparent"
+            className=""
             onClick={() =>
               (document.getElementById('deleteModal')! as any).showModal()
             }
           >
-            <p className="my-4 text-rose-700"> Delete account </p>
+            <p className="font-normal text-xl text-rose-700">
+              {' '}
+              Delete account{' '}
+            </p>
           </button>
           <dialog id="deleteModal" className="modal">
             <div className="modal-box bg-white w-11/12 max-w-2xl h-96">

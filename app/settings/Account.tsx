@@ -8,8 +8,8 @@ import { Dialog } from '@/components/ui/dialog'
 
 export default function Account() {
   return (
-    <section className="flex flex-row gap-x-2 ">
-      <section className="flex flex-col w-1/2 h-screen py-14 pl-32">
+    <section className="flex flex-row gap-x-2">
+      <section className="flex flex-col w-1/2 py-8 pl-14">
         <UserImageAndName />
 
         <div>
@@ -18,7 +18,7 @@ export default function Account() {
       </section>
 
       <section
-        className="flex flex-col gap-y-12 w-1/2 h-screen p-14"
+        className="flex flex-col gap-y-12 w-1/2 p-14"
         /*color and style of svg icons*/
         /*update link after input*/
         /*dialog of photo not work*/
@@ -34,14 +34,14 @@ export default function Account() {
             viewBox="0 0 64 64"
             xmlns="http://www.w3.org/2000/svg"
             stroke="#133157"
-            stroke-width="0.5"
+            strokeWidth="0.5"
             className="w-14 h-14"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               <title></title>
@@ -57,39 +57,39 @@ export default function Account() {
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            stroke-width="0.3"
+            strokeWidth="0.3"
             stroke="#133157"
             className="w-14 h-14 p-0.5"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
               stroke="#133157"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               {' '}
               <path
                 d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
                 stroke="#133157"
-                stroke-width="1"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>{' '}
               <path
                 d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z"
                 stroke="#133157"
-                stroke-width="1"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>{' '}
               <path
                 d="M17.6361 7H17.6477"
                 stroke="#133157"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>{' '}
             </g>
           </svg>
@@ -102,17 +102,17 @@ export default function Account() {
             stroke="#133157"
             className="w-14 h-14"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               <path
                 stroke="#133157"
-                stroke-linejoin="round"
-                stroke-width="7"
+                strokeLinejoin="round"
+                strokeWidth="7"
                 d="M126 38c-14.359 0-26 11.64-26 26a25.89 25.89 0 0 0 2.929 12C72 76 56 70 30 46c0 39.5 10 66 34 81-8 11.2-29.333 14.333-42 14.5 0 0 14 13.5 46 13.5 56 0 84-46.783 84-91l18-20h-27.386A25.892 25.892 0 0 0 126 38Z"
               ></path>
             </g>
@@ -124,28 +124,28 @@ export default function Account() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             stroke="#133157"
-            stroke-width="0.9"
+            strokeWidth="0.9"
             className="w-14 h-14"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               {' '}
               <path
                 d="M21.9999 10.0588C21.9999 5.58405 17.5141 1.94354 12 1.94354C6.48627 1.94354 1.99994 5.58405 1.99994 10.0588C1.99994 14.0702 5.55749 17.4299 10.3632 18.065C10.6887 18.1354 11.132 18.2798 11.244 18.5582C11.3449 18.8109 11.31 19.207 11.2765 19.4623C11.2765 19.4623 11.1591 20.168 11.1336 20.3184C11.09 20.571 10.9327 21.3072 12 20.8576C13.0672 20.4078 17.7588 17.4664 19.8569 15.0518H19.8564C21.3056 13.4624 21.9999 11.8495 21.9999 10.0588Z"
                 stroke="#133157"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
               ></path>{' '}
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M16.3139 8.53744H18.4141V8.34641H16.1227V12.1925H18.4141V12.0014H16.3139V10.365H18.4141V10.1739H16.3139V8.53744ZM5.92147 12.0014V8.34641H5.73044V12.1925H8.02179V12.0014H5.92147ZM14.35 12.0433L11.6125 8.34634H11.295V12.1925H11.486V8.49641L14.223 12.1925H14.541V8.34634H14.35V12.0433ZM9.52202 8.34634V12.1925H9.71305V8.34634H9.52202Z"
                 stroke="#133157"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
               ></path>{' '}
             </g>
           </svg>
@@ -161,11 +161,11 @@ export default function Account() {
             xmlns="http://www.w3.org/2000/svg"
             className="w-14 h-14 p-1.5"
           >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g
               id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></g>
             <g id="SVGRepo_iconCarrier">
               {' '}
@@ -215,11 +215,11 @@ function UserImageAndName() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5"
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
                   {' '}
@@ -229,9 +229,9 @@ function UserImageAndName() {
                       id="Vector"
                       d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
                       stroke="#000000"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     ></path>{' '}
                   </g>{' '}
                 </g>
@@ -258,11 +258,11 @@ function UserImageAndName() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5"
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                 <g
                   id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
                   {' '}
@@ -272,9 +272,9 @@ function UserImageAndName() {
                       id="Vector"
                       d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
                       stroke="#000000"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     ></path>{' '}
                   </g>{' '}
                 </g>
@@ -323,11 +323,11 @@ function UserIntroduction() {
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
             >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g
                 id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></g>
               <g id="SVGRepo_iconCarrier">
                 {' '}
@@ -337,9 +337,9 @@ function UserIntroduction() {
                     id="Vector"
                     d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
                     stroke="#000000"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></path>{' '}
                 </g>{' '}
               </g>
@@ -392,11 +392,11 @@ function LinkField({ title, children, link = '' }: LinkFieldProps) {
           xmlns="http://www.w3.org/2000/svg"
           className="w-5 h-5"
         >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
             id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></g>
           <g id="SVGRepo_iconCarrier">
             {' '}
@@ -406,9 +406,9 @@ function LinkField({ title, children, link = '' }: LinkFieldProps) {
                 id="Vector"
                 d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
                 stroke="#000000"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>{' '}
             </g>{' '}
           </g>
@@ -425,7 +425,7 @@ function LinkField({ title, children, link = '' }: LinkFieldProps) {
       </div>
       <div className="w-[60%]">{content}</div>
       <div className="w-[10%]">
-        <p className="pt-4">{editbutton}</p>
+        <div className="pt-4">{editbutton}</div>
       </div>
     </div>
   )
