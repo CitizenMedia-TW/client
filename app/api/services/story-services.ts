@@ -81,7 +81,7 @@ class StoryServices {
 
   async getLatestStories() {
     const tmp = await axios.get(`${STORY_SERVICE_URL}/recommend`, {
-      params: { usedId: '', count: 2, skip: 0 },
+      params: { usedId: '', count: 10, skip: 0 },
     })
     if (tmp.status != 200) return null
     let stories: StoryPreview[] = []
