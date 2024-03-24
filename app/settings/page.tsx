@@ -1,10 +1,10 @@
-"use client";
-import React from "react";
-import Account from "./Account";
-import Security from "./Security";
-import Notification from "./Notification";
-import Workspace from "./Workspace";
-import { Button } from "@/components/ui/button";
+'use client'
+import React from 'react'
+import Account from './Account'
+import Security from './Security'
+import Notification from './Notification'
+import Workspace from './Workspace'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
@@ -12,17 +12,17 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 
 type SubPagesType = {
   [key: string]: {
-    activate: boolean;
-    component: (key: string) => JSX.Element;
-  };
-};
+    activate: boolean
+    component: (key: string) => JSX.Element
+  }
+}
 const subPages: SubPagesType = {
   Account: {
     activate: true,
@@ -40,44 +40,44 @@ const subPages: SubPagesType = {
     activate: false,
     component: (key) => <Workspace key={key} />,
   },
-};
+}
 
 export default function Page() {
-  const [currentSubPage, setCurrentSubPage] = React.useState("Account");
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  const [currentSubPage, setCurrentSubPage] = React.useState('Account')
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
   function setSubPages(key: string): void {
     if (key && subPages[key]) {
-      const updatedSubPages = { ...subPages };
+      const updatedSubPages = { ...subPages }
       Object.keys(updatedSubPages).forEach((subPageKey) => {
-        updatedSubPages[subPageKey].activate = subPageKey === key;
-      });
-      setCurrentSubPage(key);
+        updatedSubPages[subPageKey].activate = subPageKey === key
+      })
+      setCurrentSubPage(key)
     }
   }
 
   useEffect(() => {
-    const tab = searchParams.get("tab");
+    const tab = searchParams.get('tab')
     if (tab != null) {
-      setSubPages(tab);
+      setSubPages(tab)
     } else {
-      setSubPages("Account");
+      setSubPages('Account')
     }
-  }, [searchParams]);
+  }, [searchParams])
 
   return (
-    <main className="h-full">
-      <p className="text-2xl">Settings</p>
+    <main className="h-full pt-24 px-24">
+      <p className="text-5xl font-bold ">Settings</p>
       {/* Show on @media (min-width: 640px) */}
       <section className="sm:flex flex-row m-4 space-x-4 transition-transform duration-100 hidden">
         {Object.keys(subPages).map((key) => (
           <Button
             key={key}
-            variant={subPages[key].activate ? "outline" : "ghost"}
+            variant={subPages[key].activate ? 'outline' : 'ghost'}
             onClick={() => {
-              console.log(pathname + "?" + "tab=" + key);
-              router.push(pathname + "?" + "tab=" + key);
+              console.log(pathname + '?' + 'tab=' + key)
+              router.push(pathname + '?' + 'tab=' + key)
             }}
           >
             {key}
@@ -88,7 +88,7 @@ export default function Page() {
       <section className="sm:hidden flex justify-center">
         <Select>
           <SelectTrigger className="w-24">
-            <SelectValue placeholder="Account" defaultValue={"account"} />
+            <SelectValue placeholder="Account" defaultValue={'account'} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -100,12 +100,12 @@ export default function Page() {
           </SelectContent>
         </Select>
       </section>
-      <hr className="h-[3px] bg-primary mx-16 my-5" />
-      <div className="h-1/5 overflow-y-scroll">
+      <hr className="h-[3px] bg-primary my-5" />
+      <div className="h-1/5 overflow-hidden">
         {Object.keys(subPages).map(
           (key) => subPages[key].activate && subPages[key].component(key)
         )}
       </div>
     </main>
-  );
+  )
 }
