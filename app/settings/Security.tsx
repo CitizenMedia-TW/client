@@ -50,91 +50,104 @@ export default function Account() {
   }
 
   return (
-    <div>
-      <section className="flex flex-col pl-28">
-        <section className="mt-16 mb-12">
-          {<p className="text-blue-950  font-bold text-lg">E-Mail</p>}
-          <section className="flex flex-row my-3 ">
-            <section className=" w-80">
-              {<p className="text-blue-950 left-10">{email}</p>}
+    <div className=" px-4 sm:px-12">
+      <section className="flex flex-col">
+        <section className="">
+          {<p className="text-2xl font-bold">E-Mail</p>}
+          <section className="flex flex-col sm:flex-row place-content-between pl-12 pt-12">
+            <section className="w-80">
+              {<p className="font-normal text-xl sm:pb-0 pb-5">{email}</p>}
             </section>
-            <section className="w-80" />
             <button
               className="bg-transparent border-2 border-slate-400 h-6 w-28 rounded btn-info"
               onClick={() => changeEmail()}
             >
-              <p className=" text-slate-500 text-sm">Change email</p>
+              <p className="text-slate-500 text-sm">Change email</p>
             </button>
           </section>
         </section>
-        <section className="">
-          {<p className="text-blue-950 font-bold text-lg mb-5">Password</p>}
-          <div className=" pl-10 ">
-            <section className="flex flex-row  my-3">
-              <section className=" w-48">
-                <p className="text-blue-950">Current password</p>
+        <section className="pt-12">
+          {<p className="text-2xl font-bold">Password</p>}
+          <div className="flex flex-col sm:flex-col pl-12 pt-12 gap-y-7">
+            <div className="flex flex-col sm:flex-row">
+              <section className="flex flex-col sm:flex-row">
+                <section className="w-64">
+                  <p className="font-normal text-xl sm:pb-0 pb-5">
+                    Current password
+                  </p>
+                </section>
+                <input
+                  type="password"
+                  placeholder="current password"
+                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </section>
-              <input
-                type="password"
-                placeholder="current password"
-                className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                onChange={(e) => setPassword(e.target.value)}
-              />
               <button
-                className="bg-transparent"
+                className="bg-transparent pl-4 sm:pb-0 pb-5"
                 onClick={() => forgetPassword()}
-              >
-                <p className="ml-3 text-cyan-800 text-xs">Forget password?</p>
-              </button>
-            </section>
-
-            <section className="flex flex-row my-3">
-              <section className=" w-48">
-                {<p className="text-blue-950">New password</p>}
+              ></button>
+              <p className="text-cyan-800 text-xs">Forget password?</p>
+            </div>
+            <div className="flex flex-col sm:flex-row place-content-between">
+              <section className="flex flex-col sm:flex-row">
+                <section className="w-64">
+                  {
+                    <p className="font-normal text-xl sm:pb-0 pb-5">
+                      New password
+                    </p>
+                  }
+                </section>
+                <input
+                  type="password"
+                  placeholder="new password"
+                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
               </section>
-              <input
-                type="password"
-                placeholder="new password"
-                className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-            </section>
-
-            <section className="flex flex-row my-3">
-              <section className="w-48">
-                {<p className="text-blue-950 ">Confirm new password</p>}
+            </div>
+            <div className="flex flex-col sm:flex-row place-content-between">
+              <section className="flex flex-col sm:flex-row  sm:pb-0 pb-5">
+                <section className="w-64">
+                  {
+                    <p className="font-normal text-xl sm:pb-0 pb-5">
+                      Confirm new password
+                    </p>
+                  }
+                </section>
+                <input
+                  type="password"
+                  placeholder="confirm new password"
+                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
               </section>
-              <input
-                type="password"
-                placeholder="confirm new password"
-                className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-              />
-              <section className=" w-48"></section>
               <button
                 className="bg-slate-400 h-6 w-20 rounded btn-accent"
                 onClick={() => resetPassword()}
               >
                 <p className="text-white text-sm">Confirm</p>
               </button>
-            </section>
+            </div>
           </div>
         </section>
       </section>
 
-      <section className="flex flex-col pl-16">
-        <hr className="mt-10 mb-6 h-1 bg-slate-600" />
+      <section className="flex flex-col">
+        <hr className="h-1 bg-slate-600 mt-12 mb-7" />
       </section>
 
-      <section className="flex flex-col pl-28">
-        <section className="flex-col bg-yellow-50">
+      <section className="flex flex-col">
+        <section className="flex-col">
           <button
             className="bg-transparent"
             onClick={() =>
               (document.getElementById('deactivateModal')! as any).showModal()
             }
           >
-            <p className="my-2 text-rose-700">Deactivate account</p>
+            <p className="font-normal text-xl text-rose-700">
+              Deactivate account
+            </p>
           </button>
           <dialog id="deactivateModal" className="modal">
             <div className="modal-box bg-white w-11/12 max-w-2xl h-96">
@@ -145,17 +158,17 @@ export default function Account() {
                 </button>
               </form>
               <div className="p-12">
-                <p className="mb-4 text-2xl text-red-600 flex">
-                  <BsExclamationTriangle className="self-center mr-2" />
+                <p className="text-2xl text-red-600 flex">
+                  <BsExclamationTriangle className="self-center" />
                   Deactivating your account
                 </p>
-                <p className="my-3 text-lg">
+                <p className="text-lg">
                   {' '}
                   Your account will be removed from this website temporarily.
                   You can sign back in anytime to reactivate your account and
                   restore the content.
                 </p>
-                <p className="py-2">Password:</p>
+                <p className="">Password:</p>
                 <input
                   type="password"
                   placeholder="current password"
@@ -186,19 +199,22 @@ export default function Account() {
             </div>
           </dialog>
 
-          <p className="ml-8 mb text-gray-500">
+          <p className="font-normal text-sm text-gray-500 pl-12 pt-4">
             suspend your account until you sign back in
           </p>
         </section>
 
-        <section>
+        <section className="">
           <button
-            className="bg-transparent"
+            className=""
             onClick={() =>
               (document.getElementById('deleteModal')! as any).showModal()
             }
           >
-            <p className="my-4 text-rose-700"> Delete account </p>
+            <p className="font-normal text-xl text-rose-700 pt-7">
+              {' '}
+              Delete account{' '}
+            </p>
           </button>
           <dialog id="deleteModal" className="modal">
             <div className="modal-box bg-white w-11/12 max-w-2xl h-96">
@@ -208,16 +224,16 @@ export default function Account() {
                   <p className="text-2xl">✕</p>
                 </button>
               </form>
-              <div className="p-12">
-                <p className="mb-4 text-2xl text-red-600 flex">
-                  <BsExclamationCircle className="self-center mr-2" /> Deleting
-                  your account
+              <div className="">
+                <p className="text-2xl text-red-600 flex">
+                  <BsExclamationCircle className="self-center" /> Deleting your
+                  account
                 </p>
-                <p className="my-3 text-lg">
+                <p className="text-lg">
                   Your account will be removed from this website permanently,
                   including your profile, posts and content you saved.
                 </p>
-                <p className="py-2">Password:</p>
+                <p className="">Password:</p>
                 <input
                   type="password"
                   placeholder="current password"

@@ -33,8 +33,8 @@ export default function Workspace() {
   }
 
   return (
-    <div>
-      <div className="flex px-36 place-content-between">
+    <div className="px-4 sm:px-12">
+      <div className="flex place-content-between">
         <p className="text-2xl font-bold">System default</p>
         <Switch
           id=""
@@ -44,7 +44,7 @@ export default function Workspace() {
       </div>
 
       {!themeMode && (
-        <section className="pt-8 pl-48">
+        <section className="pt-8 pl-10">
           <div className="flex gap-x-7 items-center">
             <Checkbox
               className="h-4 w-4 rounded-full"

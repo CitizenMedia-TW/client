@@ -14,6 +14,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { useEffect } from 'react'
+
 type SubPagesType = {
   [key: string]: {
     activate: boolean
@@ -41,31 +44,54 @@ const subPages: SubPagesType = {
 
 export default function Page() {
   const [currentSubPage, setCurrentSubPage] = React.useState('Account')
-
-  function setSubPages(name: string): void {
-    subPages[name].activate = true
-    subPages[currentSubPage].activate = false
-    setCurrentSubPage(name) // This will forse re-render
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
+  function setSubPages(key: string): void {
+    if (key && subPages[key]) {
+      const updatedSubPages = { ...subPages }
+      Object.keys(updatedSubPages).forEach((subPageKey) => {
+        updatedSubPages[subPageKey].activate = subPageKey === key
+      })
+      setCurrentSubPage(key)
+    }
   }
 
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab != null) {
+      setSubPages(tab)
+    } else {
+      setSubPages('Account')
+    }
+  }, [searchParams])
+
   return (
-    <main className="h-full">
-      <p className="text-2xl">Settings</p>
+    <main className="h-full pt-24 px-4 sm:px-12 md:px-24">
+      <p className="text-5xl font-bold ">Settings</p>
       {/* Show on @media (min-width: 640px) */}
       <section className="sm:flex flex-row m-4 space-x-4 transition-transform duration-100 hidden">
         {Object.keys(subPages).map((key) => (
           <Button
             key={key}
             variant={subPages[key].activate ? 'outline' : 'ghost'}
-            onClick={() => setSubPages(key)}
+            onClick={() => {
+              console.log(pathname + '?' + 'tab=' + key)
+              router.push(pathname + '?' + 'tab=' + key)
+            }}
           >
             {key}
           </Button>
         ))}
       </section>
       {/* Hidden on @media (max-width: 640px) */}
-      <section className="sm:hidden flex justify-center">
-        <Select onValueChange={(val) => setSubPages(val)}>
+      <section className="sm:hidden flex justify-end sm:justify-center">
+        <Select
+          onValueChange={(val) => {
+            console.log(pathname + '?' + 'tab=' + val)
+            router.push(pathname + '?' + 'tab=' + val)
+          }}
+        >
           <SelectTrigger className="w-24">
             <SelectValue placeholder="Account" defaultValue={'account'} />
           </SelectTrigger>
@@ -79,8 +105,8 @@ export default function Page() {
           </SelectContent>
         </Select>
       </section>
-      <hr className="h-[3px] bg-primary mx-16 my-5" />
-      <div className="h-1/5 overflow-y-scroll">
+      <hr className="h-[3px] bg-primary mt-5" />
+      <div className="h-1/5 overflow-hidden pt-12">
         {Object.keys(subPages).map(
           (key) => subPages[key].activate && subPages[key].component(key)
         )}
