@@ -67,7 +67,7 @@ export default function Page() {
   }, [searchParams])
 
   return (
-    <main className="h-full pt-24 px-24">
+    <main className="h-full pt-24 px-4 sm:px-12 md:px-24">
       <p className="text-5xl font-bold ">Settings</p>
       {/* Show on @media (min-width: 640px) */}
       <section className="sm:flex flex-row m-4 space-x-4 transition-transform duration-100 hidden">
@@ -85,8 +85,13 @@ export default function Page() {
         ))}
       </section>
       {/* Hidden on @media (max-width: 640px) */}
-      <section className="sm:hidden flex justify-center">
-        <Select>
+      <section className="sm:hidden flex justify-end sm:justify-center">
+        <Select
+          onValueChange={(val) => {
+            console.log(pathname + '?' + 'tab=' + val)
+            router.push(pathname + '?' + 'tab=' + val)
+          }}
+        >
           <SelectTrigger className="w-24">
             <SelectValue placeholder="Account" defaultValue={'account'} />
           </SelectTrigger>
@@ -100,8 +105,8 @@ export default function Page() {
           </SelectContent>
         </Select>
       </section>
-      <hr className="h-[3px] bg-primary my-5" />
-      <div className="h-1/5 overflow-hidden">
+      <hr className="h-[3px] bg-primary mt-5" />
+      <div className="h-1/5 overflow-hidden pt-12">
         {Object.keys(subPages).map(
           (key) => subPages[key].activate && subPages[key].component(key)
         )}

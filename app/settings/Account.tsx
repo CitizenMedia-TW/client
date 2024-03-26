@@ -8,8 +8,8 @@ import { Dialog } from '@/components/ui/dialog'
 
 export default function Account() {
   return (
-    <section className="flex flex-row gap-x-2">
-      <section className="flex flex-col w-1/2 py-8 pl-14">
+    <section className="flex flex-col md:flex-row gap-x-2 px-4 sm:px-12 md:px-4 lg:px-12">
+      <section className="md:mr-5 flex flex-col md:w-1/2 w-full">
         <UserImageAndName />
 
         <div>
@@ -18,7 +18,7 @@ export default function Account() {
       </section>
 
       <section
-        className="flex flex-col gap-y-12 w-1/2 p-14"
+        className="md:ml-5 flex flex-col gap-y-12 md:w-1/2 pb-3 w-full"
         /*color and style of svg icons*/
         /*update link after input*/
         /*dialog of photo not work*/
@@ -197,18 +197,33 @@ function UserImageAndName() {
   const text = EditUsername === 'on' ? 'Save' : 'Edit'
   if (session && session.user) {
     return (
-      <section className="flex flex-row">
-        <div className="flex flex-col justify-center">
-          <Image
-            unoptimized
-            src={session?.user.avatar as string}
-            alt="user image"
-            width={154}
-            height={154}
-          />
-
+      <section className="flex flex-col">
+        <div className="flex">
+          <div className="h-40 min-w-40 w-40 flex flex-col justify-center shrink">
+            <Image
+              unoptimized
+              src={session?.user.avatar as string}
+              alt="user image"
+              width={140}
+              height={140}
+            />
+          </div>
+          <div className="h-40 flex flex-col justify-end pl-10 w-56 grow">
+            <p className="text-xl font-normal">Username</p>
+            <div className="h-20 flex items-end">
+              <Input
+                disabled={EditUsername !== 'on'}
+                type="string"
+                placeholder={session.user.name!.toString()}
+                className="text-5xl font-bold border-b-[#466d9e] border-2 border-x-0 border-t-0 rounded-none h-16 focus-visible:ring-0"
+              />
+            </div>
+            <div className="flex justify-end"></div>
+          </div>
+        </div>
+        <div className="flex justify-between">
           <Dialog>
-            <div className="flex py-1 px-2">
+            <div className="flex">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -239,49 +254,36 @@ function UserImageAndName() {
               <p className="text-sm font-light">Change Photo</p>
             </div>
           </Dialog>
-        </div>
-        <div className="h-full pt-12 pl-9 pr-24">
-          <p className="text-xl font-normal">Username</p>
-          <div className="h-20 flex items-end">
-            <Input
-              disabled={EditUsername !== 'on'}
-              type="string"
-              placeholder={session.user.name!.toString()}
-              className="text-5xl font-bold border-b-[#466d9e] border-2 border-x-0 border-t-0 rounded-none w-full h-16 focus-visible:ring-0"
-            />
-          </div>
-          <div className="flex justify-end">
-            <button onClick={toggleEditUsername} className="flex">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
+          <button onClick={toggleEditUsername} className="flex">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {' '}
+                <g id="Edit / Edit_Pencil_Line_01">
                   {' '}
-                  <g id="Edit / Edit_Pencil_Line_01">
-                    {' '}
-                    <path
-                      id="Vector"
-                      d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
-                      stroke="#000000"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>{' '}
-                  </g>{' '}
-                </g>
-              </svg>
-              <p>{text} Username</p>
-            </button>
-          </div>
+                  <path
+                    id="Vector"
+                    d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
+                    stroke="#000000"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>{' '}
+                </g>{' '}
+              </g>
+            </svg>
+            <p className="text-sm font-light">{text} Username</p>
+          </button>
         </div>
       </section>
     )
@@ -299,10 +301,10 @@ function UserIntroduction() {
   }
   const text = EditUsername === 'on' ? 'Save' : 'Edit'
   return (
-    <section className="">
-      <div className="pt-28 pl-9 pr-24 flex flex-col">
+    <section className="pt-5">
+      <div className="flex flex-col">
         <p className="text-xl font-normal">Introduction:</p>
-        <div className="h-60">
+        <div className="xl:h-80 h-80 md:h-96">
           <Input
             disabled={EditUsername !== 'on'}
             type="string"
@@ -344,7 +346,7 @@ function UserIntroduction() {
                 </g>{' '}
               </g>
             </svg>
-            <p>{text} Introduction</p>
+            <p className="text-sm font-light">{text} Introduction</p>
           </button>
         </div>
       </div>
@@ -413,19 +415,21 @@ function LinkField({ title, children, link = '' }: LinkFieldProps) {
             </g>{' '}
           </g>
         </svg>
-        <p>{text}</p>
+        <p className="text-sm font-light">{text}</p>
       </button>
     )
 
   return (
-    <div className="w-full flex">
-      <div className="w-[10%]">{children}</div>
-      <div className="w-[18%] flex items-end pl-8 pb-2">
-        <p className="text-lg font-normal">{title}</p>
+    <div className="w-full flex flex-col xl:flex-row gap-y-2">
+      <div className="flex">
+        <div className="w-14">{children}</div>
+        <div className="w-24 flex items-end shrink-0">
+          <p className="text-lg font-normal">{title}</p>
+        </div>
       </div>
-      <div className="w-[60%]">{content}</div>
-      <div className="w-[10%]">
-        <div className="pt-4">{editbutton}</div>
+      <div className="flex justify-end xl:border-2 border-black w-full">
+        <div className="grow max-w-96 shrink">{content}</div>
+        <div className="w-14 min-w-14 shrink-0">{editbutton}</div>
       </div>
     </div>
   )
