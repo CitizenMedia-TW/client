@@ -427,7 +427,7 @@ function LinkField({ title, children, link = '' }: LinkFieldProps) {
           <p className="text-lg font-normal">{title}</p>
         </div>
       </div>
-      <div className="flex justify-end xl:border-2 border-black w-full">
+      <div className="flex justify-end w-full">
         <div className="grow max-w-96 shrink">{content}</div>
         <div className="w-14 min-w-14 shrink-0">{editbutton}</div>
       </div>

@@ -4,7 +4,7 @@ import { Switch } from '@/components/ui/switch'
 
 export default function Notification() {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen px-4 sm:px-12">
       <div className="flex place-content-between">
         <p className="text-2xl font-bold">Pause all</p>
         <Switch id="" className="mr-2" />
