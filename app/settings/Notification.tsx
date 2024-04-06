@@ -4,8 +4,10 @@ import { Switch } from '@/components/ui/switch'
 
 export default function Notification() {
   return (
+
     <div className="w-full h-screen px-4 sm:px-12">
       <div className="flex place-content-between">
+
         <p className="text-2xl font-bold">Pause all</p>
         <Switch id="" className="mr-2" />
       </div>
@@ -13,7 +15,9 @@ export default function Notification() {
       <div className="w-full flex flex-col gap-y-12 pr-4 mt-12 px-4 sm:px-12">
         <div className="pl-12">
           <p className="font-bold text-2xl">Comments</p>
+
           <div className="flex flex-col gap-y-7 pl-10 pt-5">
+
             <div className="flex place-content-between">
               <p className="font-normal text-xl">New comments on your post</p>
               <Checkbox className="h-7 w-7 rounded-md" />

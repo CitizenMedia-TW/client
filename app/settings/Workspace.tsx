@@ -33,8 +33,10 @@ export default function Workspace() {
   }
 
   return (
+
     <div className="px-4 sm:px-12">
       <div className="flex place-content-between">
+
         <p className="text-2xl font-bold">System default</p>
         <Switch
           id=""

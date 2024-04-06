@@ -50,6 +50,7 @@ export default function Account() {
   }
 
   return (
+
     <div className=" px-4 sm:px-12">
       <section className="flex flex-col">
         <section className="">
@@ -57,6 +58,7 @@ export default function Account() {
           <section className="flex flex-col sm:flex-row place-content-between pl-12 pt-12">
             <section className="w-80">
               {<p className="font-normal text-xl sm:pb-0 pb-5">{email}</p>}
+
             </section>
             <button
               className="bg-transparent border-2 border-slate-400 h-6 w-28 rounded btn-info"
@@ -66,6 +68,7 @@ export default function Account() {
             </button>
           </section>
         </section>
+
         <section className="pt-12">
           {<p className="text-2xl font-bold">Password</p>}
           <div className="flex flex-col sm:flex-col pl-12 pt-12 gap-y-7">
@@ -75,6 +78,7 @@ export default function Account() {
                   <p className="font-normal text-xl sm:pb-0 pb-5">
                     Current password
                   </p>
+
                 </section>
                 <input
                   type="password"
@@ -86,6 +90,7 @@ export default function Account() {
               <button
                 className="bg-transparent pl-4 sm:pb-0 pb-5"
                 onClick={() => forgetPassword()}
+
               ></button>
               <p className="text-cyan-800 text-xs">Forget password?</p>
             </div>
@@ -114,6 +119,7 @@ export default function Account() {
                       Confirm new password
                     </p>
                   }
+
                 </section>
                 <input
                   type="password"
@@ -134,10 +140,12 @@ export default function Account() {
       </section>
 
       <section className="flex flex-col">
+
         <hr className="h-1 bg-slate-600 mt-12 mb-7" />
       </section>
 
       <section className="flex flex-col">
+
         <section className="flex-col">
           <button
             className="bg-transparent"
@@ -199,19 +207,25 @@ export default function Account() {
             </div>
           </dialog>
 
+
           <p className="font-normal text-sm text-gray-500 pl-12 pt-4">
+
             suspend your account until you sign back in
           </p>
         </section>
 
+
         <section className="">
+
           <button
             className=""
             onClick={() =>
               (document.getElementById('deleteModal')! as any).showModal()
             }
           >
+
             <p className="font-normal text-xl text-rose-700 pt-7">
+
               {' '}
               Delete account{' '}
             </p>
