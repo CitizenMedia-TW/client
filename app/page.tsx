@@ -1,9 +1,9 @@
-import React from 'react'
-import Carousel from './Carousel'
-import { FiThumbsUp } from 'react-icons/fi'
-import LatestNewsIcon from '@/public/latest-news.svg'
-import Image from 'next/image'
-import LatestNews from './LatestNews'
+import React from "react";
+import MainCarousel from "./MainCarousel";
+import { FiThumbsUp } from "react-icons/fi";
+import LatestNewsIcon from "@/public/latest-news.svg";
+import Image from "next/image";
+import LatestNews from "./LatestNews";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
           <FiThumbsUp />
           <p className="pl-2">Official Recommendation</p>
         </div>
-        <Carousel />
+        <MainCarousel />
       </div>
       <div className="flex flex-col w-full shadow-blue">
         <div className="flex flex-row items-center mx-5 my-2">
@@ -28,5 +28,5 @@ export default function Home() {
       {/* <MostViewed /> */}
       {/* <TraceAuthor /> */}
     </main>
-  )
+  );
 }
