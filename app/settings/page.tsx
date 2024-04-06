@@ -67,7 +67,7 @@ export default function Page() {
   }, [searchParams])
 
   return (
-    <main className="h-full pt-24 px-4 sm:px-12 md:px-24">
+    <main className="h-full pt-24 px-4 sm:px-12 md:px-24 pb-12">
       <p className="text-5xl font-bold ">Settings</p>
       {/* Show on @media (min-width: 640px) */}
       <section className="sm:flex flex-row m-4 space-x-4 transition-transform duration-100 hidden">
