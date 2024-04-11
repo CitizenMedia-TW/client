@@ -1,15 +1,14 @@
 'use client'
 import React from 'react'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import axios from 'axios'
 import Block from '../Block'
 const API_URL = 'http://localhost:8080'
 
 type User = {
-  username: string
-  email: string
-  password: string
+  name: string
+  mail: string
+  pass: string
 }
 
 async function register(newUser: User) {
@@ -21,9 +20,9 @@ async function register(newUser: User) {
 
 export default function Page() {
   const [newUser, setNewUser] = React.useState<User>({
-    username: '',
-    email: '',
-    password: '',
+    name: '',
+    mail: '',
+    pass: '',
   })
   return (
     <Block title={'Register'}>
@@ -34,22 +33,20 @@ export default function Page() {
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
             placeholder="username"
             onChange={(e) =>
-              setNewUser({ ...newUser, username: e.target.value })
+              setNewUser({ ...newUser, name: e.target.value })
             }
           />
           <input
             type="text"
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
             placeholder="email"
-            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+            onChange={(e) => setNewUser({ ...newUser, mail: e.target.value })}
           />
           <input
             type="text"
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
             placeholder="password"
-            onChange={(e) =>
-              setNewUser({ ...newUser, password: e.target.value })
-            }
+            onChange={(e) => setNewUser({ ...newUser, pass: e.target.value })}
           />
           <button
             className="relative left-1/2 -translate-x-1/2 w-[70%] 2xl:w-48 h-12 bg-[#fbd06e] rounded-xl text-[#0F3E7A] font-sans not-italic font-normal leading-normal"
