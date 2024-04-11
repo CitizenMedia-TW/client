@@ -33,10 +33,8 @@ export default function Workspace() {
   }
 
   return (
-
     <div className="px-4 sm:px-12">
       <div className="flex place-content-between">
-
         <p className="text-2xl font-bold">System default</p>
         <Switch
           id=""
@@ -53,7 +51,7 @@ export default function Workspace() {
               checked={!darkMode}
               onCheckedChange={() => toggleDarkMode()}
             />
-            <p className="font-medium text-2xl">Dark</p>
+            <p className="font-medium text-2xl">Light</p>
           </div>
           <div className="flex pt-1.5 gap-x-7 items-center">
             <Checkbox
@@ -61,7 +59,7 @@ export default function Workspace() {
               checked={darkMode}
               onCheckedChange={() => toggleDarkMode()}
             />
-            <p className="font-medium text-2xl">Light</p>
+            <p className="font-medium text-2xl">Dark</p>
           </div>
         </section>
       )}
