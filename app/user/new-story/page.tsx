@@ -49,11 +49,11 @@ const Home = () => {
     }
     console.log(session)
     // Post the story
-    if (!session || !session.user || !session.user.id)
+    if (!session || !session.user || !session.user.email)
       return window.alert('You need to be logged in to post a story')
     const response = await StoryServices.newStory(
       {
-        authorId: session.user.id,
+        authorId: session.user.email,
         ...storyData,
         content: JSON.stringify(content),
         ...tags,
