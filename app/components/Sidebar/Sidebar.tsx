@@ -42,12 +42,6 @@ export default function Sidebar() {
             />
             <div className="max-w-fit relative">
               <div className="flex w-full">
-                {/*<span
-                  className="ml-4 justify-end m-1 mb-1 text-3xl font-bold text-white"
-                  style={{ zIndex: 1 }}
-                >
-                  User&nbsp;
-  </span>*/}
                 <p
                   className="pl-3 justify-end m-1 mr-3 mb-1 text-3xl font-bold dark:text-white text-black"
                   style={{ zIndex: 1 }}
@@ -60,8 +54,8 @@ export default function Sidebar() {
           </DrawerHeader>
           <div className="h-full px-5">
             <ul className="h-full flex flex-col gap-2 justify-evenly">
-              {sideBarLinks.map((link) => (
-                <div>
+              {sideBarLinks.map((link, idx) => (
+                <div key={idx}>
                   <Link
                     href={link.href}
                     key={link.display}
@@ -79,7 +73,7 @@ export default function Sidebar() {
               <div className="flex dark:hidden">
                 <LogoutSvg />
               </div>
-              <div className="flex hidden dark:flex">
+              <div className="hidden dark:flex">
                 <LogoutSvgDark />
               </div>
               <span className="mt-auto ml-2 dark:text-white text-black text-lg">
