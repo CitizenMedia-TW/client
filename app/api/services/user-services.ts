@@ -4,6 +4,7 @@ const BROKER_SERVICE_URL =
 
 class UserServices {
   async getProfileLinks(jwtToken: string) {
+    console.log(jwtToken)
     if (!jwtToken) return { data: ['No token'] }
     return await axios.get(`${BROKER_SERVICE_URL}/user/profile-links`, {
       headers: { Authorization: jwtToken },
@@ -14,6 +15,7 @@ class UserServices {
   }
   async setProfileLinks(jwtToken: string, newLinks: string[]){
     if (!jwtToken) return { data: ['No token'] }
+    console.log("new links", newLinks)
     return await axios.patch(`${BROKER_SERVICE_URL}/user/profile-links`,
     {
       remove: [],

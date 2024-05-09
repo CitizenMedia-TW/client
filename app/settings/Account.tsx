@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog } from "@/components/ui/dialog";
 import { UserServices } from "@/api/services";
 import { Link } from "lucide-react";
@@ -28,7 +28,7 @@ export default function Account() {
     "",
   ]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getLinks = async () => {
       console.log(session?.user.jwtToken);
       const res = await UserServices.getProfileLinks(
@@ -38,13 +38,14 @@ export default function Account() {
       if (!res) return;
 
       setLinks(res.data.links);
-      console.log(res);
+      console.log("res(link)", res);
     };
     getLinks();
-  }, []);
+  }, [window.location.pathname]);
   const insertLink = async (newLinks: string) => {
     let _links = links;
     _links.push(newLinks);
+    console.log("new links", _links);
     const res = await UserServices.setProfileLinks(
       session?.user.jwtToken as string,
       _links
@@ -52,6 +53,11 @@ export default function Account() {
     if (!res) return;
     setLinks(res.data.links);
     console.log(res);
+  };
+  const handleSaveLink = (link: string) => {
+    insertLink(link); // 将链接保存到状态中
+    console.log("Saved link:", link); // 在控制台打印链接
+    // 在这里可以执行其他操作，比如将链接发送到服务器或者进行其他逻辑处理
   };
   return (
     <section className="flex flex-col md:flex-row gap-x-2 px-4 sm:px-12 md:px-4 lg:px-12">
@@ -77,7 +83,12 @@ export default function Account() {
           links.map(
             (data, idx) =>
               data && (
-                <LinkField title={getLinkType(data)} link={data} key={idx}>
+                <LinkField
+                  title={getLinkType(data)}
+                  link={data}
+                  key={idx}
+                  onSaveLink={handleSaveLink}
+                >
                   {getLinkType(data) == "facebook" && (
                     <svg
                       fill="#133157"
@@ -231,7 +242,7 @@ export default function Account() {
                 </LinkField>
               )
           )}
-        <LinkField title="new" link="">
+        <LinkField title="new" link="" onSaveLink={handleSaveLink}>
           <svg
             fill="#133157"
             viewBox="0 0 16 16"
@@ -438,15 +449,25 @@ interface LinkFieldProps {
   title: string;
   children?: React.ReactNode;
   link?: string;
+  onSaveLink: (link: string) => void;
 }
 
-function LinkField({ title, children, link = "" }: LinkFieldProps) {
+function LinkField({ title, children, link = "", onSaveLink }: LinkFieldProps) {
+  const [inputValue, setInputValue] = useState(link);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value); // 更新输入的内容
+  };
+  const handleSaveLink = () => {
+    onSaveLink(inputValue); // 调用父组件传递的回调函数，并传递输入的内容
+  };
   const content =
     link.trim() === "" ? (
       <Input
         type="string"
         placeholder="Add Link"
         className="bg-[#dfe7f1] border-0 rounded-none w-full h-full focus-visible:ring-0"
+        value={inputValue}
+        onChange={handleInputChange}
       />
     ) : (
       <p className="text-sm font-normal border-b-[#466d9e] pt-5 border-2 border-x-0 border-t-0 rounded-none w-full h-full focus-visible:ring-0">
@@ -458,7 +479,7 @@ function LinkField({ title, children, link = "" }: LinkFieldProps) {
     link.trim() != "" ? (
       <div></div>
     ) : (
-      <button onClick={()=>} className="flex pt-5">
+      <button onClick={handleSaveLink} className="flex pt-5">
         <svg
           viewBox="0 0 24 24"
           fill="none"
