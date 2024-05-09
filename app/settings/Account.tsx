@@ -34,11 +34,9 @@ export default function Account() {
       const res = await UserServices.getProfileLinks(
         session?.user.jwtToken as string
       );
-
-      if (!res) return;
-
-      setLinks(res.data.links);
       console.log("res(link)", res);
+      if (!res) return;
+      setLinks(res.data.links);
     };
     getLinks();
   }, [window.location.pathname]);
@@ -46,17 +44,47 @@ export default function Account() {
     let _links = links;
     _links.push(newLinks);
     console.log("new links", _links);
-    const res = await UserServices.setProfileLinks(
+    const resSet = await UserServices.setProfileLinks(
       session?.user.jwtToken as string,
       _links
     );
+    console.log("res(set)", resSet);
+    if (!resSet) return;
+    const res = await UserServices.getProfileLinks(
+      session?.user.jwtToken as string
+    );
+    console.log("res(link)", res);
     if (!res) return;
     setLinks(res.data.links);
-    console.log(res);
+  };
+
+  const deleteLink = async (deletedLinks: string) => {
+    let _links = links;
+    let indexToDelete = _links.indexOf(deletedLinks);
+    console.log("deleted id: ", indexToDelete);
+    _links.splice(indexToDelete, 1);
+    console.log("deleted links", _links);
+    const resSet = await UserServices.setProfileLinks(
+      session?.user.jwtToken as string,
+      _links
+    );
+    console.log("res(del)", resSet);
+    if (!resSet) return;
+    const res = await UserServices.getProfileLinks(
+      session?.user.jwtToken as string
+    );
+    console.log("res(link)", res);
+    if (!res) return;
+    setLinks(res.data.links);
   };
   const handleSaveLink = (link: string) => {
     insertLink(link); // 将链接保存到状态中
     console.log("Saved link:", link); // 在控制台打印链接
+    // 在这里可以执行其他操作，比如将链接发送到服务器或者进行其他逻辑处理
+  };
+  const handleDeleteLink = (link: string) => {
+    deleteLink(link); // 将链接保存到状态中
+    console.log("delete link:", link); // 在控制台打印链接
     // 在这里可以执行其他操作，比如将链接发送到服务器或者进行其他逻辑处理
   };
   return (
@@ -88,6 +116,7 @@ export default function Account() {
                   link={data}
                   key={idx}
                   onSaveLink={handleSaveLink}
+                  onDeleteLink={handleDeleteLink}
                 >
                   {getLinkType(data) == "facebook" && (
                     <svg
@@ -242,7 +271,12 @@ export default function Account() {
                 </LinkField>
               )
           )}
-        <LinkField title="new" link="" onSaveLink={handleSaveLink}>
+        <LinkField
+          title="new"
+          link=""
+          onSaveLink={handleSaveLink}
+          onDeleteLink={handleDeleteLink}
+        >
           <svg
             fill="#133157"
             viewBox="0 0 16 16"
@@ -450,15 +484,26 @@ interface LinkFieldProps {
   children?: React.ReactNode;
   link?: string;
   onSaveLink: (link: string) => void;
+  onDeleteLink: (link: string) => void;
 }
 
-function LinkField({ title, children, link = "", onSaveLink }: LinkFieldProps) {
+function LinkField({
+  title,
+  children,
+  link = "",
+  onSaveLink,
+  onDeleteLink,
+}: LinkFieldProps) {
   const [inputValue, setInputValue] = useState(link);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value); // 更新输入的内容
   };
+
   const handleSaveLink = () => {
     onSaveLink(inputValue); // 调用父组件传递的回调函数，并传递输入的内容
+  };
+  const handleDeleteLink = () => {
+    onDeleteLink(link); // 调用父组件传递的回调函数，并传递输入的内容
   };
   const content =
     link.trim() === "" ? (
@@ -477,7 +522,36 @@ function LinkField({ title, children, link = "", onSaveLink }: LinkFieldProps) {
 
   const editbutton =
     link.trim() != "" ? (
-      <div></div>
+      <button onClick={handleDeleteLink} className="flex pt-5">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5"
+        >
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            {" "}
+            <g id="Edit / Edit_Pencil_Line_01">
+              {" "}
+              <path
+                id="Vector"
+                d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
+                stroke="#000000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              ></path>{" "}
+            </g>{" "}
+          </g>
+        </svg>
+        <p className="text-sm font-light">delete</p>
+      </button>
     ) : (
       <button onClick={handleSaveLink} className="flex pt-5">
         <svg
