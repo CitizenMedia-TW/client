@@ -13,13 +13,14 @@ class UserServices {
   async getPublicUser(id: string) {
     return await axios.get(`${BROKER_SERVICE_URL}/user/public-profile/${id}`)
   }
-  async setProfileLinks(jwtToken: string, newLinks: string[]){
+  async modifyProfileLinks(jwtToken: string, modifiedLinks: string[]){
     if (!jwtToken) return { data: ['No token'] }
-    console.log("new links", newLinks)
+    console.log("modified links", modifiedLinks)
     return await axios.patch(`${BROKER_SERVICE_URL}/user/profile-links`,
-    {
+    {//these code should be updata after backend changed
+    //should have the only parameter: modify: modifiedLinks
       remove: [],
-      add: newLinks
+      add: modifiedLinks
     }, {
       headers: { Authorization: jwtToken },
     })
