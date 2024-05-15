@@ -34,14 +34,14 @@ export default function Home() {
   return (
     <Block title={'LOGIN'}>
       <div>
-        <div className="w-full h-5/6 flex flex-col md:flex-row justify-around grow justify-items-center gap-y-2">
+        <div className="w-full flex flex-col md:flex-row justify-around grow justify-items-center gap-y-2">
           <div className="md:h-full md:w-1/2 w-full flex flex-col relative md:py-14 gap-y-2 md:gap-y-6">
             <button
               type="button"
               className="relative left-1/2 md:top-[30%] -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 inline-flex items-center"
               onClick={() => google()}
             >
-              <FcGoogle size={26} />
+              <FcGoogle size={26} className='mx-2'/>
               Sign in with Google
             </button>
             <button
@@ -49,8 +49,8 @@ export default function Home() {
               className="relative left-1/2 md:top-[35%] -translate-x-1/2 h-14 rounded-xl border-2 border-[#0F3E7A] bg-[#0F3E7A] shrink-0 justify-center text-[#FFFFFF] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 inline-flex items-center"
               onClick={() => google()}
             >
-              <ImFacebook2 size={26} color="#FFFFFF" />
-              Continue with Facebook
+              <ImFacebook2 size={24} color="#FFFFFF" className='mx-2' />
+              Sign in with Facebook
             </button>
           </div>
 

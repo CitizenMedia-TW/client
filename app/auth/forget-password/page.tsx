@@ -27,7 +27,7 @@ export default function Home() {
   if (session) return window.location.replace('/')
   return (
     <Block title={'Forget Password'}>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-8 md:pb-6">
         <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5 md:py-3">
           <input
             type="email"
@@ -41,19 +41,19 @@ export default function Home() {
           >
             Send email
           </button>
-          <div className="relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8">
+          <div className="text-[#0F3E7A] flex justify-center">
             Have an account?&nbsp;&nbsp;
             <Link
               href="/auth/signin"
-              className="text-[#0F3E7A] font-sans not-italic underline"
+              className="underline"
             >
               Signin
             </Link>
           </div>
-          <div className="relative left-1/2 -translate-x-1/2 flex justify-center -translate-y-3 md:-translate-y-1/2">
+          <div className="text-[#0F3E7A] flex justify-center">
             <Link
               href="/auth/register"
-              className="text-[#0F3E7A] font-sans not-italic font-normal leading-[50px] underline"
+              className="underline"
             >
               Create account
             </Link>

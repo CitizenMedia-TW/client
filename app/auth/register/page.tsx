@@ -27,7 +27,7 @@ export default function Page() {
   return (
     <Block title={'Register'}>
       <div className="flex justify-center">
-        <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5 md:py-3">
+        <div className="md:h-full md:w-1/2 w-full flex flex-col relative gap-y-2 md:gap-y-5">
           <input
             type="text"
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
@@ -54,11 +54,11 @@ export default function Page() {
           >
             Register
           </button>
-          <div className="relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8">
+          <div className="text-[#0F3E7A] relative left-1/2 -translate-x-1/2 flex justify-center translate-y-2 md:-translate-y-1/8 pb-8">
             Have an account?&nbsp;&nbsp;
             <Link
               href="/auth/signin"
-              className="text-[#0F3E7A] font-sans not-italic underline"
+              className="font-sans not-italic underline"
             >
               Signin
             </Link>
