@@ -42,11 +42,10 @@ export default function Account() {
   }, [session])
 
   const modifyLink = async (modifiedLink: string) => {
-    let _links = [modifiedLink]
-    console.log('modified links(patch)', _links)
+    console.log('modified links(patch)', modifiedLink)
     const resSet = await UserServices.modifyProfileLinks(
       session?.user.jwtToken as string,
-      _links
+      modifiedLink
     )
     console.log('res(patch)', resSet)
     if (!resSet) return
