@@ -93,6 +93,20 @@ class StoryServices {
     console.log(stories)
     return stories
   }
+
+  async addComment(jwtToken: string, newComment: string, storyId: string){
+    const tmp = await axios.post(`${STORY_SERVICE_URL}/comment`, {
+      params: { comment: newComment, commentedStoryId: storyId },
+      headers: { Authorization: jwtToken }
+    })
+  }
+
+  async deletComment(jwtToken: string, deletedCommentId: string){
+    const tmp = await axios.delete(`${STORY_SERVICE_URL}/comment`, {
+      params: { commentId: deletedCommentId},
+      headers: { Authorization: jwtToken }
+    })
+  }
 }
 
 const storyServices = new StoryServices()
