@@ -22,7 +22,7 @@ export default function RootLayout({
   // suppressHydrationWarning -> suppress next-theme warning
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="h-screen relative">
+      <body className="h-screen relative theme-transition">
         <ThemeProvider>
           <SessionProvider>
             <Topbar />
