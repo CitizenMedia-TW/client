@@ -1,39 +1,40 @@
-"use client";
-import React from "react";
-import Image from "next/image";
-import { useSession } from "next-auth/react";
-import { UserServices } from "@/api/services";
-import { RiFacebookBoxLine } from "react-icons/ri";
-import { FaInstagram } from "react-icons/fa";
-import { FaRegShareSquare } from "react-icons/fa";
+'use client'
+import React from 'react'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { UserServices } from '@/api/services'
+import { RiFacebookBoxLine } from 'react-icons/ri'
+import { FaInstagram } from 'react-icons/fa'
+import { FaRegShareSquare } from 'react-icons/fa'
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import headshot from "@/public/notifications-head.svg";
+import { ScrollArea } from '@/components/ui/scroll-area'
+import headshot from '@/public/notifications-head.svg'
 
 const RECOMMEND_stories = Array.from({ length: 30 }).map((_, i) => ({
   Head: headshot,
-  author: "Cassie Kozyrkov",
-  title: "Why everyone should try GPT-4, even the CEO",
-  tags: ["#TAGSTAGS", "#TAGS", "#TAGS", "#TAGSTAGS", "#TAGS"],
-  date: "Mar. 23, 2023",
-}));
+  author: 'Cassie Kozyrkov',
+  title: 'Why everyone should try GPT-4, even the CEO',
+  tags: ['#TAGSTAGS', '#TAGS', '#TAGS', '#TAGSTAGS', '#TAGS'],
+  date: 'Mar. 23, 2023',
+}))
 export default function Userbar() {
-  const { data: session, status } = useSession();
-  const username = session?.user?.name;
-  const [profile, setProfile] = React.useState([]);
+  const { data: session, status } = useSession()
+  const username = session?.user?.name
+  const [profile, setProfile] = React.useState([])
 
   const userInfo =
-    "Lorem ipsum dolor sit amet consectetur. Orci commodo pharetra vestibulum eleifend semper. Mi risus enim velit nulla quis fermentum feuac. Nisi morbi fermentum feugiat ";
+    'Lorem ipsum dolor sit amet consectetur. Orci commodo pharetra vestibulum eleifend semper. Mi risus enim velit nulla quis fermentum feuac. Nisi morbi fermentum feugiat '
 
   React.useEffect(() => {
     const getProfileLinks = async () => {
+      if (!session?.user.email) return
       const res = await UserServices.getProfileLinks(
-        session?.user.jwtToken as string
-      );
-      setProfile(res.data.profileLinks);
-    };
-    getProfileLinks();
-  }, [status, session?.user.jwtToken]);
+        session?.user.email as string
+      )
+      setProfile(res.data.profileLinks)
+    }
+    getProfileLinks()
+  }, [status, session?.user.email])
 
   return (
     <div>
@@ -51,17 +52,14 @@ export default function Userbar() {
               />
             )}
             <p>User {username}</p>
-            {/* <div>
-            {userInfo}
-          </div> */}
           </div>
           <div className="mx-8 my-6">
             <div className="">{userInfo}</div>
             <div className="flex flex-row my-6 justify-between">
               <div className="flex flex-row gap-4">
-                <RiFacebookBoxLine style={{ fontSize: "28px" }} />
-                <FaInstagram style={{ fontSize: "28px" }} />
-                <FaRegShareSquare style={{ fontSize: "28px" }} />
+                <RiFacebookBoxLine style={{ fontSize: '28px' }} />
+                <FaInstagram style={{ fontSize: '28px' }} />
+                <FaRegShareSquare style={{ fontSize: '28px' }} />
               </div>
               <div className="bg-yellow-400 rounded-3xl">
                 <div className="text-sm my-1 mx-4 font-bold text-slate-600">
@@ -77,8 +75,8 @@ export default function Userbar() {
           </div>
           <ScrollArea className="h-[400px] w-full rounded-md my-6">
             <div className="p-4 gap-4">
-              {RECOMMEND_stories.map((story) => (
-                <>
+              {RECOMMEND_stories.map((story, idx) => (
+                <div key={idx}>
                   <div className="bg-gray-300 rounded-3xl my-4">
                     <div className="flex flex-row">
                       <div className="mx-2 mt-2">
@@ -122,12 +120,12 @@ export default function Userbar() {
                       <div className="h-24 w-4/12 bg-slate-800 flex mx-4 mb-4"></div>
                     </div>
                   </div>
-                </>
+                </div>
               ))}
             </div>
           </ScrollArea>
         </div>
       </div>
     </div>
-  );
+  )
 }
