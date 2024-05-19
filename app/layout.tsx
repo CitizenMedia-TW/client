@@ -22,11 +22,11 @@ export default function RootLayout({
   // suppressHydrationWarning -> suppress next-theme warning
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="h-screen relative">
+      <body className="min-h-screen relative theme-transition">
         <ThemeProvider>
           <SessionProvider>
             <Topbar />
-            <div className="min-h-[calc(100%-80px)]">{children}</div>
+            <main className="min-h-dvh">{children}</main>
             <Footer />
           </SessionProvider>
         </ThemeProvider>

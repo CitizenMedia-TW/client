@@ -70,6 +70,10 @@
     /* Customize */
     --footer: #3d4a5b;
   }
+
+  .theme-transition {
+    transition: 0.5s all cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 @layer base {
@@ -78,5 +82,30 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  .hover-show-underline {
+    position: relative;
+
+    :after {
+      content: '';
+      pointer-events: none;
+      bottom: -1px;
+      left: 0%;
+      position: absolute;
+      width: 0%;
+      height: 1px;
+      background-color: #fff;
+      transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition-duration: 400ms;
+      transition-property: width, left;
+    }
+
+    :hover:after,
+    :focus:after {
+      width: 100%;
+    }
   }
 }
