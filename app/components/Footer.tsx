@@ -1,7 +1,7 @@
-import React from "react";
-import { FiFacebook, FiInstagram, FiHome } from "react-icons/fi";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react'
+import { FiFacebook, FiInstagram, FiHome } from 'react-icons/fi'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const Footer = () => {
   return (
@@ -22,9 +22,9 @@ const Footer = () => {
         >
           <Link
             className="relative block w-full h-full hover:opacity-75 focus:opacity-75 transition-all"
-            href={"/"}
+            href={'/'}
           >
-            <Image src={"/logoFoot.svg"} fill={true} alt="here was a logo:(" />
+            <Image src={'/logoFoot.svg'} fill={true} alt="here was a logo:(" />
           </Link>
         </section>
 
@@ -113,7 +113,7 @@ const Footer = () => {
         </section>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

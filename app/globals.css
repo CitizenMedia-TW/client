@@ -90,7 +90,7 @@
     position: relative;
 
     :after {
-      content: "";
+      content: '';
       pointer-events: none;
       bottom: -1px;
       left: 0%;
