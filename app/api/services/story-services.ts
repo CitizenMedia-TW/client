@@ -60,7 +60,9 @@ class StoryServices {
 
   // Temporarily using get recommended stories as get my stories
   async getMyStories(jwtToken: string) {
-    const res = await this.getRecommended(jwtToken)
+    const res = await axios.get(`${STORY_SERVICE_URL}/mystory`, {
+      headers: { Authorization: jwtToken },
+    })
     if (res.status != 200) return null
     let stories: Story[] = []
     for (let id of res.data.storyIdList) {
@@ -76,7 +78,15 @@ class StoryServices {
   }
 
   async getCarouselStories() {
-    return await this.getMyStories('tmp')
+    const res = await this.getRecommended('tmp')
+    if (res.status != 200) return null
+    let stories: Story[] = []
+    for (let id of res.data.storyIdList) {
+      const singleStory = await this.getStoryById(id)
+      if (singleStory.status == 200)
+        stories.push({ ...singleStory.data.story, id: id })
+    }
+    return stories
   }
 
   async getLatestStories() {

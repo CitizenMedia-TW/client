@@ -10,6 +10,7 @@ export default function Stories({ className }: { className: string }) {
 
   React.useEffect(() => {
     async function fetchData() {
+      if (!session?.user) return
       const res = await StoryServices.getMyStories(
         session?.user.jwtToken as string
       )
