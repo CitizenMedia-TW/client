@@ -1,19 +1,24 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 // import { useSession } from 'next-auth/react'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { Label } from '@/components/ui/label'
 import { Dialog } from '@/components/ui/dialog'
 import type { Session } from 'next-auth'
 import { Skeleton } from '@/components/ui/skeleton'
+// import { type } from './../../../broker-service/src/database/get'
+
+import { Pencil } from 'lucide-react'
+
+type editStatus = 'off' | 'on'
 
 export function AccountUser({ session }: { session: Session | null }) {
-  const [avatar, setAvatar] = React.useState<string>('')
-  const [username, setUsername] = React.useState<string>('')
-  const [editUsername, setEditUsername] = useState<string>('off')
+  const [avatar, setAvatar] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [editUsername, setEditUsername] = useState<editStatus>('off')
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchData() {
       if (!session || !session.user) return
       setAvatar(session.user.avatar as string)
@@ -22,7 +27,12 @@ export function AccountUser({ session }: { session: Session | null }) {
     fetchData()
   }, [session])
 
-  const toggleEditUsername = () => {
+  const handleAvatar = (e: React.MouseEvent) => {
+    e.preventDefault()
+  }
+
+  const toggleEditUsername = (e: React.MouseEvent) => {
+    e.preventDefault()
     setEditUsername((prevEditUsername) =>
       prevEditUsername === 'on' ? 'off' : 'on'
     )
@@ -30,98 +40,63 @@ export function AccountUser({ session }: { session: Session | null }) {
   const text = editUsername === 'on' ? 'Save' : 'Edit'
 
   return (
-    <section className="flex flex-col">
-      <div className="flex">
-        <div className="h-40 min-w-40 w-40 flex flex-col justify-center shrink">
-          {avatar === '' ? (
-            <Skeleton className="rounded-full h-40 w-40" />
-          ) : (
-            <Image
-              unoptimized
-              src={avatar}
-              alt="user image"
-              width={140}
-              height={140}
-            />
-          )}
-        </div>
-        <div className="h-40 flex flex-col justify-end pl-10 w-56 grow">
-          <p className="text-xl font-normal">Username</p>
-          <div className="h-20 flex items-end">
-            <Input
-              disabled={editUsername !== 'on'}
-              type="string"
-              placeholder={username}
-              className="text-5xl font-bold border-b-[#466d9e] border-2 border-x-0 border-t-0 rounded-none h-16 focus-visible:ring-0"
-            />
-          </div>
-          <div className="flex justify-end"></div>
-        </div>
-      </div>
-      <div className="flex justify-between">
-        <Dialog>
-          <div className="flex">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5"
-            >
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
-              <g id="SVGRepo_iconCarrier">
-                {' '}
-                <g id="Edit / Edit_Pencil_Line_01">
-                  {' '}
-                  <path
-                    id="Vector"
-                    d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
-                    stroke="#000000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>{' '}
-                </g>{' '}
-              </g>
-            </svg>
-            <p className="text-sm font-light">Change Photo</p>
-          </div>
-        </Dialog>
-
-        <button onClick={toggleEditUsername} className="flex">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
+    <section className="space-y-4">
+      <div role="grid" className="grid grid-cols-3 gap-8">
+        <div role="gridcell" className="col-span-full xs:col-span-1 space-y-4">
+          <div
+            role="img"
+            className="max-w-40 xs:w-auto relative aspect-square mx-auto"
           >
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {' '}
-              <g id="Edit / Edit_Pencil_Line_01">
-                {' '}
-                <path
-                  id="Vector"
-                  d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>{' '}
-              </g>{' '}
-            </g>
-          </svg>
-          <p className="text-sm font-light">{text} Username</p>
-        </button>
+            {avatar ? (
+              <Image unoptimized src={avatar} alt="user image" fill={true} />
+            ) : (
+              <Skeleton className="w-full h-full" />
+            )}
+          </div>
+          <form title="Change Photo" className="flex justify-center">
+            <Dialog>
+              <Label
+                htmlFor="avatar"
+                className="flex items-center gap-x-1 cursor-pointer hover:opacity-75 focus:opacity-75"
+              >
+                <Pencil className="size-6" />
+                <p className="text-sm font-light">Change Photo</p>
+              </Label>
+
+              <Input type="file" id="avatar" name="avatar" className="hidden" />
+            </Dialog>
+          </form>
+        </div>
+
+        <form
+          role="gridcell"
+          className="col-span-full xs:col-span-2 grid items-end gap-y-2"
+        >
+          <Label
+            htmlFor="username"
+            className="hidden xs:block text-xl font-bold"
+          >
+            Username:
+          </Label>
+          <Input
+            disabled={editUsername !== 'on'}
+            type="text"
+            placeholder={username}
+            id="username"
+            name="username"
+            className="py-2 sm:py-4 md:py-8 text-2xl sm:text-3xl md:text-5xl font-bold border-0 border-b-2 border-b-[#466d9e] rounded-none focus-visible:ring-0"
+          />
+
+          <button
+            type="button"
+            title={`${text} Username`}
+            onClick={toggleEditUsername}
+            className="flex items-center gap-x-1 ml-auto hover:opacity-75 focus:opacity-75"
+          >
+            <Pencil className="size-6" />
+            <p className="text-sm font-light">{text} Username</p>
+          </button>
+        </form>
       </div>
     </section>
   )
