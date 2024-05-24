@@ -1,9 +1,9 @@
-import { IoReload } from 'react-icons/io5'
+import { LoaderCircle } from 'lucide-react'
 
 export function Loading() {
   return (
     <div className="flex flex-row items-center justify-center h-full">
-      <IoReload className="animate-spin mx-1" />
+      <LoaderCircle className="animate-spin mx-1" />
       <p className="text-xl">Loading...</p>
     </div>
   )
