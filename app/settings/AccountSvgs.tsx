@@ -1,13 +1,5 @@
-import {
-  Link,
-  Twitter,
-  Instagram,
-  Facebook,
-  ExternalLink,
-  Pencil,
-  Trash2,
-} from 'lucide-react'
-import { FaLine } from 'react-icons/fa6'
+import { Link, ExternalLink, Pencil, Trash2 } from 'lucide-react'
+import { SiLine, SiX, SiInstagram, SiFacebook } from '@icons-pack/react-simple-icons'
 
 export function AccountSvg({ icon }: { icon: string }) {
   switch (icon) {
@@ -37,19 +29,19 @@ function LinkIcon() {
 }
 
 function LineIcon() {
-  return <FaLine className="w-full h-full" />
+  return <SiLine className="w-full h-full" />
 }
 
 function TwitterIcon() {
-  return <Twitter className="w-full h-full" />
+  return <SiX className="w-full h-full" />
 }
 
 function InstagramIcon() {
-  return <Instagram className="w-full h-full" />
+  return <SiInstagram className="w-full h-full" />
 }
 
 function FacebookIcon() {
-  return <Facebook className="w-full h-full" />
+  return <SiFacebook className="w-full h-full" />
 }
 
 function NewIcon() {
