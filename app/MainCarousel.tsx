@@ -1,43 +1,43 @@
-"use client";
-import React from "react";
-import { useSession } from "next-auth/react";
-import { StoryServices } from "@/api/services";
-import Link from "next/link";
-import { AiOutlineHeart, AiOutlineClockCircle } from "react-icons/ai";
-import { FaRegBookmark } from "react-icons/fa6";
+'use client'
+import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { StoryServices } from '@/api/services'
+import Link from 'next/link'
+import { Clock, Bookmark, Heart } from 'lucide-react'
+
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Story } from "@/api/services/story-services";
-import { toDate } from "@/lib/utils";
+} from '@/components/ui/carousel'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Story } from '@/api/services/story-services'
+import { toDate } from '@/lib/utils'
 
 export default function MainCarousel() {
-  const { data: session } = useSession();
-  const [login, setLogin] = React.useState(false);
-  const [stories, setStories] = React.useState<Story[]>([]);
-  React.useEffect(() => {
-    if (session) setLogin(true);
-    else setLogin(false);
-  }, [session]);
-  React.useEffect(() => {
+  const { data: session } = useSession()
+  const [login, setLogin] = useState(false)
+  const [stories, setStories] = useState<Story[]>([])
+  useEffect(() => {
+    if (session) setLogin(true)
+    else setLogin(false)
+  }, [session])
+  useEffect(() => {
     const getStory = async () => {
-      const data = await StoryServices.getCarouselStories();
-      if (data) setStories(data);
-    };
-    getStory();
-  }, []);
+      const data = await StoryServices.getCarouselStories()
+      if (data) setStories(data)
+    }
+    getStory()
+  }, [])
 
   return (
     <div className="bg-footer py-8 px-3 rounded-md">
@@ -72,12 +72,12 @@ export default function MainCarousel() {
                       </p>
                       <div className="flex flex-row py-3">
                         <div className="w-[87.5%] flex items-center space-x-1">
-                          <AiOutlineClockCircle />
+                          <Clock />
                           <p>{toDate(data.createdAt).toDateString()}</p>
                         </div>
                         <div className="w-[12.5%] flex items-center">
-                          <FaRegBookmark className="text-footer text-2xl" />
-                          <AiOutlineHeart className="text-footer text-3xl" />
+                          <Bookmark className="text-footer text-2xl" />
+                          <Heart className="text-footer text-3xl" />
                         </div>
                       </div>
                     </CardContent>
@@ -90,5 +90,5 @@ export default function MainCarousel() {
         <CarouselNext className="bg-yellow-500 mr-12" />
       </Carousel>
     </div>
-  );
+  )
 }
