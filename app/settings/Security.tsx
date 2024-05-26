@@ -2,6 +2,20 @@
 import React from 'react'
 import { CircleAlert, TriangleAlert } from 'lucide-react'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
 export default function Account() {
   const [password, setPassword] = React.useState<string>('')
   const [newPassword, setNewPassword] = React.useState<string>('')
@@ -31,7 +45,7 @@ export default function Account() {
 
   const deactivateAccount = async () => {
     const userPasswd = 'example'
-    if (password !== userPasswd || userPasswd == undefined) {
+    if (password !== userPasswd || userPasswd === undefined) {
       window.alert('Passwords do not match')
       return
     } else {
@@ -50,221 +64,223 @@ export default function Account() {
   }
 
   return (
-    <div className=" px-4 sm:px-12">
-      <section className="flex flex-col">
-        <section className="">
-          {<p className="text-2xl font-bold">E-Mail</p>}
-          <section className="flex flex-col sm:flex-row place-content-between pl-12 pt-12">
-            <section className="w-80">
-              {<p className="font-normal text-xl sm:pb-0 pb-5">{email}</p>}
-            </section>
-            <button
-              className="bg-transparent border-2 border-slate-400 h-6 w-28 rounded btn-info"
+    <main className="px-4 lg:px-12 space-y-16">
+      <section className="space-y-12">
+        <article className="space-y-8">
+          <h2 className="text-2xl font-bold">E-Mail</h2>
+          <section className="grid grid-cols-1 sm:grid-cols-2 items-center gap-y-4 sm:pl-12">
+            <span className="font-normal text-xl">{email}</span>
+            <Button
+              variant="outline"
+              className="group w-32 ml-auto bg-transparent hover:bg-slate-400 focus:bg-slate-400 border-2 border-slate-400 rounded"
               onClick={() => changeEmail()}
             >
-              <p className="text-slate-500 text-sm">Change email</p>
-            </button>
+              <span className="text-slate-500 dark:text-slate-100 text-sm group-hover:text-white group-focus:text-white">
+                Change email
+              </span>
+            </Button>
           </section>
-        </section>
+        </article>
 
-        <section className="pt-12">
-          {<p className="text-2xl font-bold">Password</p>}
-          <div className="flex flex-col sm:flex-col pl-12 pt-12 gap-y-7">
-            <div className="flex flex-col sm:flex-row">
-              <section className="flex flex-col sm:flex-row">
-                <section className="w-64">
-                  <p className="font-normal text-xl sm:pb-0 pb-5">
-                    Current password
-                  </p>
-                </section>
-                <input
-                  type="password"
-                  placeholder="current password"
-                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </section>
-              <button
-                className="bg-transparent pl-4 sm:pb-0 pb-5"
-                onClick={() => forgetPassword()}
-              ></button>
-              <p className="text-cyan-800 text-xs">Forget password?</p>
-            </div>
-            <div className="flex flex-col sm:flex-row place-content-between">
-              <section className="flex flex-col sm:flex-row">
-                <section className="w-64">
-                  {
-                    <p className="font-normal text-xl sm:pb-0 pb-5">
-                      New password
-                    </p>
-                  }
-                </section>
-                <input
-                  type="password"
-                  placeholder="new password"
-                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </section>
-            </div>
-            <div className="flex flex-col sm:flex-row place-content-between">
-              <section className="flex flex-col sm:flex-row  sm:pb-0 pb-5">
-                <section className="w-64">
-                  {
-                    <p className="font-normal text-xl sm:pb-0 pb-5">
-                      Confirm new password
-                    </p>
-                  }
-                </section>
-                <input
-                  type="password"
-                  placeholder="confirm new password"
-                  className="input input-bordered max-h-6 bg-transparent rounded border-slate-400 border-2"
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                />
-              </section>
-              <button
-                className="bg-slate-400 h-6 w-20 rounded btn-accent"
-                onClick={() => resetPassword()}
+        <article className="space-y-4 lg:space-y-12">
+          <h2 className="text-2xl font-bold">Password</h2>
+          <section className="flex flex-col sm:flex-col sm:pl-12 gap-y-4 lg:gap-y-8">
+            <article className="grid grid-cols-12 items-center gap-4">
+              <Label
+                htmlFor="currentPassword"
+                className="col-span-full sm:col-span-5 lg:col-span-4 font-normal text-xl"
               >
-                <p className="text-white text-sm">Confirm</p>
-              </button>
-            </div>
-          </div>
-        </section>
+                Current password
+              </Label>
+              <Input
+                type="password"
+                id="currentPassword"
+                placeholder="current password"
+                className="col-span-full sm:col-span-7 lg:col-span-5 max-h-8 input input-bordered bg-transparent border-2 border-slate-400 dark:border-white rounded"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                variant="link"
+                className="group col-start-9 sm:col-start-10 lg:col-start-10 col-span-4 sm:col-span-3 lg:col-span-2 self-end sm:ml-auto bg-transparent"
+                onClick={() => forgetPassword()}
+              >
+                <span className="text-cyan-800 dark:text-white text-xs underline group-hover:opacity-75 group-focus:opacity-75">
+                  Forget password?
+                </span>
+              </Button>
+            </article>
+
+            <article className="grid grid-cols-12 items-center gap-4">
+              <Label
+                htmlFor="newPassword"
+                className="col-span-full sm:col-span-5 lg:col-span-4 font-normal text-xl"
+              >
+                New password
+              </Label>
+              <Input
+                type="password"
+                id="newPassword"
+                placeholder="new password"
+                className="col-span-full sm:col-span-7 lg:col-span-5 max-h-8 input input-bordered bg-transparent border-2 border-slate-400 dark:border-white rounded"
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </article>
+
+            <article className="grid grid-cols-12 items-center gap-4">
+              <Label
+                htmlFor="confirmNewPassword"
+                className="col-span-full sm:col-span-5 lg:col-span-4 font-normal text-xl"
+              >
+                Confirm new password
+              </Label>
+              <Input
+                type="password"
+                id="confirmNewPassword"
+                placeholder="confirm new password"
+                className="col-span-full sm:col-span-7 lg:col-span-5 max-h-8 input input-bordered bg-transparent border-2 border-slate-400 dark:border-white rounded"
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+              />
+
+              <Button
+                className="group col-start-9 sm:col-start-10 lg:col-start-11 col-span-4 sm:col-span-3 lg:col-span-2 bg-slate-400 hover:bg-white focus:bg-white border border-slate-400 rounded disabled:opacity-40"
+                onClick={() => resetPassword()}
+                disabled={!password || !newPassword || !confirmNewPassword}
+              >
+                <span className="text-sm text-white group-hover:text-slate-400 group-focus:text-slate-400 ">
+                  Confirm
+                </span>
+              </Button>
+            </article>
+          </section>
+        </article>
       </section>
 
-      <section className="flex flex-col">
-        <hr className="h-1 bg-slate-600 mt-12 mb-7" />
-      </section>
+      <hr className="h-1 bg-slate-600" />
 
-      <section className="flex flex-col">
-        <section className="flex-col">
-          <button
-            className="bg-transparent"
-            onClick={() =>
-              (document.getElementById('deactivateModal')! as any).showModal()
-            }
-          >
-            <p className="font-normal text-xl text-rose-700">
-              Deactivate account
-            </p>
-          </button>
-          <dialog id="deactivateModal" className="modal">
-            <div className="modal-box bg-white w-11/12 max-w-2xl h-96">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-slate-400">
-                  <p className="text-2xl">✕</p>
-                </button>
-              </form>
-              <div className="p-12">
-                <p className="text-2xl text-red-600 flex">
+      <section className="space-y-4">
+        <section>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="destructive"
+                className="text-xl text-red-600 hover:text-white focus:text-white bg-transparent hover:bg-red-500 focus:bg-red-500"
+              >
+                Deactivating your account
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader className="space-y-8">
+                <DialogTitle className="flex gap-x-2 text-red-600 dark:text-red-400">
                   <TriangleAlert className="self-center" />
-                  Deactivating your account
-                </p>
-                <p className="text-lg">
-                  {' '}
+                  <span className="text-xl">Deactivating your account</span>
+                </DialogTitle>
+                <DialogDescription className="text-start">
                   Your account will be removed from this website temporarily.
                   You can sign back in anytime to reactivate your account and
                   restore the content.
-                </p>
-                <p className="">Password:</p>
-                <input
+                </DialogDescription>
+              </DialogHeader>
+
+              <section className="grid gap-4 my-4 items-center">
+                <Label htmlFor="passwordForDeactivate">Password:</Label>
+                <Input
+                  id="passwordForDeactivate"
                   type="password"
-                  placeholder="current password"
-                  className="input input-bordered max-h-10 bg-transparent rounded border-slate-400 border-2"
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="type your password"
                 />
-              </div>
+              </section>
 
-              <button
-                onClick={() => {
-                  deactivateAccount()
-                }}
-                className="btn btn-sm btn-neutral absolute right-16 bottom-10 bg-red-600 rounded-3xl"
-              >
-                <p className="text-lg normal-case text-white font-normal">
-                  Deactivate
-                </p>
-              </button>
-
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-neutral absolute right-48 bottom-10 bg-white border-red-500 rounded-3xl">
-                  <p className="text-lg normal-case text-red-500 font-medium">
+              <DialogFooter>
+                <DialogClose className="mt-4 sm:mt-0" asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="px-6 py-1 border-2 border-red-300 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                  >
                     Cancel
-                  </p>
-                </button>
-              </form>
-            </div>
-          </dialog>
+                  </Button>
+                </DialogClose>
 
-          <p className="font-normal text-sm text-gray-500 pl-12 pt-4">
+                <Button
+                  type="submit"
+                  className="px-6 py-1 bg-red-300 text-black font-bold rounded-xl hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white"
+                  onClick={() => {
+                    deactivateAccount()
+                  }}
+                >
+                  Deactivate
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <p className="font-normal text-sm text-gray-500 dark:text-gray-200 pl-4 sm:pl-12">
             suspend your account until you sign back in
           </p>
         </section>
 
-        <section className="">
-          <button
-            className=""
-            onClick={() =>
-              (document.getElementById('deleteModal')! as any).showModal()
-            }
-          >
-            <p className="font-normal text-xl text-rose-700 pt-7">
-              {' '}
-              Delete account{' '}
-            </p>
-          </button>
-          <dialog id="deleteModal" className="modal">
-            <div className="modal-box bg-white w-11/12 max-w-2xl h-96">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-md btn-circle btn-ghost absolute right-4 top-4 text-slate-400">
-                  <p className="text-2xl">✕</p>
-                </button>
-              </form>
-              <div className="">
-                <p className="text-2xl text-red-600 flex">
-                  <CircleAlert className="self-center" /> Deleting your account
-                </p>
-                <p className="text-lg">
+        <section>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="destructive"
+                className="text-xl text-red-600 hover:text-white focus:text-white bg-transparent hover:bg-red-500 focus:bg-red-500"
+              >
+                Deleting your account
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader className="space-y-8">
+                <DialogTitle className="flex gap-x-2 text-red-600 dark:text-red-400">
+                  <CircleAlert className="self-center" />
+                  <span className="text-xl">Deleting your account</span>
+                </DialogTitle>
+                <DialogDescription className="text-start">
                   Your account will be removed from this website permanently,
                   including your profile, posts and content you saved.
-                </p>
-                <p className="">Password:</p>
-                <input
+                </DialogDescription>
+              </DialogHeader>
+
+              <section className="grid gap-4 my-4 items-center">
+                <Label htmlFor="passwordForDelete">Password:</Label>
+                <Input
+                  id="passwordForDelete"
                   type="password"
-                  placeholder="current password"
-                  className="input input-bordered max-h-10 bg-transparent rounded border-slate-400 border-2"
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="type your password"
                 />
-              </div>
+              </section>
 
-              <button
-                onClick={() => {
-                  deleteAccount()
-                }}
-                className="btn btn-sm btn-neutral absolute right-16 bottom-10 w-24 bg-red-600 rounded-3xl"
-              >
-                <p className="text-lg normal-case text-white font-normal">
-                  Delete
-                </p>
-              </button>
-
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-neutral absolute right-44 bottom-10 bg-white border-red-500 rounded-3xl">
-                  <p className="text-lg normal-case text-red-500 font-medium">
+              <DialogFooter>
+                <DialogClose className="mt-4 sm:mt-0" asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="px-6 py-1 border-2 border-red-300 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                  >
                     Cancel
-                  </p>
-                </button>
-              </form>
-            </div>
-          </dialog>
+                  </Button>
+                </DialogClose>
+
+                <Button
+                  type="submit"
+                  className="px-6 py-1 bg-red-300 text-black font-bold rounded-xl hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white"
+                  onClick={() => {
+                    deleteAccount()
+                  }}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <p className="font-normal text-sm text-gray-500 dark:text-gray-200 pl-4 sm:pl-12">
+            Permanently delete your account and all your content
+          </p>
         </section>
       </section>
-    </div>
+    </main>
   )
 }
