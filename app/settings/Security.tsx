@@ -196,7 +196,7 @@ export default function Account() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="px-6 py-1 border-2 border-red-300 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
                   >
                     Cancel
                   </Button>
@@ -204,7 +204,7 @@ export default function Account() {
 
                 <Button
                   type="submit"
-                  className="px-6 py-1 bg-red-300 text-black font-bold rounded-xl hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white"
+                  className="px-6 py-1 bg-red-500 text-white font-bold rounded-xl hover:bg-red-700 focus:bg-red-700"
                   onClick={() => {
                     deactivateAccount()
                   }}
@@ -257,7 +257,7 @@ export default function Account() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="px-6 py-1 border-2 border-red-300 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
                   >
                     Cancel
                   </Button>
@@ -265,7 +265,7 @@ export default function Account() {
 
                 <Button
                   type="submit"
-                  className="px-6 py-1 bg-red-300 text-black font-bold rounded-xl hover:bg-red-500 focus:bg-red-500 hover:text-white focus:text-white"
+                  className="px-6 py-1 bg-red-500 text-white font-bold rounded-xl hover:bg-red-700 focus:bg-red-700"
                   onClick={() => {
                     deleteAccount()
                   }}
