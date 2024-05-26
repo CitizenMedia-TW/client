@@ -196,7 +196,7 @@ export default function Account() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-transparent focus:bg-transparent hover:opacity-75 focus:opacity-75"
                   >
                     Cancel
                   </Button>
@@ -257,7 +257,7 @@ export default function Account() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-white focus:bg-white hover:opacity-75 focus:opacity-75"
+                    className="px-6 py-1 border-2 border-red-500 rounded-xl hover:bg-transparent focus:bg-transparent hover:opacity-75 focus:opacity-75"
                   >
                     Cancel
                   </Button>
