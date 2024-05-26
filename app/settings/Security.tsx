@@ -1,5 +1,5 @@
 // TODO: implement backend services and darkmode
-import React from 'react'
+import React, { useState } from 'react'
 import { CircleAlert, TriangleAlert } from 'lucide-react'
 
 import {
@@ -17,9 +17,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export default function Account() {
-  const [password, setPassword] = React.useState<string>('')
-  const [newPassword, setNewPassword] = React.useState<string>('')
-  const [confirmNewPassword, setConfirmNewPassword] = React.useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [newPassword, setNewPassword] = useState<string>('')
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
 
   // TODO: implement reset password
 
