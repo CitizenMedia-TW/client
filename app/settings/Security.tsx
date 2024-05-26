@@ -72,10 +72,10 @@ export default function Account() {
             <span className="font-normal text-xl">{email}</span>
             <Button
               variant="outline"
-              className="group w-32 ml-auto bg-transparent hover:bg-slate-400 focus:bg-slate-400 border-2 border-slate-400 rounded"
+              className="group w-32 ml-auto bg-transparent border-2 border-slate-400 rounded"
               onClick={() => changeEmail()}
             >
-              <span className="text-slate-500 dark:text-slate-100 text-sm group-hover:text-white group-focus:text-white">
+              <span className="text-slate-500 dark:text-slate-100 text-sm group-hover:text-slate-700 group-focus:text-slate-700 dark:group-hover:text-white dark:group-focus:text-white">
                 Change email
               </span>
             </Button>
@@ -101,7 +101,7 @@ export default function Account() {
               />
               <Button
                 variant="link"
-                className="group col-start-9 sm:col-start-10 lg:col-start-10 col-span-4 sm:col-span-3 lg:col-span-2 self-end sm:ml-auto bg-transparent"
+                className="group col-start-9 sm:col-start-10 lg:col-start-10 col-span-4 sm:col-span-3 lg:col-span-2 self-end p-0 sm:ml-auto lg:ml-0 bg-transparent"
                 onClick={() => forgetPassword()}
               >
                 <span className="text-cyan-800 dark:text-white text-xs underline group-hover:opacity-75 group-focus:opacity-75">
@@ -142,13 +142,11 @@ export default function Account() {
               />
 
               <Button
-                className="group col-start-9 sm:col-start-10 lg:col-start-11 col-span-4 sm:col-span-3 lg:col-span-2 bg-slate-400 hover:bg-white focus:bg-white border border-slate-400 rounded disabled:opacity-40"
+                className="group col-start-9 sm:col-start-10 lg:col-start-11 col-span-4 sm:col-span-3 lg:col-span-2 bg-secondary hover:bg-secondary/90 focus:bg-secondary/90 border border-secondary rounded disabled:opacity-50"
                 onClick={() => resetPassword()}
                 disabled={!password || !newPassword || !confirmNewPassword}
               >
-                <span className="text-sm text-white group-hover:text-slate-400 group-focus:text-slate-400 ">
-                  Confirm
-                </span>
+                <span className="text-sm text-white">Confirm</span>
               </Button>
             </article>
           </section>
