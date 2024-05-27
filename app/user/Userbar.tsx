@@ -3,9 +3,9 @@ import React from 'react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { UserServices } from '@/api/services'
-import { RiFacebookBoxLine } from 'react-icons/ri'
-import { FaInstagram } from 'react-icons/fa'
-import { FaRegShareSquare } from 'react-icons/fa'
+
+import { SiFacebook, SiInstagram } from '@icons-pack/react-simple-icons'
+import { SquareArrowOutUpRight } from 'lucide-react'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 import headshot from '@/public/notifications-head.svg'
@@ -57,9 +57,9 @@ export default function Userbar() {
             <div className="">{userInfo}</div>
             <div className="flex flex-row my-6 justify-between">
               <div className="flex flex-row gap-4">
-                <RiFacebookBoxLine style={{ fontSize: '28px' }} />
-                <FaInstagram style={{ fontSize: '28px' }} />
-                <FaRegShareSquare style={{ fontSize: '28px' }} />
+                <SiFacebook style={{ fontSize: '28px' }} />
+                <SiInstagram style={{ fontSize: '28px' }} />
+                <SquareArrowOutUpRight style={{ fontSize: '28px' }} />
               </div>
               <div className="bg-yellow-400 rounded-3xl">
                 <div className="text-sm my-1 mx-4 font-bold text-slate-600">

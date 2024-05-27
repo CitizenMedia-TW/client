@@ -1,7 +1,9 @@
 import React from 'react'
-import { FiFacebook, FiInstagram, FiHome } from 'react-icons/fi'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { Home } from 'lucide-react'
+import { SiFacebook, SiInstagram } from '@icons-pack/react-simple-icons'
 
 const Footer = () => {
   return (
@@ -94,21 +96,21 @@ const Footer = () => {
             href="https://facebook.com"
             className="hover:scale-90 hover:opacity-75 focus:scale-90 focus:opacity-75 transition-all"
           >
-            <FiFacebook className="size-8" />
+            <SiFacebook className="size-8" />
           </Link>
           <Link
             title="Instagram"
             href="https://instagram.com"
             className="hover:scale-90 hover:opacity-75 focus:scale-90 focus:opacity-75 transition-all"
           >
-            <FiInstagram className="size-8" />
+            <SiInstagram className="size-8" />
           </Link>
           <Link
             title="Home"
             href="/"
             className="hover:scale-90 hover:opacity-75 focus:scale-90 focus:opacity-75 transition-all"
           >
-            <FiHome className="size-8" />
+            <Home className="size-8" />
           </Link>
         </section>
       </div>

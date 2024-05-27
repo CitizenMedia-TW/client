@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Input } from '@/components/ui/input'
 import { UserServices } from '@/api/services'
@@ -20,10 +20,10 @@ const getLinkType = (str: string): string => {
 
 export default function Account() {
   const { data: session } = useSession()
-  const [links, setLinks] = React.useState([])
-  const [modified, setModified] = React.useState<string>('')
+  const [links, setLinks] = useState([])
+  const [modified, setModified] = useState<string>('')
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getLinks = async () => {
       if (!session) return
       const res = await UserServices.getProfileLinks(
@@ -35,7 +35,7 @@ export default function Account() {
     getLinks()
   }, [session])
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function modify() {
       if (!modified) return
       const resSet = await UserServices.modifyProfileLinks(
@@ -59,35 +59,37 @@ export default function Account() {
   }
 
   return (
-    <section className="flex flex-col md:flex-row gap-x-2 px-4 sm:px-12 md:px-4 lg:px-12">
-      <section className="md:mr-5 flex flex-col md:w-1/2 w-full">
+    <section role="grid" className="grid grid-cols-12 gap-x-5">
+      <section
+        role="gridcell"
+        className="col-span-full xl:col-span-6 flex flex-col gap-y-16"
+      >
         <AccountUser session={session} />
-        <div>
-          <AccountIntro />
-        </div>
+        <AccountIntro />
       </section>
 
       <section
-        className="md:ml-5 flex flex-col gap-y-12 md:w-1/2 pb-3 w-full"
+        role="gridcell"
+        className="col-span-full xl:col-span-6 flex flex-col gap-y-8 pb-3"
         /*color and style of svg icons*/
         /*update link after input*/
         /*dialog of photo not work*/
         /*intro flex*/
       >
-        <p className="text-2xl font-normal">Links:</p>
+        <h2 className="text-2xl font-bold">Links:</h2>
         {links &&
-          links.length != 0 &&
+          links.length !== 0 &&
           links.map(
-            (data, idx) =>
-              data && (
+            (link, idx) =>
+              link && (
                 <LinkField
-                  title={getLinkType(data)}
-                  link={data}
+                  title={getLinkType(link)}
+                  link={link}
                   key={idx}
                   onSaveLink={handleModifyLink}
                   onDeleteLink={handleModifyLink}
                 >
-                  <AccountSvg icon={getLinkType(data)} />
+                  <AccountSvg icon={getLinkType(link)} />
                 </LinkField>
               )
           )}
@@ -119,7 +121,7 @@ function LinkField({
   onSaveLink,
   onDeleteLink,
 }: LinkFieldProps) {
-  const [inputValue, setInputValue] = React.useState(link)
+  const [inputValue, setInputValue] = useState(link)
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
@@ -136,42 +138,56 @@ function LinkField({
       <Input
         type="string"
         placeholder="Add Link"
-        className="bg-[#dfe7f1] border-0 rounded-none w-full h-full focus-visible:ring-0"
+        className="bg-[#dfe7f1] border-0 rounded-none focus-visible:ring-0"
         value={inputValue}
         onChange={handleInputChange}
       />
     ) : (
-      <p className="text-sm font-normal border-b-[#466d9e] pt-5 border-2 border-x-0 border-t-0 rounded-none w-full h-full focus-visible:ring-0">
+      <p className="text-sm font-normal border-b-[#466d9e] pt-5 border-2 border-x-0 border-t-0 rounded-none focus-visible:ring-0">
         {link}
       </p>
     )
 
-  const editbutton =
-    link.trim() != '' ? (
-      <button onClick={handleDeleteLink} className="flex pt-5">
-        <AccountSvg icon="deleteLink" />
-        <p className="text-sm font-light">delete</p>
-      </button>
-    ) : (
-      <button onClick={handleSaveLink} className="flex pt-5">
-        <AccountSvg icon="saveLink" />
-        <p className="text-sm font-light">save</p>
-      </button>
-    )
+  const editButton = (
+    <button
+      role="gridcell button"
+      title={link.trim() ? 'delete' : 'save'}
+      onClick={link.trim() ? handleDeleteLink : handleSaveLink}
+      className="group flex items-end mx-auto md:mx-0 gap-x-1 hover:opacity-75 focus:opacity-75"
+    >
+      <AccountSvg icon={link.trim() ? 'deleteLink' : 'saveLink'} />
+      <p className="hidden md:block text-sm font-light">
+        {link.trim() ? 'delete' : 'save'}
+      </p>
+    </button>
+  )
 
   return (
-    <div className="w-full flex flex-col xl:flex-row gap-y-2">
-      <div className="flex">
-        <div className="w-14">{children}</div>
-        <div className="w-24 flex items-end shrink-0">
-          <p className="text-lg font-normal">{title}</p>
+    <section className="grid grid-cols-12 gap-4 px-2">
+      <article
+        title={`${title[0].toUpperCase()}${title.slice(1)}`}
+        className="col-span-2 md:col-span-3 flex gap-x-4"
+      >
+        <div className="mx-auto md:mx-0 max-w-12 max-h-12 aspect-square">
+          {children}
+        </div>
+        <h1 className="hidden md:block self-end text-lg font-normal first-letter:uppercase">
+          {title}
+        </h1>
+      </article>
+
+      <div
+        role="grid"
+        className="col-span-10 md:col-span-9 grid grid-cols-12 gap-x-4 self-end"
+      >
+        <div role="gridcell" className="col-span-10">
+          {content}
+        </div>
+
+        <div role="gridcell" className="col-span-2 self-end">
+          {editButton}
         </div>
       </div>
-
-      <div className="flex justify-end w-full">
-        <div className="grow max-w-96 shrink">{content}</div>
-        <div className="w-14 min-w-14 shrink-0">{editbutton}</div>
-      </div>
-    </div>
+    </section>
   )
 }

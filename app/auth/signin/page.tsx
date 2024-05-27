@@ -2,9 +2,9 @@
 import React, { useState } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { ImFacebook2 } from 'react-icons/im'
-import { FcGoogle } from 'react-icons/fc'
 import Block from '../Block'
+
+import { SiFacebook, SiGoogle } from '@icons-pack/react-simple-icons'
 
 async function credentials(data: { email: string; password: string }) {
   const result = await signIn('credentials', {
@@ -41,7 +41,7 @@ export default function Home() {
               className="relative left-1/2 md:top-[30%] -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 inline-flex items-center"
               onClick={() => google()}
             >
-              <FcGoogle size={26} />
+              <SiGoogle size={26} className="text-2xl" />
               Sign in with Google
             </button>
             <button
@@ -49,7 +49,7 @@ export default function Home() {
               className="relative left-1/2 md:top-[35%] -translate-x-1/2 h-14 rounded-xl border-2 border-[#0F3E7A] bg-[#0F3E7A] shrink-0 justify-center text-[#FFFFFF] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 inline-flex items-center"
               onClick={() => google()}
             >
-              <ImFacebook2 size={26} color="#FFFFFF" />
+              <SiFacebook className="text-2xl text-white" />
               Continue with Facebook
             </button>
           </div>
