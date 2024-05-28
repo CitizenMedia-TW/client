@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
-import { useTags } from './LatestNews'
+import { useTagsContext } from '@/context/TagsContext'
 
 export default function Page({ className }: { className: string }) {
-  const { tags, setTags } = useTags()
+  const { tags, setTags } = useTagsContext()
 
   return (
     <main className={className}>

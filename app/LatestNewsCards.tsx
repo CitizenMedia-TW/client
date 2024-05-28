@@ -1,23 +1,26 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { StoryServices } from '@/api/services'
 import Link from 'next/link'
-import { useTags } from './LatestNews'
 import Image from 'next/image'
 import { StoryPreview } from '@/api/services/story-services'
 
-export default function Page({ className }: { className: string }) {
-  const { data: session } = useSession()
-  const [login, setLogin] = React.useState(false)
-  const [stories, setStories] = React.useState<StoryPreview[]>([])
+import { useTagsContext } from '@/context/TagsContext'
 
-  React.useEffect(() => {
+export default function Page({ className }: { className: string }) {
+  const { tags, setTags } = useTagsContext()
+
+  const { data: session } = useSession()
+  const [login, setLogin] = useState(false)
+  const [stories, setStories] = useState<StoryPreview[]>([])
+
+  useEffect(() => {
     if (session) setLogin(true)
     else setLogin(false)
   }, [session])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getStory = async () => {
       const data = await StoryServices.getLatestStories()
       if (data) setStories(data)
@@ -26,8 +29,7 @@ export default function Page({ className }: { className: string }) {
     getStory()
   }, [])
 
-  // const { tags } = useTags()
-  // console.log(tags)
+  console.log(`tags ${tags}`)
 
   // TODO: Replace with real story's data
   return (
