@@ -1,19 +1,30 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { StoryServices } from '@/api/services'
+
+import useSWR from 'swr'
+import { fetcher } from '@/utils/fetcher'
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { StoryPreview } from '@/api/services/story-services'
+
+import { StoryPreview } from '@/types/stories'
 
 import { useTagsContext } from '@/context/TagsContext'
 
+type swrProps = { data: StoryPreview[]; error: unknown; isLoading: boolean }
+
 export default function Page({ className }: { className: string }) {
+  const {
+    data: stories,
+    error,
+    isLoading,
+  }: swrProps = useSWR('/api/stories/latest', fetcher)
+
   const { tags, setTags } = useTagsContext()
 
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
-  const [stories, setStories] = useState<StoryPreview[]>([])
 
   useEffect(() => {
     if (session) setLogin(true)
@@ -21,15 +32,14 @@ export default function Page({ className }: { className: string }) {
   }, [session])
 
   useEffect(() => {
-    const getStory = async () => {
-      const data = await StoryServices.getLatestStories()
-      if (data) setStories(data)
-      console.log(data)
+    if (Array.isArray(stories)) {
+      for (const story of stories) {
+        setTags((prev) => {
+          return [...prev, ...story.tags]
+        })
+      }
     }
-    getStory()
-  }, [])
-
-  console.log(`tags ${tags}`)
+  }, [stories])
 
   // TODO: Replace with real story's data
   return (
