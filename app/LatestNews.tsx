@@ -8,9 +8,9 @@ import { TagsProvider } from '@/context/TagsContext'
 export default function Page() {
   return (
     <TagsProvider>
-      <main className="flex flex-col md:flex-row w-full">
-        <LatestNewsCards className="w-full md:w-[50%] h-[50%] p-2" />
-        <LatestNewsTags className="w-full md:w-[50%] p-2" />
+      <main className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:col-rows-1">
+        <LatestNewsCards className="row-start-2 md:row-start-1 p-2" />
+        <LatestNewsTags className="row-start-1 p-2" />
       </main>
     </TagsProvider>
   )
