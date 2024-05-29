@@ -10,9 +10,9 @@ export default function Page() {
   return (
     <ChosenTagsProvider>
       <TagsProvider>
-        <main className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:col-rows-1">
-          <LatestNewsCards className="row-start-2 md:row-start-1 p-2" />
-          <LatestNewsTags className="row-start-1 p-2" />
+        <main className="flex flex-col-reverse md:flex-row gap-4">
+          <LatestNewsCards className="w-full md:w-1/2 p-4" />
+          <LatestNewsTags className="w-full md:w-1/2 p-4 space-y-8 border-x-2 border-slate-200" />
         </main>
       </TagsProvider>
     </ChosenTagsProvider>
