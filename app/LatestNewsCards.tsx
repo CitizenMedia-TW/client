@@ -39,6 +39,11 @@ export default function Page({ className }: { className: string }) {
         })
       }
     }
+
+    // unmount to prevent refetch tags
+    return () => {
+      setTags([])
+    }
   }, [stories])
 
   // TODO: Replace with real story's data
