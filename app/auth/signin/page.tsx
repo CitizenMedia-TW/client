@@ -1,7 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useSession, signIn } from 'next-auth/react'
+
 import Block from '../Block'
 
 import { SiFacebook, SiGoogle } from '@icons-pack/react-simple-icons'
@@ -10,7 +12,7 @@ async function credentials(data: { email: string; password: string }) {
   const result = await signIn('credentials', {
     email: data.email,
     password: data.password,
-    redirect: false,
+    callbackUrl: '/',
   })
   if (result?.error) {
     console.log(result.error)
@@ -19,16 +21,18 @@ async function credentials(data: { email: string; password: string }) {
 }
 
 async function google() {
-  await signIn('google', { redirect: true })
+  await signIn('google', { callbackUrl: '/' })
 }
 
 export default function Home() {
   const [cred, setCred] = useState({ email: '', password: '' })
 
   /* Redirect to homepage if user is logged in */
-  const { data: session } = useSession()
-  if (session) {
-    return window.location.replace('/')
+  const { status } = useSession()
+  const router = useRouter()
+
+  if (status === 'authenticated') {
+    router.push('/')
   }
 
   return (
