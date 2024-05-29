@@ -1,36 +1,29 @@
-import GoogleProvider from 'next-auth/providers/google'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import NextAuth, { User, NextAuthConfig } from 'next-auth'
+
+import Google from 'next-auth/providers/google'
+import Credentials from 'next-auth/providers/credentials'
 import axios from 'axios'
 
-import type { NextAuthOptions } from 'next-auth'
-import type { User } from 'next-auth'
-
-/*
- * type User = {
- * name: string,
- * email: string,
- * avatar: string,
- * id: string,
- * jwtToken: string,
- * }
- */
-
+const { NEXTAUTH_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env
 const API_URL = process.env.API_URL ?? 'http://localhost:8080'
 
-export const options: NextAuthOptions = {
+const authOptions: NextAuthConfig = {
+  secret: NEXTAUTH_SECRET,
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    Google({
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
     }),
-    CredentialsProvider({
+    Credentials({
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
-        return { email: credentials?.email, password: credentials?.password }
+      async authorize(credentials): Promise<User | null> {
+        return {
+          email: credentials?.email as string,
+        }
       },
     }),
   ],
@@ -42,7 +35,7 @@ export const options: NextAuthOptions = {
           .catch((err) => {
             console.log(err)
           })
-        if (res && res.status == 200) {
+        if (res && res.status === 200) {
           account.user = res.data as User
           return true
         } else return false
@@ -55,7 +48,7 @@ export const options: NextAuthOptions = {
           .catch((err) => {
             console.log(err)
           })
-        if (res && res.status == 200) {
+        if (res && res.status === 200) {
           account.user = res.data as User
           return true
         } else return false
@@ -75,3 +68,5 @@ export const options: NextAuthOptions = {
     signIn: '/auth/signin',
   },
 }
+
+export const { auth, handlers, signIn, signOut } = NextAuth(authOptions)
