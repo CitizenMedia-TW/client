@@ -11,8 +11,28 @@ import Image from 'next/image'
 import { StoryPreview } from '@/types/stories'
 
 import { useTagsContext } from '@/context/TagsContext'
+import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 type swrProps = { data: StoryPreview[]; error: unknown; isLoading: boolean }
+
+// const stories = [
+//   {
+//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
+//     author: 'dev',
+//     title: 'First Story',
+//     subTitle: 'First story from dev',
+//     createdAt: 1716875096,
+//     tags: ['tag-1', 'tag-2', 'tag-3'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
+//     author: 'dev 2',
+//     title: 'Second Story',
+//     subTitle: 'Second story from dev 2',
+//     createdAt: 1716875096,
+//     tags: ['tag-2', 'tag-4', 'tag-5'],
+//   },
+// ]
 
 export default function Page({ className }: { className: string }) {
   const {
@@ -21,10 +41,12 @@ export default function Page({ className }: { className: string }) {
     isLoading,
   }: swrProps = useSWR('/api/stories/latest', fetcher)
 
-  const { tags, setTags } = useTagsContext()
+  const { setTags } = useTagsContext()
+  const { chosenTags } = useChosenTagsContext()
 
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
+  const [selectedStories, setSelectedStories] = useState<StoryPreview[]>([])
 
   useEffect(() => {
     if (session) setLogin(true)
@@ -32,12 +54,38 @@ export default function Page({ className }: { className: string }) {
   }, [session])
 
   useEffect(() => {
-    if (Array.isArray(stories)) {
-      for (const story of stories) {
-        setTags((prev) => {
-          return [...prev, ...story.tags]
-        })
+    setSelectedStories(() => {
+      if (!stories) {
+        return []
       }
+
+      if (chosenTags.length === 0) {
+        return stories
+      }
+
+      const newSelectedStories = []
+      for (const story of stories) {
+        const { tags } = story
+
+        const selectedByTags = tags.some((tag) => chosenTags.includes(tag))
+        if (selectedByTags) {
+          newSelectedStories.push(story)
+        }
+      }
+
+      return newSelectedStories
+    })
+  }, [stories, chosenTags])
+
+  useEffect(() => {
+    if (stories) {
+      const newTags = new Set<string>()
+
+      for (const story of stories) {
+        story.tags.forEach((tag) => newTags.add(tag))
+      }
+
+      setTags(Array.from(newTags))
     }
 
     // unmount to prevent refetch tags
@@ -50,10 +98,12 @@ export default function Page({ className }: { className: string }) {
   return (
     <main className={className}>
       <div className="carousel carousel-vertical flex w-full max-h-[calc(90%)]">
-        {stories &&
-          stories.map((data) => (
+        {selectedStories?.map((story) => {
+          const { id, title, author, tags, createdAt } = story
+
+          return (
             <div
-              key={`${data.id}`}
+              key={`${id}`}
               className="carousel-item mb-3 bg-white bg-opacity-50 rounded-md flex w-full h-[204px] justify-between"
             >
               <div className="flex flex-col">
@@ -66,16 +116,20 @@ export default function Page({ className }: { className: string }) {
                     height={30}
                     className="rounded-full w-8 h-8 border-solid border-black"
                   />
-                  <p className="font-medium text-back">{data.author}</p>
+                  <p className="font-medium text-back">{author}</p>
                 </div>
                 <div className="mt-2 h-24">
-                  <Link href="/stories/[id]" as={`/stories/${data.id}`}>
-                    <h1 className="text-base font-bold">{data.title}</h1>
+                  <Link href="/stories/[id]" as={`/stories/${id}`}>
+                    <h1 className="text-base font-bold">{title}</h1>
                   </Link>
                 </div>
-
+                <ul className="flex gap-4">
+                  {tags.map((tag) => {
+                    return <li key={`${tag}-${id}`}>{tag}</li>
+                  })}
+                </ul>
                 <div className="flex flex-row m-1 gap-1">
-                  {/* <p className="text-xs text-black"> {new Date(data.createdAt).toLocaleDateString()} </p> */}
+                  {/* <p className="text-xs text-black"> {new Date(createdAt).toLocaleDateString()} </p> */}
                 </div>
               </div>
 
@@ -91,7 +145,8 @@ export default function Page({ className }: { className: string }) {
                 />
               </div>
             </div>
-          ))}
+          )
+        })}
       </div>
     </main>
   )
