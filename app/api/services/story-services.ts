@@ -95,15 +95,22 @@ class StoryServices {
   }
 
   async addComment(jwtToken: string, newComment: string, storyId: string){
-    const tmp = await axios.post(`${STORY_SERVICE_URL}/comment`, {
-      params: { comment: newComment, commentedStoryId: storyId },
-      headers: { Authorization: jwtToken }
-    })
+    const tmp = await axios.post(
+      `${STORY_SERVICE_URL}/comment`,
+      {
+        comment: newComment, commentedStoryId: storyId,
+      },
+      {
+        headers: { Authorization: jwtToken },
+      }
+      )
+    
   }
 
-  async deletComment(jwtToken: string, deletedCommentId: string){
+  async deleteComment(jwtToken: string, deletedCommentId: string){
+    console.log("in storyservices: ", deletedCommentId, jwtToken)
     const tmp = await axios.delete(`${STORY_SERVICE_URL}/comment`, {
-      params: { commentId: deletedCommentId},
+      data: { commentId: deletedCommentId},
       headers: { Authorization: jwtToken }
     })
   }

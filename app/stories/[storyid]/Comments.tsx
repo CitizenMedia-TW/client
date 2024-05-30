@@ -1,112 +1,193 @@
-import React from "react";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
+import React from 'react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import {
   FaRegThumbsUp,
   FaThumbsUp,
   FaRegThumbsDown,
   FaThumbsDown,
-} from "react-icons/fa";
-import { FaRegStar } from "react-icons/fa";
-import { BiComment } from "react-icons/bi";
-import { CiStar } from "react-icons/ci";
-import { Input } from "@/components/ui/input";
+  FaRegStar,
+} from 'react-icons/fa'
+import { Trash2 } from 'lucide-react'
+import { BiComment } from 'react-icons/bi'
+import { CiStar } from 'react-icons/ci'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
+import headshot from '@/public/notifications-head.svg'
+import { StoryServices, UserServices } from '@/api/services'
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import headshot from "@/public/notifications-head.svg";
-
-const comments_quantity = 20;
-const example_text =
-  "Lorem ipsum dolor sit amet consectetur. Netus ut accumsan fames morbi consectetur adipiscing sem turpis dictumst vulputate. Semper mattis mattis pulvinar sed dolor eu.";
-
-const comments = Array.from({ length: comments_quantity }).map((_, i) => ({
+const comments_quantity = 20
+interface time {
+  seconds: number
+  nanos: number
+}
+interface Comment {
+  id: string
+  content: string
+  commenter: string
+  commenterId: string
+}
+interface Story {
+  id: string
+  author: string
+  authorId: string
+  content: string
+  comments: Comment[]
+  title: string
+  subTitle: string
+  createdAt: time
+  tags: string[]
+}
+interface FrontendComment {
+  id: string
+  Head: any
+  Text: string
+  Start: boolean
+  Like: boolean
+  Dislike: boolean
+  Comments: boolean
+  commenterId: string
+}
+const exampleText: string =
+  'Lorem ipsum dolor sit amet consectetur. Netus ut accumsan fames morbi consectetur adipiscing sem turpis dictumst vulputate. Semper mattis mattis pulvinar sed dolor eu.'
+const example_comments: FrontendComment = {
+  id: 'tmp',
   Head: headshot,
-  Text: example_text,
+  Text: exampleText,
   Start: true,
   Like: false,
   Dislike: false,
   Comments: false,
-}));
+  commenterId: 'tmpPerson',
+}
+const mapStoryToClass = (data: Story) => {
+  return data.comments.map((comment) => {
+    const newComment: FrontendComment = { ...example_comments }
+    newComment.Text = comment.content
+    newComment.id = comment.id
+    newComment.commenterId = comment.commenterId
+    return newComment
+  })
+}
 
 export default function Comments({
   isShow,
   setShow,
+  storyId,
 }: {
-  isShow: string;
-  setShow: Function;
+  isShow: string
+  setShow: Function
+  storyId: string
 }) {
-  const handleClick_close = () => {
-    if (isShow == "hidden") {
-      setShow("");
+  const { data: session } = useSession()
+  const handleClickClose = () => {
+    if (isShow == 'hidden') {
+      setShow('')
     } else {
-      setShow("hidden");
+      setShow('hidden')
     }
-  };
+  }
+  const [inputValue, setInputValue] = useState('')
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
+  }
 
-  const { data: session } = useSession();
+  const [comments, setComments] = useState<FrontendComment[]>([
+    example_comments,
+  ])
 
-  const [data, setData] = useState(comments);
-  const handleClick = (index: number, status: string) => {
-    const comments = [...data];
-    if (status == "Like") {
+  const [refresh, setRefresh] = useState(0)
+  React.useEffect(() => {
+    setRefresh(0)
+    async function fetchData() {
+      const res = await StoryServices.getStoryById(storyId)
+      if (res && res.status === 200) {
+        let story_res = res.data.story
+        console.log('getStoryById', story_res)
+        let _comment = mapStoryToClass(story_res)
+
+        setComments(_comment)
+      }
+    }
+    fetchData()
+  }, [session, refresh])
+  const [added, setAdded] = useState<string>('')
+  React.useEffect(() => {
+    async function modify() {
+      if (!added) return
+      console.log(session?.user as string)
+      const resSet = await StoryServices.addComment(
+        session?.user.jwtToken as string,
+        added,
+        storyId
+      )
+
+      setAdded('') // reset modified state
+      setInputValue('')
+      setRefresh(1)
+    }
+    modify()
+  }, [added])
+  const [deleted, setDeleted] = useState<string>('')
+  //comment.commenterId == session?.user.email
+  React.useEffect(() => {
+    async function deleteComment() {
+      if (deleted == '') return
+      const res = await StoryServices.getStoryById(storyId)
+      const resSet = await StoryServices.deleteComment(
+        session?.user.jwtToken as string,
+        deleted
+      )
+      setDeleted('') // reset modified state
+      setRefresh(1)
+    }
+    deleteComment()
+  }, [deleted])
+
+  const handleClickLike = (index: number, status: string) => {
+    const comment = [...comments]
+    if (status == 'Like') {
       if (comments[index].Like) {
-        comments[index].Like = false;
+        comments[index].Like = false
       } else {
-        comments[index].Like = true;
-        comments[index].Dislike = false;
+        comments[index].Like = true
+        comments[index].Dislike = false
       }
-    } else if (status == "Dislike") {
+    } else if (status == 'Dislike') {
       if (comments[index].Dislike) {
-        comments[index].Dislike = false;
+        comments[index].Dislike = false
       } else {
-        comments[index].Dislike = true;
-        comments[index].Like = false;
+        comments[index].Dislike = true
+        comments[index].Like = false
       }
     }
-    setData(comments);
-  };
-
+    setComments(comments)
+  }
+  const onSaveComment = () => {
+    setAdded(inputValue)
+    setInputValue('')
+  }
+  const handleDelete = (id: string, commenterId: string) => {
+    console.log('id:', id, 'commenterId:', commenterId)
+    if (commenterId == session?.user.email) {
+      setDeleted(id)
+    }
+  }
   const stars = Array.from({ length: 10 }, (_, index) => (
     <div key={index} className="flex flex-row">
       <CiStar />
     </div>
-  ));
+  ))
 
   return (
-    // <Drawer direction="bottom">
-    //   <DrawerTrigger asChild>
-    //     <Button className="border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200">
-    //       Show more
-    //     </Button>
-    //   </DrawerTrigger>
-    //   <DrawerContent className="w-80 fixed right-12 h-5/6 bottom-12 z-50 flex flex-col">
     <div className="w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200">
-      {/* <DrawerHeader className="flex flex-row h-1/12 items-end">
-        <DrawerClose asChild>
-          <div className="h-[10%] w-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M12 4L4 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M4 4L12 12" stroke="#133157" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-        </DrawerClose>
-      </DrawerHeader> */}
       <div className="h-[7%] w-full">
         <div
           className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2"
-          onClick={handleClick_close}
+          onClick={handleClickClose}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,24 +223,33 @@ export default function Comments({
                 </div>
                 <div className="w-5/6 flex flex-col">
                   <div className="w-full text-xs">{comment.Text}</div>
-                  <div className="w-full flex flex-row gap-2 mt-1">
-                    <div className="hover:-translate-y-0.5">
+                  <div className="w-full flex flex-row gap-1 mt-1">
+                    <div className="hover:-translate-y-0.5 pr-1">
                       <FaRegStar />
                     </div>
                     <div
-                      onClick={() => handleClick(index, "Like")}
-                      className="hover:-translate-y-0.5"
+                      onClick={() => handleClickLike(index, 'Like')}
+                      className="hover:-translate-y-0.5 pr-1"
                     >
                       {comment.Like ? <FaThumbsUp /> : <FaRegThumbsUp />}
                     </div>
                     <div
-                      onClick={() => handleClick(index, "Dislike")}
-                      className="hover:-translate-y-0.5"
+                      onClick={() => handleClickLike(index, 'Dislike')}
+                      className="hover:-translate-y-0.5 pr-1"
                     >
                       {comment.Dislike ? <FaThumbsDown /> : <FaRegThumbsDown />}
                     </div>
                     <div className="hover:-translate-y-0.5">
                       <BiComment />
+                    </div>
+
+                    <div
+                      onClick={() =>
+                        handleDelete(comment.id, comment.commenterId)
+                      }
+                      className="hover:-translate-y-0.5"
+                    >
+                      <Trash2 className="w-4 h-4" />
                     </div>
                   </div>
                 </div>
@@ -169,14 +259,14 @@ export default function Comments({
           ))}
         </ScrollArea>
         <div className="flex flex-row">
-          <div className="w-2/12 content-center mt-3">
+          <div className="w-2/12 mt-3 pt-2">
             <Image
               unoptimized
               src={session?.user?.avatar as string}
               alt="here was a logo:("
               width={30}
               height={30}
-              className="rounded-full w-8 h-8 m-1 content-center"
+              className="rounded-full w-8 h-8 m-1"
             />
           </div>
           <div className="flex flex-col m-2 gap-1">
@@ -187,10 +277,13 @@ export default function Comments({
               <Input
                 placeholder="comment"
                 className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200"
+                value={inputValue}
+                onChange={handleInputChange}
               />
               <Button
                 type="submit"
                 className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700"
+                onClick={onSaveComment}
               >
                 Submit
               </Button>
@@ -198,32 +291,6 @@ export default function Comments({
           </div>
         </div>
       </div>
-      {/* <DrawerFooter>
-        <div className="flex flex-row">
-          <div className="w-2/12 h-full content-center mt-3">
-            <Image
-              unoptimized
-              src={session?.user?.avatar as string}
-              alt="here was a logo:("
-              width={30}
-              height={30}
-              className="rounded-full w-8 h-8 m-1 content-center"
-            />
-          </div>
-          <div className="flex flex-col m-2 gap-1">
-            <div className="flex flex-row">
-              <>{stars}</>
-            </div>
-            <div className="w-full flex flex-row gap-1">
-              <Input placeholder="comment" className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200" />
-              <Button type="submit" className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700">Submit</Button>
-            </div>
-          </div>
-        </div>
-
-      </DrawerFooter> */}
     </div>
-    //   </DrawerContent>
-    // </Drawer>
-  );
+  )
 }
