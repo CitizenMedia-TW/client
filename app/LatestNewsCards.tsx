@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
 import useSWR from 'swr'
-import { fetcher } from '@/utils/fetcher'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -12,8 +11,6 @@ import { StoryPreview } from '@/types/stories'
 
 import { useTagsContext } from '@/context/TagsContext'
 import { useChosenTagsContext } from '@/context/ChosenTagsContext'
-
-type swrProps = { data: StoryPreview[]; error: unknown; isLoading: boolean }
 
 // const stories = [
 //   {
@@ -34,12 +31,17 @@ type swrProps = { data: StoryPreview[]; error: unknown; isLoading: boolean }
 //   },
 // ]
 
+import { StoryServices } from '@/api/services'
+
 export default function Page({ className }: { className: string }) {
   const {
     data: stories,
     error,
     isLoading,
-  }: swrProps = useSWR('/api/stories/latest', fetcher)
+  } = useSWR('getLatestStories', async () => {
+    const stories = await StoryServices.getLatestStories()
+    return stories
+  })
 
   const { setTags } = useTagsContext()
   const { chosenTags } = useChosenTagsContext()
