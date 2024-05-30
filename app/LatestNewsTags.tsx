@@ -28,7 +28,7 @@ export default function Page({ className }: { className: string }) {
   return (
     <section className={className}>
       <h2 className="text-lg font-bold">Recommended Topic</h2>
-      <ul className="flex gap-4">
+      <ul className="flex gap-4 flex-wrap">
         {tags.map((tag, index) => {
           const selected = chosenTags.includes(tag)
 
@@ -50,6 +50,8 @@ export default function Page({ className }: { className: string }) {
           )
         })}
       </ul>
+
+      <hr />
     </section>
   )
 }
