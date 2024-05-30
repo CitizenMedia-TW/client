@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 import { StoryPreview } from '@/types/stories'
 
-import { useTagsContext } from '@/context/TagsContext'
+import { useTagsContext, initTags } from '@/context/TagsContext'
 import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 // const stories = [
@@ -87,12 +87,14 @@ export default function Page({ className }: { className: string }) {
         story.tags.forEach((tag) => newTags.add(tag))
       }
 
-      setTags(Array.from(newTags))
+      setTags((prev) => {
+        return [...prev, ...Array.from(newTags)]
+      })
     }
 
     // unmount to prevent refetch tags
     return () => {
-      setTags([])
+      setTags(initTags)
     }
   }, [stories])
 

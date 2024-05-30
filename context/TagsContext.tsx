@@ -9,8 +9,10 @@ type TagsContext = {
 
 const TagsContext = createContext<TagsContext | null>(null)
 
+export const initTags: string[] = ['AI']
+
 export function TagsProvider({ children }: { children: React.ReactNode }) {
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(initTags)
 
   return (
     <TagsContext.Provider value={{ tags, setTags }}>
