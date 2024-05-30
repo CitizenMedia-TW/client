@@ -21,50 +21,83 @@ const authOptions: NextAuthConfig = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials): Promise<User | null> {
-        return {
-          email: credentials?.email as string,
+        try {
+          const { data: user } = await axios.post(
+            API_URL + '/auth/credentials',
+            {
+              email: credentials?.email,
+              password: credentials?.password,
+            }
+          )
+
+          const { name, email, avatar, jwtToken } = user
+
+          // transfer user data to jwt()
+          // how to call: user
+          return {
+            name,
+            email,
+            avatar,
+            jwtToken,
+          }
+        } catch (error) {
+          console.log(error)
+          return null
         }
       },
     }),
   ],
   callbacks: {
-    async signIn({ account, credentials }) {
-      if (account && account.provider === 'google') {
-        const res = await axios
-          .post(API_URL + '/auth/google', { id_token: account.id_token })
-          .catch((err) => {
-            console.log(err)
+    // first
+    async signIn({ account }) {
+      if (account?.provider === 'google') {
+        try {
+          const { data: user } = await axios.post(API_URL + '/auth/google', {
+            id_token: account.id_token,
           })
-        if (res && res.status === 200) {
-          account.user = res.data as User
-          return true
-        } else return false
-      } else if (account && account.provider === 'credentials') {
-        const res = await axios
-          .post(API_URL + '/auth/credentials', {
-            email: credentials?.email,
-            password: credentials?.password,
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-        if (res && res.status === 200) {
-          account.user = res.data as User
-          return true
-        } else return false
+
+          // transfer user data to jwt()
+          // how to call: account.user
+          account.user = user as User
+        } catch (error) {
+          console.log(error)
+          return false
+        }
       }
-      return false
+
+      return true
     },
-    async session({ session, token }) {
-      session.user = token.user as User
-      return session
-    },
-    async jwt({ token, account }) {
-      if (account) token.user = account.user as User
+    // second
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token.id = user.id
+      }
+
+      if (account) {
+        if (account.provider === 'credentials') {
+          // transfer jwt token and avatar to session()
+          token.picture = user.avatar
+          token.jwtToken = user.jwtToken
+        } else if (account.provider === 'google') {
+          // transfer jwt token and access token to session()
+          token.jwtToken = account.user.jwtToken
+          token.accessToken = account.access_token
+        }
+      }
+
       return token
+    },
+    // third
+    async session({ session, token, user }) {
+      session.user.id = token.id as string
+      session.user.avatar = token.picture as string
+      session.user.jwtToken = token.jwtToken as string
+      session.accessToken = token.accessToken as string
+      return session
     },
   },
   pages: {
+    error: '/',
     signIn: '/auth/signin',
   },
 }
