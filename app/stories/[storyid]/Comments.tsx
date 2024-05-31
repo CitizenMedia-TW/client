@@ -18,6 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import headshot from '@/public/notifications-head.svg'
 import { StoryServices, UserServices } from '@/api/services'
+import { cn } from '@/lib/utils'
 
 const comments_quantity = 20
 interface time {
@@ -77,10 +78,12 @@ export default function Comments({
   isShow,
   setShow,
   storyId,
+  className,
 }: {
   isShow: string
   setShow: Function
   storyId: string
+  className?: string
 }) {
   const { data: session } = useSession()
   const handleClickClose = () => {
@@ -183,7 +186,7 @@ export default function Comments({
   ))
 
   return (
-    <div className="w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200">
+    <div className={cn("w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200", className)}>
       <div className="h-[7%] w-full">
         <div
           className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2"

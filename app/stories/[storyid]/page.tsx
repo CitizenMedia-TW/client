@@ -145,9 +145,8 @@ export default function Page({ params }: { params: { storyid: string } }) {
           </section>
         </section>
       </div>
-      <div className={`fixed bottom-6 -right-[720px] ${isShow}`}>
-        <Comments isShow={isShow} setShow={setShow} storyId={params.storyid} />
-      </div>
+      {/* <div className={`fixed bottom-6 w- right-0 ${isShow}`}> */}
+      <Comments isShow={isShow} setShow={setShow} storyId={params.storyid} className={`fixed bottom-6 w-[300px] right-10 ${isShow}`}/>
     </div>
   )
 }
