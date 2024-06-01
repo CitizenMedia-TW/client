@@ -10,9 +10,9 @@ export default function Page() {
   return (
     <ChosenTagsProvider>
       <TagsProvider>
-        <main className="flex flex-col-reverse md:flex-row gap-4">
+        <main className="relative flex flex-col-reverse md:flex-row gap-4">
           <LatestNewsCards className="w-full md:w-1/2 p-4" />
-          <LatestNewsTags className="w-full md:w-1/2 p-4 space-y-8 border-x-2 border-slate-200" />
+          <LatestNewsTags className="sticky top-[4.75rem] h-fit w-full md:w-1/2 px-4 lg:p-4 space-y-8 md:border-x-2 border-slate-200 bg-white shadow-xl md:shadow-none" />
         </main>
       </TagsProvider>
     </ChosenTagsProvider>
