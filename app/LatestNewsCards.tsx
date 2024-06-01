@@ -12,36 +12,48 @@ import { StoryPreview } from '@/types/stories'
 import { useTagsContext, initTags } from '@/context/TagsContext'
 import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
-// const stories = [
-//   {
-//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
-//     author: 'dev',
-//     title: 'First Story',
-//     subTitle: 'First story from dev',
-//     createdAt: 1716875096,
-//     tags: ['tag-1', 'tag-2', 'tag-3'],
-//   },
-//   {
-//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
-//     author: 'dev 2',
-//     title: 'Second Story',
-//     subTitle: 'Second story from dev 2',
-//     createdAt: 1716875096,
-//     tags: ['tag-2', 'tag-4', 'tag-5'],
-//   },
-// ]
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+
+const stories = [
+  {
+    id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
+    author: 'dev',
+    title: 'First Story',
+    subTitle: 'First story from dev',
+    createdAt: { seconds: 1716875096, nanos: 658239000 },
+    tags: ['tag-1', 'tag-2', 'tag-3'],
+  },
+  {
+    id: '48f60ce3-1bb7-4f84-9614-dc8ee5647403',
+    author: 'dev 2',
+    title:
+      'Second Story 123 213 123 123 1 231 23 123 12 31 23 12 3 123 12 3 123 1 23 12 31 23 12 3 12 3 12 31 23 1 3 1 23 12 31 23 1 3 12 312',
+    subTitle: 'Second story from dev 2',
+    createdAt: { seconds: 1716875096, nanos: 658239000 },
+    tags: ['tag-2', 'tag-4', 'tag-5'],
+  },
+  {
+    id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
+    author: 'dev 3',
+    title: 'third Story',
+    subTitle: 'third story from dev 3',
+    createdAt: { seconds: 1716875096, nanos: 658239000 },
+    tags: ['tag-2', 'tag-1', 'tag-5'],
+  },
+]
 
 import { StoryServices } from '@/api/services'
 
-export default function Page({ className }: { className: string }) {
-  const {
-    data: stories,
-    error,
-    isLoading,
-  } = useSWR('getLatestStories', async () => {
-    const stories = await StoryServices.getLatestStories()
-    return stories
-  })
+export default function LatestNewsCards({ className }: { className: string }) {
+  // const {
+  //   data: stories,
+  //   error,
+  //   isLoading,
+  // } = useSWR('getLatestStories', async () => {
+  //   const stories = await StoryServices.getLatestStories()
+  //   return stories
+  // })
 
   const { setTags } = useTagsContext()
   const { chosenTags } = useChosenTagsContext()
@@ -100,58 +112,75 @@ export default function Page({ className }: { className: string }) {
 
   // TODO: Replace with real story's data
   return (
-    <main className={className}>
-      <div className="carousel carousel-vertical flex w-full max-h-[calc(90%)]">
+    <section className={className}>
+      <ul className="space-y-12 md:space-y-8">
         {selectedStories?.map((story) => {
           const { id, title, author, tags, createdAt } = story
 
           return (
-            <div
-              key={`${id}`}
-              className="carousel-item mb-3 bg-white bg-opacity-50 rounded-md flex w-full h-[204px] justify-between"
+            <Card
+              key={id}
+              className="h-96 lg:h-48 grid grid-cols-1 lg:grid-cols-2 grid-rows-5 lg:grid-rows-1 justify-between p-2 gap-4 bg-white bg-opacity-50 rounded-md"
             >
-              <div className="flex flex-col">
-                <div className="flex flex-row items-center h-8">
-                  <Image
-                    unoptimized
-                    src={session?.user?.avatar as string}
-                    alt="here was a logo:("
-                    width={30}
-                    height={30}
-                    className="rounded-full w-8 h-8 border-solid border-black"
-                  />
-                  <p className="font-medium text-back">{author}</p>
-                </div>
-                <div className="mt-2 h-24">
-                  <Link href="/stories/[id]" as={`/stories/${id}`}>
-                    <h1 className="text-base font-bold">{title}</h1>
+              <CardHeader
+                title={author}
+                className="row-span-2 h-fit flex flex-col gap-x-2 gap-y-4 p-2 justify-between"
+              >
+                <article className="grid gap-y-2">
+                  <section className="flex items-center gap-x-2">
+                    <Avatar role="img" className="relative size-8">
+                      <AvatarImage
+                        src={session?.user?.avatar as string}
+                        alt="here was a logo:("
+                        className="border-solid border-black"
+                      />
+                      <AvatarFallback>{author}</AvatarFallback>
+                    </Avatar>
+
+                    <h2 className="font-medium text-lg">{author}</h2>
+
+                    <p className="block lg:hidden ml-auto text-xs">
+                      {createdAt.seconds}
+                    </p>
+                  </section>
+
+                  <Link
+                    href="/stories/[id]"
+                    as={`/stories/${id}`}
+                    title={title}
+                  >
+                    <CardTitle className="text-xl font-bold line-clamp-3">
+                      {title}
+                    </CardTitle>
                   </Link>
-                </div>
-                <ul className="flex gap-4">
+                </article>
+
+                {/* <ul className="flex gap-4">
                   {tags.map((tag) => {
                     return <li key={`${tag}-${id}`}>{tag}</li>
                   })}
-                </ul>
-                <div className="flex flex-row m-1 gap-1">
-                  {/* <p className="text-xs text-black"> {new Date(createdAt).toLocaleDateString()} </p> */}
-                </div>
-              </div>
+                </ul> */}
 
-              <div>
-                {/* <div className="round-md w-full h-full bg-[#D9D9D9]" /> */}
+                <p className="hidden lg:block text-xs">{createdAt.seconds}</p>
+              </CardHeader>
+
+              <Link
+                href="/stories/[id]"
+                as={`/stories/${id}`}
+                className="row-span-3 relative size-full overflow-hidden ml-auto rounded-2xl"
+              >
                 <Image
                   src="https://pbs.twimg.com/profile_images/1701878932176351232/AlNU3WTK_400x400.jpg"
                   alt="image"
-                  width={204}
-                  height={204}
-                  className="overflow-hidden"
+                  fill={true}
+                  className="object-cover hover:scale-105 transition-all duration-500"
                   unoptimized
                 />
-              </div>
-            </div>
+              </Link>
+            </Card>
           )
         })}
-      </div>
-    </main>
+      </ul>
+    </section>
   )
 }
