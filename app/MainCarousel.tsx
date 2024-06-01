@@ -126,9 +126,9 @@ export default function MainCarousel() {
                       <AvatarFallback>{author}</AvatarFallback>
                     </Avatar>
 
-                    <h2 className="font-semibold text-xl line-clamp-1 text-ellipsis">
+                    <p className="font-semibold text-xl line-clamp-1 text-ellipsis">
                       {author}
-                    </h2>
+                    </p>
                   </CardTitle>
                 </CardHeader>
 
