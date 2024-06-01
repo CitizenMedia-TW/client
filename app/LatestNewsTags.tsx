@@ -1,11 +1,11 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTagsContext } from '@/context/TagsContext'
 import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 import { Badge } from '@/components/ui/badge'
 
-export default function Page({ className }: { className: string }) {
+export default function LatestNewsTags({ className }: { className: string }) {
   const { tags } = useTagsContext()
   const { chosenTags, setChosenTags } = useChosenTagsContext()
 
@@ -27,8 +27,10 @@ export default function Page({ className }: { className: string }) {
 
   return (
     <section className={className}>
+      <hr />
       <h2 className="text-lg font-bold">Recommended Topic</h2>
-      <ul className="flex gap-4 flex-wrap">
+
+      <ul className="flex gap-2 max-h-24 lg:max-h-36 py-2 overflow-y-scroll lg:gap-4 flex-wrap">
         {tags.map((tag, index) => {
           const selected = chosenTags.includes(tag)
 
@@ -39,7 +41,7 @@ export default function Page({ className }: { className: string }) {
                   selected
                     ? 'bg-primary dark:bg-primary/60'
                     : 'bg-slate-200 dark:bg-slate-700'
-                } px-6 py-2 dark:text-white text-xl font-normal rounded-2xl dark:hover:bg-primary/70 cursor-pointer`}
+                } px-4 lg:px-6 py-1 lg:py-2 dark:text-white text-xl font-normal rounded-2xl dark:hover:bg-primary/70 cursor-pointer`}
                 onClick={(e) => {
                   handleBadge(e, tag, selected)
                 }}
