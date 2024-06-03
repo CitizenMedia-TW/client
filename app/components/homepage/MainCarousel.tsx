@@ -12,7 +12,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
   CardFooter,
 } from '@/components/ui/card'
 import {
@@ -23,7 +22,6 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Skeleton } from '@/components/ui/skeleton'
 
 import Autoplay from 'embla-carousel-autoplay'
 import { toDate } from '@/lib/utils'
@@ -97,15 +95,13 @@ export default function MainCarousel() {
         align: 'center',
         loop: true,
       }}
-      plugins={
-        [
-          // Autoplay({
-          //   delay: 5000,
-          //   stopOnInteraction: true,
-          //   stopOnMouseEnter: true,
-          // }),
-        ]
-      }
+      plugins={[
+        Autoplay({
+          delay: 5000,
+          stopOnInteraction: true,
+          stopOnMouseEnter: true,
+        }),
+      ]}
     >
       <CarouselContent className="cursor-grab active:cursor-grabbing">
         {stories?.map((story) => {

@@ -1,10 +1,10 @@
 import React from 'react'
-import MainCarousel from './MainCarousel'
 import { ThumbsUp, MessageSquare } from 'lucide-react'
 
 import LatestNewsIcon from '@/public/latest-news.svg'
 import Image from 'next/image'
-import LatestNews from './LatestNews'
+
+import { LatestNews, MainCarousel } from './components/homepage'
 
 export default function Home() {
   return (
