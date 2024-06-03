@@ -23,66 +23,67 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import Autoplay from 'embla-carousel-autoplay'
 import { toDate } from '@/lib/utils'
 
-const stories = [
-  {
-    id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
-    author: 'dev',
-    title: 'First Story',
-    subTitle: 'First story from dev',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-1', 'tag-2', 'tag-3'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f84-9614-dc8ee5647403',
-    author: 'dev 2',
-    title:
-      'Second Story 123 213 123 123 1 231 23 123 12 31 23 12 3 123 12 3 123 1 23 12 31 23 12 3 12 3 12 31 23 1 3 1 23 12 31 23 1 3 12 312',
-    subTitle: 'Second story from dev 2',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-4', 'tag-5'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
-    author: 'dev 3',
-    title: 'third Story',
-    subTitle: 'third story from dev 3',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-1', 'tag-5'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
-    author: 'dev 3',
-    title: 'third Story',
-    subTitle: 'third story from dev 3',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-1', 'tag-5'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
-    author: 'dev 3',
-    title: 'third Story',
-    subTitle: 'third story from dev 3',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-1', 'tag-5'],
-  },
-]
+// const stories = [
+//   {
+//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
+//     author: 'dev',
+//     title: 'First Story',
+//     subTitle: 'First story from dev',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-1', 'tag-2', 'tag-3'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f84-9614-dc8ee5647403',
+//     author: 'dev 2',
+//     title:
+//       'Second Story 123 213 123 123 1 231 23 123 12 31 23 12 3 123 12 3 123 1 23 12 31 23 12 3 12 3 12 31 23 1 3 1 23 12 31 23 1 3 12 312',
+//     subTitle: 'Second story from dev 2',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-4', 'tag-5'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
+//     author: 'dev 3',
+//     title: 'third Story',
+//     subTitle: 'third story from dev 3',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-1', 'tag-5'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
+//     author: 'dev 3',
+//     title: 'third Story',
+//     subTitle: 'third story from dev 3',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-1', 'tag-5'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
+//     author: 'dev 3',
+//     title: 'third Story',
+//     subTitle: 'third story from dev 3',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-1', 'tag-5'],
+//   },
+// ]
 
 export default function MainCarousel() {
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
 
-  // const {
-  //   data: stories,
-  //   error,
-  //   isLoading,
-  // } = useSWR('getLatestStories', async () => {
-  //   const stories = await StoryServices.getCarouselStories()
-  //   return stories
-  // })
+  const {
+    data: stories,
+    error,
+    isLoading,
+  } = useSWR('getLatestStories', async () => {
+    const stories = await StoryServices.getCarouselStories()
+    return stories
+  })
 
   useEffect(() => {
     if (session) setLogin(true)
@@ -158,8 +159,8 @@ export default function MainCarousel() {
           )
         })}
       </CarouselContent>
-      <CarouselPrevious className="ml-16 border-0 bg-yellow-500 text-black hover:bg-yellow-300 dark:hover:text-black dark:hover:bg-yellow-300" />
-      <CarouselNext className="mr-16 border-0 bg-yellow-500 text-black hover:bg-yellow-300 dark:hover:text-black dark:hover:bg-yellow-300" />
+      <CarouselPrevious className="ml-16 border-0 bg-yellow-500 text-black opacity-40 group-hover:opacity-100 hover:bg-yellow-300 dark:hover:text-black dark:hover:bg-yellow-300 transition-all" />
+      <CarouselNext className="mr-16 border-0 bg-yellow-500 text-black opacity-40 group-hover:opacity-100 hover:bg-yellow-300 dark:hover:text-black dark:hover:bg-yellow-300 transition-all" />
     </Carousel>
   )
 }
