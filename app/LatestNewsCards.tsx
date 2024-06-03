@@ -14,46 +14,47 @@ import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const stories = [
-  {
-    id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
-    author: 'dev',
-    title: 'First Story',
-    subTitle: 'First story from dev',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-1', 'tag-2', 'tag-3'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f84-9614-dc8ee5647403',
-    author: 'dev 2',
-    title:
-      'Second Story 123 213 123 123 1 231 23 123 12 31 23 12 3 123 12 3 123 1 23 12 31 23 12 3 12 3 12 31 23 1 3 1 23 12 31 23 1 3 12 312',
-    subTitle: 'Second story from dev 2',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-4', 'tag-5'],
-  },
-  {
-    id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
-    author: 'dev 3',
-    title: 'third Story',
-    subTitle: 'third story from dev 3',
-    createdAt: { seconds: 1716875096, nanos: 658239000 },
-    tags: ['tag-2', 'tag-1', 'tag-5'],
-  },
-]
+// const stories = [
+//   {
+//     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
+//     author: 'dev',
+//     title: 'First Story',
+//     subTitle: 'First story from dev',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-1', 'tag-2', 'tag-3'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f84-9614-dc8ee5647403',
+//     author: 'dev 2',
+//     title:
+//       'Second Story 123 213 123 123 1 231 23 123 12 31 23 12 3 123 12 3 123 1 23 12 31 23 12 3 12 3 12 31 23 1 3 1 23 12 31 23 1 3 12 312',
+//     subTitle: 'Second story from dev 2',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-4', 'tag-5'],
+//   },
+//   {
+//     id: '48f60ce3-1bb7-4f85-9614-dc8ee5647403',
+//     author: 'dev 3',
+//     title: 'third Story',
+//     subTitle: 'third story from dev 3',
+//     createdAt: { seconds: 1716875096, nanos: 658239000 },
+//     tags: ['tag-2', 'tag-1', 'tag-5'],
+//   },
+// ]
 
 import { StoryServices } from '@/api/services'
 
 export default function LatestNewsCards({ className }: { className: string }) {
-  // const {
-  //   data: stories,
-  //   error,
-  //   isLoading,
-  // } = useSWR('getLatestStories', async () => {
-  //   const stories = await StoryServices.getLatestStories()
-  //   return stories
-  // })
+  const {
+    data: stories,
+    error,
+    isLoading,
+  } = useSWR('getLatestStories', async () => {
+    const stories = await StoryServices.getLatestStories()
+    return stories
+  })
 
   const { setTags } = useTagsContext()
   const { chosenTags } = useChosenTagsContext()
@@ -114,6 +115,36 @@ export default function LatestNewsCards({ className }: { className: string }) {
   return (
     <section className={className}>
       <ul className="space-y-12 md:space-y-8">
+        {isLoading && (
+          <Card className="h-96 lg:h-48 grid grid-cols-1 lg:grid-cols-2 grid-rows-5 lg:grid-rows-1 justify-between p-2 gap-4 bg-white bg-opacity-50 rounded-md">
+            <CardHeader className="row-span-2 h-fit flex flex-col gap-x-2 gap-y-4 p-2 justify-between">
+              <article className="grid gap-y-2">
+                <section className="flex items-center gap-x-2">
+                  <Skeleton className="size-8 rounded-full" />
+
+                  <Skeleton className="w-24 h-fit">
+                    <div className="invisible">invisible</div>
+                  </Skeleton>
+
+                  <Skeleton className="w-24 h-8 block lg:hidden ml-auto" />
+                </section>
+
+                <Skeleton className="w-full h-fit text-transparent text-xl font-bold">
+                  <div className="invisible">invisible</div>
+                  <div className="invisible">invisible</div>
+                  <div className="invisible">invisible</div>
+                </Skeleton>
+              </article>
+
+              <Skeleton className="w-24 h-fit hidden lg:block text-xs">
+                <div className="invisible">invisible</div>
+              </Skeleton>
+            </CardHeader>
+
+            <Skeleton className="row-span-3 size-full ml-auto rounded-2xl" />
+          </Card>
+        )}
+
         {selectedStories?.map((story) => {
           const { id, title, author, tags, createdAt } = story
 
@@ -151,6 +182,8 @@ export default function LatestNewsCards({ className }: { className: string }) {
                   >
                     <CardTitle className="text-xl font-bold line-clamp-3">
                       {title}
+                      <div className="invisible">invisible</div>
+                      <div className="invisible">invisible</div>
                     </CardTitle>
                   </Link>
                 </article>
