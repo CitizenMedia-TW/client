@@ -26,6 +26,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Autoplay from 'embla-carousel-autoplay'
 import { toDate } from '@/lib/utils'
 
+import MainCarouselSkeleton from './MainCarouselSkeleton'
+
 // const stories = [
 //   {
 //     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
@@ -104,6 +106,8 @@ export default function MainCarousel() {
       ]}
     >
       <CarouselContent className="cursor-grab active:cursor-grabbing">
+        {isLoading && <MainCarouselSkeleton />}
+
         {stories?.map((story) => {
           const { id, title, author, subTitle, createdAt } = story
 
