@@ -28,7 +28,7 @@ export default function LatestNewsTags({ className }: { className: string }) {
   return (
     <section className={className}>
       <hr className="hidden md:block" />
-      <h2 className="text-2xl md:text-lg font-bold">Recommended Topic</h2>
+      <h2 className="hidden md:block text-2xl font-bold">Recommended Topic</h2>
 
       <ul className="flex gap-2 max-h-24 lg:max-h-36 py-2 overflow-y-scroll lg:gap-4 flex-wrap">
         {tags.map((tag, index) => {
