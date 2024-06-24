@@ -1,13 +1,11 @@
 'use client'
 import React from 'react'
 import { useTagsContext } from '@/context/TagsContext'
-import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 import { Badge } from '@/components/ui/badge'
 
 export default function LatestNewsTags({ className }: { className: string }) {
-  const { tags } = useTagsContext()
-  const { chosenTags, setChosenTags } = useChosenTagsContext()
+  const { tags, chosenTags, setChosenTags } = useTagsContext()
 
   const handleBadge = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,

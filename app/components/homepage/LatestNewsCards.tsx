@@ -9,7 +9,6 @@ import Image from 'next/image'
 import { StoryPreview } from '@/types/stories'
 
 import { useTagsContext, initTags } from '@/context/TagsContext'
-import { useChosenTagsContext } from '@/context/ChosenTagsContext'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
@@ -56,8 +55,7 @@ export default function LatestNewsCards({ className }: { className: string }) {
     return stories
   })
 
-  const { setTags } = useTagsContext()
-  const { chosenTags } = useChosenTagsContext()
+  const { setTags, chosenTags } = useTagsContext()
 
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
