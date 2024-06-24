@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import LatestNewsCards from './LatestNewsCards'
 import LatestNewsTags from './LatestNewsTags'
