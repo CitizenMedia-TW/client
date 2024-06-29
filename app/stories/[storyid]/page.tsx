@@ -1,56 +1,56 @@
-'use client'
-import React from 'react'
-import Image from 'next/image'
-import { StoryServices, UserServices } from '@/api/services'
-import { Skeleton } from '@/components/ui/skeleton'
-import { PrimarySection, SectionContent } from '@/components/PrimarySection'
-import { Loading } from '@/components/Loading'
-import { Button } from '@/components/ui/button'
+"use client";
+import React from "react";
+import Image from "next/image";
+import { StoryServices, UserServices } from "@/api/services";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PrimarySection, SectionContent } from "@/components/PrimarySection";
+import { Loading } from "@/components/Loading";
+import { Button } from "@/components/ui/button";
 
-import Comments from './Comments'
+import Comments from "./Comments";
 
-import dynamic from 'next/dynamic'
-import { OutputData } from '@editorjs/editorjs'
-const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
+import dynamic from "next/dynamic";
+import { OutputData } from "@editorjs/editorjs";
+const EditorBlock = dynamic(() => import("@/app/components/editor/Editor"), {
   ssr: false,
-})
+});
 
 type Story = {
-  author: string
-  authorId: string
-  content: string
-  title: string
-  subTitle: string
-  createdAt: string
-  comments: string[]
-  tags: string[]
-}
+  author: string;
+  authorId: string;
+  content: string;
+  title: string;
+  subTitle: string;
+  createdAt: string;
+  comments: string[];
+  tags: string[];
+};
 
 type AuthorInfo = {
-  name: string
-  email: string
-  avatar: string
-  profileLinks: { [key: string]: string }
-}
+  name: string;
+  email: string;
+  avatar: string;
+  profileLinks: { [key: string]: string };
+};
 
 function AuthorSection({ data }: { data: Story }) {
-  const [authorInfo, setAuthorInfo] = React.useState<AuthorInfo | null>(null)
+  const [authorInfo, setAuthorInfo] = React.useState<AuthorInfo | null>(null);
   React.useEffect(() => {
     async function fetchData() {
-      const res = await UserServices.getPublicUser(data.authorId)
+      const res = await UserServices.getPublicUser(data.authorId);
       if (res && !res.data.error) {
-        console.log(res.data)
-        setAuthorInfo(res.data)
+        console.log(res.data);
+        setAuthorInfo(res.data);
       }
     }
-    fetchData()
-  }, [data.authorId])
+    fetchData();
+  }, [data.authorId]);
 
   if (!authorInfo) {
-    return <Skeleton className="h-full w-full" />
+    return <Skeleton className="h-full w-full" />;
   }
 
-  console.log(authorInfo)
+  //console.log(authorInfo)
 
   return (
     <PrimarySection title="Section!!">
@@ -70,35 +70,35 @@ function AuthorSection({ data }: { data: Story }) {
           ))}
       </SectionContent>
     </PrimarySection>
-  )
+  );
 }
 
 export default function Page({ params }: { params: { storyid: string } }) {
-  const [isShow, setShow] = React.useState<string>('hidden')
+  const [isShow, setShow] = React.useState<string>("hidden");
 
   const handle_showMore_click = () => {
-    if (isShow == 'hidden') {
-      setShow('')
+    if (isShow == "hidden") {
+      setShow("");
     } else {
-      setShow('hidden')
+      setShow("hidden");
     }
-  }
+  };
 
-  const [data, setData] = React.useState<Story | null>(null)
-  const [content, setContent] = React.useState<OutputData | null>(null)
-  const [dataReady, setDataReady] = React.useState<boolean>(false)
+  const [data, setData] = React.useState<Story | null>(null);
+  const [content, setContent] = React.useState<OutputData | null>(null);
+  const [dataReady, setDataReady] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     async function fetchData() {
-      const res = await StoryServices.getStoryById(params.storyid)
+      const res = await StoryServices.getStoryById(params.storyid);
       if (res && res.status == 200) {
-        setData(res.data.story)
-        setContent(JSON.parse(res.data.story.content))
-        setDataReady(true)
+        setData(res.data.story);
+        setContent(JSON.parse(res.data.story.content));
+        setDataReady(true);
       }
     }
-    fetchData()
-  }, [params.storyid])
+    fetchData();
+  }, [params.storyid]);
 
   return (
     <div className="w-full">
@@ -114,7 +114,7 @@ export default function Page({ params }: { params: { storyid: string } }) {
                 holder="editorjs-container"
                 readOnly={true}
               />
-              <p>Tags: {data && data.tags.join(', ')}</p>
+              <p>Tags: {data && data.tags.join(", ")}</p>
               <div className="h-9" />
             </div>
           ) : (
@@ -146,7 +146,12 @@ export default function Page({ params }: { params: { storyid: string } }) {
         </section>
       </div>
       {/* <div className={`fixed bottom-6 w- right-0 ${isShow}`}> */}
-      <Comments isShow={isShow} setShow={setShow} storyId={params.storyid} className={`fixed bottom-6 w-[300px] right-10 ${isShow}`}/>
+      <Comments
+        isShow={isShow}
+        setShow={setShow}
+        storyId={params.storyid}
+        className={`fixed bottom-6 w-[300px] right-10 ${isShow}`}
+      />
     </div>
-  )
+  );
 }
