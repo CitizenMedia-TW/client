@@ -2,13 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import {
-  FaRegThumbsUp,
-  FaThumbsUp,
-  FaRegThumbsDown,
-  FaThumbsDown,
-  FaRegStar,
-} from "react-icons/fa";
 
 import {
   Trash2,
@@ -18,8 +11,6 @@ import {
   Star,
 } from "lucide-react";
 
-import { BiComment } from "react-icons/bi";
-import { CiStar } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
