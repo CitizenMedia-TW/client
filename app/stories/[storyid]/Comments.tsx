@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
@@ -38,11 +37,13 @@ const example_comments: FrontendComment = {
 }
 
 const mapStoryToClass = (data: Story) => {
-  var _comment = data.comments
-  if (_comment.length == 0) {
+  const { comments } = data
+
+  if (comments.length === 0) {
     return []
   }
-  return _comment.map((comment) => {
+
+  return comments.map((comment) => {
     const newComment: FrontendComment = { ...example_comments }
     newComment.text = comment.content
     newComment.id = comment.id
@@ -65,6 +66,14 @@ export default function Comments({
   className,
 }: CommentProps) {
   const { data: session } = useSession()
+  const [inputValue, setInputValue] = useState('')
+  const [comments, setComments] = useState<FrontendComment[]>([
+    example_comments,
+  ])
+  const [refresh, setRefresh] = useState(0)
+  const [added, setAdded] = useState('')
+  const [deleted, setDeleted] = useState('')
+
   const handleClickClose = () => {
     if (isShow == 'hidden') {
       setShow('')
@@ -72,71 +81,22 @@ export default function Comments({
       setShow('hidden')
     }
   }
-  const [inputValue, setInputValue] = useState('')
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
   }
 
-  const [comments, setComments] = useState<FrontendComment[]>([
-    example_comments,
-  ])
+  const handleClickLike = (index: number, status: 'Like' | 'Dislike') => {
+    // deep copy
+    const _comment = structuredClone(comments)
 
-  const [refresh, setRefresh] = useState(0)
-  React.useEffect(() => {
-    setRefresh(0)
-    async function fetchData() {
-      const res = await StoryServices.getStoryById(storyId)
-      if (res && res.status === 200) {
-        let story_res = res.data.story
-        console.log('getStoryById', story_res)
-        let _comment = mapStoryToClass(story_res)
-        setComments(_comment)
-      }
-    }
-    fetchData()
-  }, [session, refresh])
-  const [added, setAdded] = useState<string>('')
-  React.useEffect(() => {
-    async function modify() {
-      if (!added) return
-      const resSet = await StoryServices.addComment(
-        session?.user.jwtToken as string,
-        added,
-        storyId
-      )
-
-      setAdded('') // reset modified state
-      setInputValue('')
-      setRefresh(1)
-    }
-    modify()
-  }, [added])
-  const [deleted, setDeleted] = useState<string>('')
-  //comment.commenterId == session?.user.email
-  React.useEffect(() => {
-    async function deleteComment() {
-      if (deleted == '') return
-      const res = await StoryServices.getStoryById(storyId)
-      const resSet = await StoryServices.deleteComment(
-        session?.user.jwtToken as string,
-        deleted
-      )
-      setDeleted('') // reset modified state
-      setRefresh(1)
-    }
-    deleteComment()
-  }, [deleted])
-
-  const handleClickLike = (index: number, status: string) => {
-    const _comment = [...comments]
-    if (status == 'Like') {
+    if (status === 'Like') {
       if (_comment[index].like) {
         _comment[index].like = false
       } else {
         _comment[index].like = true
         _comment[index].dislike = false
       }
-    } else if (status == 'Dislike') {
+    } else if (status === 'Dislike') {
       if (_comment[index].dislike) {
         _comment[index].dislike = false
       } else {
@@ -156,6 +116,51 @@ export default function Comments({
       setDeleted(id)
     }
   }
+
+  useEffect(() => {
+    setRefresh(0)
+    async function fetchData() {
+      const res = await StoryServices.getStoryById(storyId)
+      if (res && res.status === 200) {
+        let story_res = res.data.story
+        console.log('getStoryById', story_res)
+        let _comment = mapStoryToClass(story_res)
+        setComments(_comment)
+      }
+    }
+    fetchData()
+  }, [session, refresh])
+
+  useEffect(() => {
+    async function modify() {
+      if (!added) return
+      const resSet = await StoryServices.addComment(
+        session?.user.jwtToken as string,
+        added,
+        storyId
+      )
+
+      setAdded('') // reset modified state
+      setInputValue('')
+      setRefresh(1)
+    }
+    modify()
+  }, [added])
+
+  useEffect(() => {
+    async function deleteComment() {
+      if (deleted == '') return
+      const res = await StoryServices.getStoryById(storyId)
+      const resSet = await StoryServices.deleteComment(
+        session?.user.jwtToken as string,
+        deleted
+      )
+      setDeleted('') // reset modified state
+      setRefresh(1)
+    }
+    deleteComment()
+  }, [deleted])
+
   const stars = Array.from({ length: 10 }, (_, index) => (
     <div key={index} className="flex flex-row">
       <Star className="w-4 h-4" />
