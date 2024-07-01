@@ -1,193 +1,171 @@
-import React from "react";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
+import React from 'react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 
-import {
-  Trash2,
-  MessageSquare,
-  ThumbsUp,
-  ThumbsDown,
-  Star,
-} from "lucide-react";
+import { Trash2, MessageSquare, ThumbsUp, ThumbsDown, Star } from 'lucide-react'
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import headshot from "@/public/notifications-head.svg";
-import { StoryServices, UserServices } from "@/api/services";
-import { cn } from "@/lib/utils";
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
+import headshot from '@/public/notifications-head.svg'
+import { StoryServices, UserServices } from '@/api/services'
+import { cn } from '@/lib/utils'
 
-interface time {
-  seconds: number;
-  nanos: number;
-}
-interface Comment {
-  id: string;
-  content: string;
-  commenter: string;
-  commenterId: string;
-}
-interface Story {
-  id: string;
-  author: string;
-  authorId: string;
-  content: string;
-  comments: Comment[];
-  title: string;
-  subTitle: string;
-  createdAt: time;
-  tags: string[];
-}
+import type { Story } from '@/types/stories'
+
 interface FrontendComment {
-  id: string;
-  Head: any;
-  Text: string;
-  Start: boolean;
-  Like: boolean;
-  Dislike: boolean;
-  Comments: boolean;
-  commenterId: string;
+  id: string
+  head: any
+  text: string
+  start: boolean
+  like: boolean
+  dislike: boolean
+  comments: boolean
+  commenterId: string
 }
 
 const example_comments: FrontendComment = {
-  id: "tmp",
-  Head: headshot,
-  Text: "Lorem ipsum dolor sit amet consectetur. Netus ut accumsan fames morbi consectetur adipiscing sem turpis dictumst vulputate. Semper mattis mattis pulvinar sed dolor eu.",
-  Start: true,
-  Like: false,
-  Dislike: false,
-  Comments: false,
-  commenterId: "tmpPerson",
-};
+  id: 'tmp',
+  head: headshot,
+  text: 'Lorem ipsum dolor sit amet consectetur. Netus ut accumsan fames morbi consectetur adipiscing sem turpis dictumst vulputate. Semper mattis mattis pulvinar sed dolor eu.',
+  start: true,
+  like: false,
+  dislike: false,
+  comments: false,
+  commenterId: 'tmpPerson',
+}
+
 const mapStoryToClass = (data: Story) => {
-  var _comment = data.comments;
+  var _comment = data.comments
   if (_comment.length == 0) {
-    return [];
+    return []
   }
   return _comment.map((comment) => {
-    const newComment: FrontendComment = { ...example_comments };
-    newComment.Text = comment.content;
-    newComment.id = comment.id;
-    newComment.commenterId = comment.commenterId;
-    return newComment;
-  });
-};
+    const newComment: FrontendComment = { ...example_comments }
+    newComment.text = comment.content
+    newComment.id = comment.id
+    newComment.commenterId = comment.commenterId
+    return newComment
+  })
+}
+
+type CommentProps = {
+  isShow: string
+  setShow: Function
+  storyId: string
+  className?: string
+}
 
 export default function Comments({
   isShow,
   setShow,
   storyId,
   className,
-}: {
-  isShow: string;
-  setShow: Function;
-  storyId: string;
-  className?: string;
-}) {
-  const { data: session } = useSession();
+}: CommentProps) {
+  const { data: session } = useSession()
   const handleClickClose = () => {
-    if (isShow == "hidden") {
-      setShow("");
+    if (isShow == 'hidden') {
+      setShow('')
     } else {
-      setShow("hidden");
+      setShow('hidden')
     }
-  };
-  const [inputValue, setInputValue] = useState("");
+  }
+  const [inputValue, setInputValue] = useState('')
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
+    setInputValue(event.target.value)
+  }
 
   const [comments, setComments] = useState<FrontendComment[]>([
     example_comments,
-  ]);
+  ])
 
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(0)
   React.useEffect(() => {
-    setRefresh(0);
+    setRefresh(0)
     async function fetchData() {
-      const res = await StoryServices.getStoryById(storyId);
+      const res = await StoryServices.getStoryById(storyId)
       if (res && res.status === 200) {
-        let story_res = res.data.story;
-        console.log("getStoryById", story_res);
-        let _comment = mapStoryToClass(story_res);
-        setComments(_comment);
+        let story_res = res.data.story
+        console.log('getStoryById', story_res)
+        let _comment = mapStoryToClass(story_res)
+        setComments(_comment)
       }
     }
-    fetchData();
-  }, [session, refresh]);
-  const [added, setAdded] = useState<string>("");
+    fetchData()
+  }, [session, refresh])
+  const [added, setAdded] = useState<string>('')
   React.useEffect(() => {
     async function modify() {
-      if (!added) return;
+      if (!added) return
       const resSet = await StoryServices.addComment(
         session?.user.jwtToken as string,
         added,
         storyId
-      );
+      )
 
-      setAdded(""); // reset modified state
-      setInputValue("");
-      setRefresh(1);
+      setAdded('') // reset modified state
+      setInputValue('')
+      setRefresh(1)
     }
-    modify();
-  }, [added]);
-  const [deleted, setDeleted] = useState<string>("");
+    modify()
+  }, [added])
+  const [deleted, setDeleted] = useState<string>('')
   //comment.commenterId == session?.user.email
   React.useEffect(() => {
     async function deleteComment() {
-      if (deleted == "") return;
-      const res = await StoryServices.getStoryById(storyId);
+      if (deleted == '') return
+      const res = await StoryServices.getStoryById(storyId)
       const resSet = await StoryServices.deleteComment(
         session?.user.jwtToken as string,
         deleted
-      );
-      setDeleted(""); // reset modified state
-      setRefresh(1);
+      )
+      setDeleted('') // reset modified state
+      setRefresh(1)
     }
-    deleteComment();
-  }, [deleted]);
+    deleteComment()
+  }, [deleted])
 
   const handleClickLike = (index: number, status: string) => {
-    const _comment = [...comments];
-    if (status == "Like") {
-      if (_comment[index].Like) {
-        _comment[index].Like = false;
+    const _comment = [...comments]
+    if (status == 'Like') {
+      if (_comment[index].like) {
+        _comment[index].like = false
       } else {
-        _comment[index].Like = true;
-        _comment[index].Dislike = false;
+        _comment[index].like = true
+        _comment[index].dislike = false
       }
-    } else if (status == "Dislike") {
-      if (_comment[index].Dislike) {
-        _comment[index].Dislike = false;
+    } else if (status == 'Dislike') {
+      if (_comment[index].dislike) {
+        _comment[index].dislike = false
       } else {
-        _comment[index].Dislike = true;
-        _comment[index].Like = false;
+        _comment[index].dislike = true
+        _comment[index].like = false
       }
     }
-    setComments(_comment);
-  };
+    setComments(_comment)
+  }
   const onSaveComment = () => {
-    setAdded(inputValue);
-    setInputValue("");
-  };
+    setAdded(inputValue)
+    setInputValue('')
+  }
   const handleDelete = (id: string, commenterId: string) => {
-    console.log("id:", id, "commenterId:", commenterId);
+    console.log('id:', id, 'commenterId:', commenterId)
     if (commenterId == session?.user.email) {
-      setDeleted(id);
+      setDeleted(id)
     }
-  };
+  }
   const stars = Array.from({ length: 10 }, (_, index) => (
     <div key={index} className="flex flex-row">
       <Star className="w-4 h-4" />
     </div>
-  ));
+  ))
 
   return (
     <div
       className={cn(
-        "w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200",
+        'w-1/4 h-[450px] bg-background rounded-2xl border-2 border-slate-200',
         className
       )}
     >
@@ -223,24 +201,24 @@ export default function Comments({
       <div className="h-[95%] w-full border-t-2 grid justify-items-center">
         <ScrollArea className="h-full w-11/12 m-2">
           {comments &&
-            comments[0].id != "00000000-0000-0000-0000-000000000000" &&
+            comments[0].id != '00000000-0000-0000-0000-000000000000' &&
             comments.map((comment, index) => (
               <div key={index} className="w-full flex flex-col">
                 <div className="w-full flex flex-row">
                   <div className="w-1/6 m-2">
-                    <Image src={comment.Head} alt="" className="w-2/3" />
+                    <Image src={comment.head} alt="" className="w-2/3" />
                   </div>
                   <div className="w-5/6 flex flex-col">
-                    <div className="w-full text-xs">{comment.Text}</div>
+                    <div className="w-full text-xs">{comment.text}</div>
                     <div className="w-full flex flex-row gap-1 mt-1">
                       <div className="hover:-translate-y-0.5 pr-1">
                         <Star className="w-4 h-4" />
                       </div>
                       <div
-                        onClick={() => handleClickLike(index, "Like")}
+                        onClick={() => handleClickLike(index, 'Like')}
                         className="hover:-translate-y-0.5 pr-1"
                       >
-                        {comment.Like ? (
+                        {comment.like ? (
                           <ThumbsUp className="fill-black w-4 h-4" />
                         ) : (
                           <ThumbsUp className="w-4 h-4" />
@@ -248,10 +226,10 @@ export default function Comments({
                       </div>
 
                       <div
-                        onClick={() => handleClickLike(index, "Dislike")}
+                        onClick={() => handleClickLike(index, 'Dislike')}
                         className="hover:-translate-y-0.5 pr-1"
                       >
-                        {comment.Dislike ? (
+                        {comment.dislike ? (
                           <ThumbsDown className="fill-black w-4 h-4" />
                         ) : (
                           <ThumbsDown className="w-4 h-4" />
@@ -310,5 +288,5 @@ export default function Comments({
         </div>
       </div>
     </div>
-  );
+  )
 }
