@@ -1,28 +1,21 @@
-// Note: This is a dynamic route
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { StoryServices, UserServices } from '@/api/services'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PrimarySection, SectionContent } from '@/components/PrimarySection'
 import { Loading } from '@/components/Loading'
+import { Button } from '@/components/ui/button'
+
+import Comments from './Comments'
+
+import { Story } from '@/types/stories'
 
 import dynamic from 'next/dynamic'
 import { OutputData } from '@editorjs/editorjs'
 const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
   ssr: false,
 })
-
-type Story = {
-  author: string
-  authorId: string
-  content: string
-  title: string
-  subTitle: string
-  createdAt: string
-  comments: string[]
-  tags: string[]
-}
 
 type AuthorInfo = {
   name: string
@@ -32,8 +25,8 @@ type AuthorInfo = {
 }
 
 function AuthorSection({ data }: { data: Story }) {
-  const [authorInfo, setAuthorInfo] = React.useState<AuthorInfo | null>(null)
-  React.useEffect(() => {
+  const [authorInfo, setAuthorInfo] = useState<AuthorInfo | null>(null)
+  useEffect(() => {
     async function fetchData() {
       const res = await UserServices.getPublicUser(data.authorId)
       if (res && !res.data.error) {
@@ -48,7 +41,7 @@ function AuthorSection({ data }: { data: Story }) {
     return <Skeleton className="h-full w-full" />
   }
 
-  console.log(authorInfo)
+  //console.log(authorInfo)
 
   return (
     <PrimarySection title="Section!!">
@@ -72,14 +65,24 @@ function AuthorSection({ data }: { data: Story }) {
 }
 
 export default function Page({ params }: { params: { storyid: string } }) {
-  const [data, setData] = React.useState<Story | null>(null)
-  const [content, setContent] = React.useState<OutputData | null>(null)
-  const [dataReady, setDataReady] = React.useState<boolean>(false)
+  const [isShow, setShow] = useState<'hidden' | ''>('hidden')
 
-  React.useEffect(() => {
+  const handle_showMore_click = () => {
+    if (isShow === 'hidden') {
+      setShow('')
+    } else {
+      setShow('hidden')
+    }
+  }
+
+  const [data, setData] = useState<Story | null>(null)
+  const [content, setContent] = useState<OutputData | null>(null)
+  const [dataReady, setDataReady] = useState<boolean>(false)
+
+  useEffect(() => {
     async function fetchData() {
       const res = await StoryServices.getStoryById(params.storyid)
-      if (res && res.status == 200) {
+      if (res && res.status === 200) {
         setData(res.data.story)
         setContent(JSON.parse(res.data.story.content))
         setDataReady(true)
@@ -89,41 +92,57 @@ export default function Page({ params }: { params: { storyid: string } }) {
   }, [params.storyid])
 
   return (
-    <div className="flex flex-col md:flex-row px-10">
-      <section className="basis-3/4">
-        <div className="h-9" />
-        {dataReady && content ? (
-          <div className="">
-            <h1>{data?.title}</h1>
-            <EditorBlock
-              data={content}
-              onDataChange={setContent}
-              holder="editorjs-container"
-              readOnly={true}
-            />
-            <p>Tags: {data && data.tags.join(', ')}</p>
-            <div className="h-9" />
-          </div>
-        ) : (
-          <Loading />
-        )}
-        <section className="section">
-          <p className="section-title">Comments</p>
-          {/* <Comments /> */}
-        </section>
-      </section>
-      <div className="h-9 block md:hidden" />
-      <section className="basis-1/4">
-        <div className="h-9" />
-        <section className="section">
-          {dataReady && data ? (
-            // <p>{data.author}</p>
-            <AuthorSection data={data} />
+    <div className="w-full">
+      <div className="flex flex-col md:flex-row px-10">
+        <section className="basis-3/4">
+          <div className="h-9" />
+          {dataReady && content ? (
+            <div className="">
+              <h1>{data?.title}</h1>
+              <EditorBlock
+                data={content}
+                onDataChange={setContent}
+                holder="editorjs-container"
+                readOnly={true}
+              />
+              <p>Tags: {data && data.tags.join(', ')}</p>
+              <div className="h-9" />
+            </div>
           ) : (
-            <span className="loading loading-spinner" />
+            <Loading />
           )}
+          <section className="section">
+            <p className="section-title">Comments</p>
+            <Button
+              className="border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200"
+              onClick={handle_showMore_click}
+            >
+              Show more
+            </Button>
+            {/* <Comments/> */}
+          </section>
         </section>
-      </section>
+        <div className="h-9 block md:hidden" />
+
+        <section className="basis-1/4">
+          <div className="h-9" />
+          <section className="section">
+            {dataReady && data ? (
+              // <p>{data.author}</p>
+              <AuthorSection data={data} />
+            ) : (
+              <span className="loading loading-spinner" />
+            )}
+          </section>
+        </section>
+      </div>
+      {/* <div className={`fixed bottom-6 w- right-0 ${isShow}`}> */}
+      <Comments
+        isShow={isShow}
+        setShow={setShow}
+        storyId={params.storyid}
+        className={`fixed bottom-6 w-[300px] right-10 ${isShow}`}
+      />
     </div>
   )
 }
