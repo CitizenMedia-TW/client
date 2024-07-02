@@ -161,12 +161,6 @@ export default function Comments({
     deleteComment()
   }, [deleted])
 
-  const stars = Array.from({ length: 10 }, (_, index) => (
-    <div key={index} className="flex flex-row">
-      <Star className="w-4 h-4" />
-    </div>
-  ))
-
   return (
     <div
       className={cn(
@@ -176,7 +170,7 @@ export default function Comments({
     >
       <div className="h-[7%] w-full">
         <div
-          className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2"
+          className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2 cursor-pointer"
           onClick={handleClickClose}
         >
           <svg
@@ -203,7 +197,7 @@ export default function Comments({
           </svg>
         </div>
       </div>
-      <div className="h-[95%] w-full border-t-2 grid justify-items-center">
+      <section className="h-[95%] w-full py-2 border-t-2 flex flex-col justify-items-center">
         <ScrollArea className="h-full w-11/12 m-2">
           {comments &&
             comments[0].id != '00000000-0000-0000-0000-000000000000' &&
@@ -271,9 +265,11 @@ export default function Comments({
             />
           </div>
           <div className="flex flex-col m-2 gap-1">
-            <div className="flex flex-row">
-              <>{stars}</>
-            </div>
+            <figure className="flex flex-row">
+              {Array.from({ length: 10 }).map((_, index) => {
+                return <Star key={index} className="w-4 h-4" />
+              })}
+            </figure>
             <div className="w-full flex flex-row gap-1">
               <Input
                 placeholder="comment"
@@ -291,7 +287,7 @@ export default function Comments({
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
