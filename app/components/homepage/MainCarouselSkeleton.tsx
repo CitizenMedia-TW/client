@@ -7,14 +7,8 @@ import {
   CardTitle,
   CardFooter,
 } from '@/components/ui/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { CarouselItem } from '@/components/ui/carousel'
+import { Avatar } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const MainCarouselSkeleton = () => {

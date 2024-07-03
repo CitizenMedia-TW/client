@@ -1,11 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { StoryServices } from '@/api/services'
 import Link from 'next/link'
 import { Clock, Bookmark, Heart } from 'lucide-react'
-
-import useSWR from 'swr'
 
 import {
   Card,
@@ -28,7 +25,7 @@ import { toDate } from '@/lib/utils'
 
 import MainCarouselSkeleton from './MainCarouselSkeleton'
 
-import { Story } from '@/types/stories'
+import type { Story } from '@/types/stories'
 
 type MainCarouselProps = { stories: Story[] | null }
 
@@ -36,15 +33,6 @@ export default function MainCarousel({ stories }: MainCarouselProps) {
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-
-  // const {
-  //   data: stories,
-  //   error,
-  //   isLoading,
-  // } = useSWR('getLatestStories', async () => {
-  //   const stories = await StoryServices.getCarouselStories()
-  //   return stories
-  // })
 
   useEffect(() => {
     if (stories) {
