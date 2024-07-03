@@ -1,96 +1,73 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import LogoDark from '@/public/logoDarkS.svg'
-import LogoLight from '@/public/logoLightS.svg'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import Sidebar from './Sidebar/Sidebar'
 
-const HeaderLogo = () => {
-  const { theme } = useTheme()
-  const [logo, setLogo] = React.useState<string>('')
-
-  React.useEffect(() => {
-    if (theme == 'dark') {
-      setLogo(LogoDark.src)
-    } else {
-      setLogo(LogoLight.src)
-    }
-  }, [theme])
-
-  return <img src={logo} alt="here was a logo:(" className="h-20" />
-}
+import { Sun, Moon } from 'lucide-react'
 
 const Topbar = () => {
   const { data: session } = useSession()
 
-  const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => setMounted(true), [])
-
   const { theme, setTheme } = useTheme()
 
-  if (!mounted)
-    return (
-      <header className="flex flex-row gap-4 w-full items-center bg-background drop-shadow-md text-primary-content sticky top-0 z-50">
-        <Link href="/">
-          <HeaderLogo />
-        </Link>
-      </header>
-    )
+  const switchTheme = (e: React.MouseEvent) => {
+    e.preventDefault()
+
+    if (theme === 'dark') {
+      setTheme('light')
+    } else {
+      setTheme('dark')
+    }
+  }
 
   return (
-    <header className="flex flex-row gap-4 w-full items-center bg-background drop-shadow-md text-primary-content sticky top-0 z-50">
-      <Link href="/">
-        <HeaderLogo />
+    <header className="grid grid-cols-12 items-center gap-4 py-4 bg-background drop-shadow-md text-primary-content sticky top-0 z-50">
+      <Link href="/" className="col-span-3 relative w-96 h-20">
+        <Image
+          src={`${theme === 'dark' ? 'logoDarkS.svg' : 'logoLightS.svg'}`}
+          fill={true}
+          alt="here was a logo:("
+          className="object-contain"
+        />
       </Link>
-      {session && session.user ? (
-        <>
-          <p>{session.user.email}</p>
-          <button onClick={() => signOut()} className="items-end">
-            Sign Out
-          </button>
-          <button
-            onClick={() => console.log(session)}
-            className="hidden md:block"
-          >
-            Console
-          </button>
-          <button
-            onClick={() => setTheme('dark')}
-            className="text-black dark:text-white hidden md:block"
-          >
-            dark
-          </button>
-          <button
-            onClick={() => setTheme('light')}
-            className="text-black dark:text-white hidden md:block"
-          >
-            light
-          </button>
-          <button
-            onClick={() => setTheme('system')}
-            className="text-black dark:text-white hidden md:block"
-          >
-            system
-          </button>
-          <p className="ml-8 hidden md:block">current theme: {theme}</p>
-          <Image
-            unoptimized
-            src={session?.user?.avatar as string}
-            alt="here was a logo:("
-            width={30}
-            height={30}
-            className="hidden md:block"
+
+      <nav className="col-start-10 col-span-3 flex justify-around items-center gap-4">
+        <section
+          className="relative p-2 flex gap-2 border-2 rounded-2xl cursor-pointer"
+          onClick={switchTheme}
+        >
+          <Moon />
+          <Sun />
+          <div
+            className={`${theme === 'dark' ? 'left-2' : 'right-2'} absolute size-6 rounded-full top-1/2 -translate-y-1/2 bg-primary`}
           />
-          <Sidebar />
-        </>
-      ) : (
-        <button onClick={() => signIn()} className="items-end text-sky-700">
-          Sign in
-        </button>
-      )}
+        </section>
+
+        {session && session.user ? (
+          <figure className="flex gap-2">
+            <Image
+              unoptimized
+              src={session?.user?.avatar as string}
+              alt="here was a logo:("
+              width={30}
+              height={30}
+              className="hidden md:block"
+            />
+            <button onClick={() => signOut()} className="font-bold">
+              Sign Out
+            </button>
+          </figure>
+        ) : (
+          <button onClick={() => signIn()} className="font-bold">
+            Sign in
+          </button>
+        )}
+
+        <Sidebar />
+      </nav>
     </header>
   )
 }
