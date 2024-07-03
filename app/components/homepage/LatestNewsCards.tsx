@@ -3,12 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
-import useSWR from 'swr'
-
 import Link from 'next/link'
 import Image from 'next/image'
-
-import { StoryPreview } from '@/types/stories'
 
 import { useTagsContext, initTags } from '@/context/TagsContext'
 
@@ -16,6 +12,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 
 import LatestNewsCardsSkeleton from './LatestNewsCardsSkeleton'
+
+import type { StoryPreview } from '@/types/stories'
 
 // const stories = [
 //   {
@@ -45,23 +43,27 @@ import LatestNewsCardsSkeleton from './LatestNewsCardsSkeleton'
 //   },
 // ]
 
-import { StoryServices } from '@/api/services'
+type LatestNewsCardsProps = {
+  className: string
+  stories: StoryPreview[] | null
+}
 
-export default function LatestNewsCards({ className }: { className: string }) {
-  const {
-    data: stories,
-    error,
-    isLoading,
-  } = useSWR('getLatestStories', async () => {
-    const stories = await StoryServices.getLatestStories()
-    return stories
-  })
-
+export default function LatestNewsCards({
+  className,
+  stories,
+}: LatestNewsCardsProps) {
   const { setTags, chosenTags } = useTagsContext()
 
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
   const [selectedStories, setSelectedStories] = useState<StoryPreview[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (stories) {
+      setIsLoading(false)
+    }
+  }, [stories])
 
   useEffect(() => {
     if (session) setLogin(true)
