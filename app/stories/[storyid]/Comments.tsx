@@ -183,16 +183,16 @@ export default function Comments({
             <path
               d="M24 8L8 24"
               stroke="#133157"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M8 8L24 24"
               stroke="#133157"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>
