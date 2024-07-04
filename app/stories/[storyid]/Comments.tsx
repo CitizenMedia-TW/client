@@ -263,7 +263,7 @@ export default function Comments({
               />
               <Button
                 type="submit"
-                className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-200"
+                className="text-xs w-1/4 h-2/3 rounded-3xl bg-primary hover:bg-primary/70"
                 onClick={onSaveComment}
               >
                 Submit

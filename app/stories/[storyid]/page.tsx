@@ -67,7 +67,7 @@ function AuthorSection({ data }: { data: Story }) {
 export default function Page({ params }: { params: { storyid: string } }) {
   const [isShow, setShow] = useState<'hidden' | ''>('hidden')
 
-  const handle_showMore_click = () => {
+  const handleShowMoreClick = () => {
     if (isShow === 'hidden') {
       setShow('')
     } else {
@@ -114,8 +114,8 @@ export default function Page({ params }: { params: { storyid: string } }) {
           <section className="section">
             <p className="section-title">Comments</p>
             <Button
-              className="border-2 border-slate-400 bg-background text-slate-600 dark:text-gray-100 rounded-3xl hover:bg-slate-200 dark:hover:bg-slate-600"
-              onClick={handle_showMore_click}
+              className="border-2 border-slate-400 bg-background hover:bg-foreground text-foreground hover:text-background rounded-3xl "
+              onClick={handleShowMoreClick}
             >
               Show more
             </Button>
