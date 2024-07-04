@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 
-import { Trash2, MessageSquare, ThumbsUp, ThumbsDown, Star } from 'lucide-react'
+import {
+  Trash2,
+  MessageSquare,
+  ThumbsUp,
+  ThumbsDown,
+  Star,
+  X,
+} from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -168,34 +175,11 @@ export default function Comments({
         className
       )}
     >
-      <div className="h-[7%] w-full">
-        <div
-          className="hover:bg-slate-100 w-8 h-8 rounded-2xl m-1/2 cursor-pointer"
+      <div className="h-[7%]">
+        <X
+          className="size-8 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl cursor-pointer"
           onClick={handleClickClose}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M24 8L8 24"
-              stroke="#133157"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M8 8L24 24"
-              stroke="#133157"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+        />
       </div>
       <section className="h-[95%] w-full py-2 border-t-2 flex flex-col justify-items-center">
         <ScrollArea className="h-full w-11/12 m-2">
@@ -273,13 +257,13 @@ export default function Comments({
             <div className="w-full flex flex-row gap-1">
               <Input
                 placeholder="comment"
-                className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200"
+                className="w-3/4 h-2/3 text-sm border-2 border-slate-400 bg-background rounded-3xl "
                 value={inputValue}
                 onChange={handleInputChange}
               />
               <Button
                 type="submit"
-                className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-700"
+                className="text-xs w-1/4 h-2/3 rounded-3xl hover:bg-slate-200"
                 onClick={onSaveComment}
               >
                 Submit

@@ -114,7 +114,7 @@ export default function Page({ params }: { params: { storyid: string } }) {
           <section className="section">
             <p className="section-title">Comments</p>
             <Button
-              className="border-2 border-slate-400 bg-background text-slate-600 rounded-3xl hover:bg-slate-200"
+              className="border-2 border-slate-400 bg-background text-slate-600 dark:text-gray-100 rounded-3xl hover:bg-slate-200 dark:hover:bg-slate-600"
               onClick={handle_showMore_click}
             >
               Show more
