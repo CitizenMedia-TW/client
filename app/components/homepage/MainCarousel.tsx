@@ -23,8 +23,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Autoplay from 'embla-carousel-autoplay'
 import { toDate } from '@/lib/utils'
 
-import MainCarouselSkeleton from './MainCarouselSkeleton'
-
 import type { Story } from '@/types/stories'
 
 type MainCarouselProps = { stories: Story[] | null }
@@ -32,13 +30,6 @@ type MainCarouselProps = { stories: Story[] | null }
 export default function MainCarousel({ stories }: MainCarouselProps) {
   const { data: session } = useSession()
   const [login, setLogin] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    if (stories) {
-      setIsLoading(false)
-    }
-  }, [stories])
 
   useEffect(() => {
     if (session) setLogin(true)
@@ -61,8 +52,6 @@ export default function MainCarousel({ stories }: MainCarouselProps) {
       ]}
     >
       <CarouselContent className="cursor-grab active:cursor-grabbing">
-        {isLoading && <MainCarouselSkeleton />}
-
         {stories?.map((story) => {
           const { id, title, author, subTitle, createdAt } = story
 
