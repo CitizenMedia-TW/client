@@ -1,9 +1,18 @@
 import React from 'react'
 import { ThumbsUp, MessageSquare } from 'lucide-react'
 
-import { LatestNews, MainCarousel } from './components/homepage'
+import { LatestNews, MainCarouselSkeleton } from './components/homepage'
 
 import { StoryServices } from '@/api/services'
+import dynamic from 'next/dynamic'
+
+const MainCarousel = dynamic(
+  () => import('./components/homepage').then((mod) => mod.MainCarousel),
+  {
+    ssr: false,
+    loading: () => <MainCarouselSkeleton />,
+  }
+)
 
 // const stories = [
 //   {
