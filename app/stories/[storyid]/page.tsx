@@ -1,44 +1,44 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { StoryServices, UserServices } from '@/api/services'
-import { Skeleton } from '@/components/ui/skeleton'
-import { PrimarySection, SectionContent } from '@/components/PrimarySection'
-import { Loading } from '@/components/Loading'
-import { Button } from '@/components/ui/button'
+"use client";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { StoryServices, UserServices } from "@/api/services";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PrimarySection, SectionContent } from "@/components/PrimarySection";
+import { Loading } from "@/components/Loading";
+import { Button } from "@/components/ui/button";
 
-import Comments from './Comments'
+import Comments from "./Comments";
 
-import { Story } from '@/types/stories'
+import { Story } from "@/types/stories";
 
-import dynamic from 'next/dynamic'
-import { OutputData } from '@editorjs/editorjs'
-const EditorBlock = dynamic(() => import('@/app/components/editor/Editor'), {
+import dynamic from "next/dynamic";
+import { OutputData } from "@editorjs/editorjs";
+const EditorBlock = dynamic(() => import("@/app/components/editor/Editor"), {
   ssr: false,
-})
+});
 
 type AuthorInfo = {
-  name: string
-  email: string
-  avatar: string
-  profileLinks: { [key: string]: string }
-}
+  name: string;
+  email: string;
+  avatar: string;
+  profileLinks: { [key: string]: string };
+};
 
 function AuthorSection({ data }: { data: Story }) {
-  const [authorInfo, setAuthorInfo] = useState<AuthorInfo | null>(null)
+  const [authorInfo, setAuthorInfo] = useState<AuthorInfo | null>(null);
   useEffect(() => {
     async function fetchData() {
-      const res = await UserServices.getPublicUser(data.authorId)
+      const res = await UserServices.getPublicUser(data.authorId);
       if (res && !res.data.error) {
-        console.log(res.data)
-        setAuthorInfo(res.data)
+        console.log(res.data);
+        setAuthorInfo(res.data);
       }
     }
-    fetchData()
-  }, [data.authorId])
+    fetchData();
+  }, [data.authorId]);
 
   if (!authorInfo) {
-    return <Skeleton className="h-full w-full" />
+    return <Skeleton className="h-full w-full" />;
   }
 
   //console.log(authorInfo)
@@ -61,35 +61,35 @@ function AuthorSection({ data }: { data: Story }) {
           ))}
       </SectionContent>
     </PrimarySection>
-  )
+  );
 }
 
 export default function Page({ params }: { params: { storyid: string } }) {
-  const [isShow, setShow] = useState<'hidden' | ''>('hidden')
+  const [isShow, setShow] = useState<"hidden" | "">("hidden");
 
   const handleShowMoreClick = () => {
-    if (isShow === 'hidden') {
-      setShow('')
+    if (isShow === "hidden") {
+      setShow("");
     } else {
-      setShow('hidden')
+      setShow("hidden");
     }
-  }
+  };
 
-  const [data, setData] = useState<Story | null>(null)
-  const [content, setContent] = useState<OutputData | null>(null)
-  const [dataReady, setDataReady] = useState<boolean>(false)
+  const [data, setData] = useState<Story | null>(null);
+  const [content, setContent] = useState<OutputData | null>(null);
+  const [dataReady, setDataReady] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await StoryServices.getStoryById(params.storyid)
+      const res = await StoryServices.getStoryById(params.storyid);
       if (res && res.status === 200) {
-        setData(res.data.story)
-        setContent(JSON.parse(res.data.story.content))
-        setDataReady(true)
+        setData(res.data.story);
+        setContent(JSON.parse(res.data.story.content));
+        setDataReady(true);
       }
     }
-    fetchData()
-  }, [params.storyid])
+    fetchData();
+  }, [params.storyid]);
 
   return (
     <div className="w-full">
@@ -105,7 +105,7 @@ export default function Page({ params }: { params: { storyid: string } }) {
                 holder="editorjs-container"
                 readOnly={true}
               />
-              <p>Tags: {data && data.tags.join(', ')}</p>
+              <p>Tags: {data && data.tags.join(", ")}</p>
               <div className="h-9" />
             </div>
           ) : (
@@ -141,8 +141,8 @@ export default function Page({ params }: { params: { storyid: string } }) {
         isShow={isShow}
         setShow={setShow}
         storyId={params.storyid}
-        className={`fixed bottom-6 w-[300px] right-10 ${isShow}`}
+        className={`fixed z-30 bottom-6 w-[300px] right-10 ${isShow}`}
       />
     </div>
-  )
+  );
 }
