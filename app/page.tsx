@@ -1,8 +1,8 @@
 import React from 'react'
 import { ThumbsUp, MessageSquare } from 'lucide-react'
 
-import LatestNewsIcon from '@/public/latest-news.svg'
-import Image from 'next/image'
+// import LatestNewsIcon from '@/public/latest-news.svg'
+// import Image from 'next/image'
 
 import { LatestNews, MainCarousel } from './components/homepage'
 
