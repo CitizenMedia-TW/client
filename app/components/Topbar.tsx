@@ -1,31 +1,45 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import Sidebar from './Sidebar/Sidebar'
 
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon, Laptop } from 'lucide-react'
 
 const Topbar = () => {
   const { data: session } = useSession()
 
   const { theme, setTheme } = useTheme()
 
+  const themeElement: Record<string, React.JSX.Element> = {
+    dark: <Moon />,
+    light: <Sun />,
+    system: <Laptop />,
+  }
+
   const switchTheme = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    if (theme === 'dark') {
-      setTheme('light')
-    } else {
-      setTheme('dark')
+    switch (theme) {
+      case 'dark':
+        setTheme('light')
+        break
+      case 'light':
+        setTheme('system')
+        break
+      case 'system':
+        setTheme('dark')
+        break
+      default:
+        break
     }
   }
 
   return (
-    <header className="grid grid-cols-12 items-center gap-4 py-4 bg-background drop-shadow-md text-primary-content sticky top-0 z-50">
-      <Link href="/" className="col-span-3 relative w-96 h-20">
+    <header className="flex justify-between items-center gap-4 p-4 bg-background drop-shadow-md text-primary-content sticky top-0 z-50">
+      <Link href="/" className="relative w-48 xs:w-64 md:w-96 h-20">
         <Image
           src={`${theme === 'dark' ? 'logoDarkS.svg' : 'logoLightS.svg'}`}
           fill={true}
@@ -34,20 +48,21 @@ const Topbar = () => {
         />
       </Link>
 
-      <nav className="col-start-10 col-span-3 flex justify-around items-center gap-4">
+      <nav className="flex justify-around items-center gap-4">
         <section
-          className="relative p-2 flex gap-2 border-2 rounded-2xl cursor-pointer"
+          className="relative p-2 flex gap-2 border-2 rounded-2xl cursor-pointer bg-background text-foreground"
           onClick={switchTheme}
         >
-          <Moon />
+          {themeElement[theme ?? 'system']}
+          {/* <Moon />
           <Sun />
           <div
             className={`${theme === 'dark' ? 'left-2' : 'right-2'} absolute size-6 rounded-full top-1/2 -translate-y-1/2 bg-primary`}
-          />
+          /> */}
         </section>
 
         {session && session.user ? (
-          <figure className="flex gap-2">
+          <figure className="hidden md:flex gap-2">
             <Image
               unoptimized
               src={session?.user?.avatar as string}
