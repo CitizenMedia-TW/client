@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
-import SideBarLogo from '../../../public/sideBarLogo.svg'
+
 import {
   Drawer,
   DrawerClose,
@@ -29,64 +29,56 @@ export default function Sidebar() {
           <DrawerSvg />
         </button>
       </DrawerTrigger>
-      <DrawerContent className="w-80 mt-2 fixed right-0 h-full bottom-0 z-50 flex flex-col rounded-l-[10px] border bg-background">
-        <div className="flex flex-col h-full px-5 pb-5">
-          <DrawerHeader className="flex flex-row items-end py-20">
+      <DrawerContent className="w-80 mt-2 px-5 pb-5 fixed right-0 h-dvh bottom-0 z-50 flex flex-col rounded-l-[10px] border bg-background">
+        <DrawerHeader className="grid grid-cols-4 gap-x-8 items-end py-20">
+          <div className="relative size-16 col-span-1">
             <Image
               unoptimized
               src={session?.user?.avatar as string}
               alt="here was a logo:("
-              width={30}
-              height={30}
-              className="rounded-full w-16 h-16 m-1"
+              fill
+              className="rounded-full"
             />
-            <div className="max-w-fit relative">
-              <div className="flex w-full">
-                <p
-                  className="pl-3 justify-end m-1 mr-3 mb-1 text-3xl font-bold dark:text-white text-black"
-                  style={{ zIndex: 1 }}
-                >
-                  {session?.user?.name}
-                </p>
-              </div>
-              <span className="bottom-1 right-0 absolute bg-amber-400 w-10 h-2.5 dark:border-gray-800" />
-            </div>
-          </DrawerHeader>
-          <div className="h-full px-5">
-            <ul className="h-full flex flex-col gap-2 justify-evenly">
-              {sideBarLinks.map((link, idx) => (
-                <div key={idx}>
-                  <Link
-                    href={link.href}
-                    key={link.display}
-                    className="font-medium text-3xl"
-                  >
-                    <DrawerClose>{link.display}</DrawerClose>
-                  </Link>
-                  <hr className="mt-3 h-[2.5px] border-black"></hr>
-                </div>
-              ))}
-            </ul>
           </div>
-          <DrawerFooter className="py-20">
-            <button onClick={() => signOut()} className="flex">
-              <div className="flex dark:hidden">
-                <LogoutSvg />
-              </div>
-              <div className="hidden dark:flex">
-                <LogoutSvgDark />
-              </div>
-              <span className="mt-auto ml-2 dark:text-white text-black text-lg">
-                Log out
-              </span>
-            </button>
-          </DrawerFooter>
-          <div className="flex items-end justify-self-end">
-            <Image
-              src={SideBarLogo}
-              alt="here was a logo:("
-              className="h-12 ml-auto mb-1 mr-1"
-            />
+          <section className="relative col-span-3 max-w-fit">
+            <p className="text-3xl font-bold text-foreground line-clamp-2">
+              {session?.user?.name}
+            </p>
+            <span className="absolute -z-10 bottom-1 right-0 bg-amber-400 w-10 h-2.5 dark:border-gray-800" />
+          </section>
+        </DrawerHeader>
+
+        <ul className="px-5 flex flex-col divide-y-2 divide-foreground justify-evenly">
+          {sideBarLinks.map((link, idx) => (
+            <li key={idx} className="flex items-center">
+              <Link
+                href={link.href}
+                key={link.display}
+                className="w-full p-2 font-medium text-3xl hover:text-background hover:bg-foreground transition-all"
+              >
+                <DrawerClose>{link.display}</DrawerClose>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <DrawerFooter className="py-20">
+          <button
+            onClick={() => signOut()}
+            className="flex gap-x-2 hover:opacity-65 transition-all"
+          >
+            <div className="block dark:hidden">
+              <LogoutSvg />
+            </div>
+            <div className="hidden dark:block">
+              <LogoutSvgDark />
+            </div>
+            <span className="self-end text-foreground text-lg">Log out</span>
+          </button>
+        </DrawerFooter>
+        <div className="flex items-end justify-self-end">
+          <div className="ml-auto relative h-12 w-1/2">
+            <Image src={'/sideBarLogo.svg'} alt="here was a logo:(" fill />
           </div>
         </div>
       </DrawerContent>
