@@ -3,26 +3,27 @@ import React from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import Block from '../Block'
-const API_URL = 'http://localhost:8080'
+const API_URL = 'http://localhost:8085'
 
 type User = {
   name: string
   mail: string
-  pass: string
+  password: string
 }
 
 async function register(newUser: User) {
-  const res = await axios.post(`${API_URL}/auth/register`, newUser)
+  const res = await axios.post(`${API_URL}/register`, newUser)
   if (res.status != 200) return window.alert('Error')
   window.alert('Success')
   window.location.href = '/auth/signin'
 }
 
 export default function Page() {
+  // TODO: react hook form
   const [newUser, setNewUser] = React.useState<User>({
     name: '',
     mail: '',
-    pass: '',
+    password: '',
   })
   return (
     <Block title={'Register'}>
@@ -32,9 +33,7 @@ export default function Page() {
             type="text"
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
             placeholder="username"
-            onChange={(e) =>
-              setNewUser({ ...newUser, name: e.target.value })
-            }
+            onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
           />
           <input
             type="text"
@@ -46,7 +45,9 @@ export default function Page() {
             type="text"
             className="relative left-1/2 -translate-x-1/2 h-14 rounded-xl border-2 border-[#5778a2] bg-white shrink-0 justify-center text-[#9E9E9E] font-sans not-italic font-medium leading-normal w-[70%] 2xl:w-96 px-4"
             placeholder="password"
-            onChange={(e) => setNewUser({ ...newUser, pass: e.target.value })}
+            onChange={(e) =>
+              setNewUser({ ...newUser, password: e.target.value })
+            }
           />
           <button
             className="relative left-1/2 -translate-x-1/2 w-[70%] 2xl:w-48 h-12 bg-[#fbd06e] rounded-xl text-[#0F3E7A] font-sans not-italic font-normal leading-normal"
