@@ -15,7 +15,7 @@ import type { User } from 'next-auth'
  * }
  */
 
-const API_URL = process.env.API_URL ?? 'http://localhost:8080'
+const API_URL = process.env.API_URL ?? 'http://localhost:8085'
 
 export const options: NextAuthOptions = {
   providers: [
@@ -38,24 +38,24 @@ export const options: NextAuthOptions = {
     async signIn({ account, credentials }) {
       if (account && account.provider === 'google') {
         const res = await axios
-          .post(API_URL + '/auth/google', { id_token: account.id_token })
+          .post(API_URL + '/login/google', { idToken: account.id_token })
           .catch((err) => {
             console.log(err)
           })
-        if (res && res.status == 200) {
+        if (res && res.status === 200) {
           account.user = res.data as User
           return true
         } else return false
       } else if (account && account.provider === 'credentials') {
         const res = await axios
-          .post(API_URL + '/auth/credentials', {
-            email: credentials?.email,
-            password: credentials?.password,
+          .post(API_URL + '/login/credentials', {
+            mail: credentials?.email,
+            pass: credentials?.password,
           })
           .catch((err) => {
             console.log(err)
           })
-        if (res && res.status == 200) {
+        if (res && res.status === 200) {
           account.user = res.data as User
           return true
         } else return false
