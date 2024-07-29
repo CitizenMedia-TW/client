@@ -54,11 +54,6 @@ const Topbar = () => {
           onClick={switchTheme}
         >
           {themeElement[theme ?? 'system']}
-          {/* <Moon />
-          <Sun />
-          <div
-            className={`${theme === 'dark' ? 'left-2' : 'right-2'} absolute size-6 rounded-full top-1/2 -translate-y-1/2 bg-primary`}
-          /> */}
         </section>
 
         {session && session.user ? (
@@ -69,11 +64,8 @@ const Topbar = () => {
               alt="here was a logo:("
               width={30}
               height={30}
-              className="hidden md:block"
+              className="hidden md:block rounded"
             />
-            <button onClick={() => signOut()} className="font-bold">
-              Sign Out
-            </button>
           </figure>
         ) : (
           <button onClick={() => signIn()} className="font-bold">
