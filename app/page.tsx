@@ -2,8 +2,8 @@ import React from 'react'
 import { ThumbsUp, MessageSquare } from 'lucide-react'
 import { LatestNews, MainCarouselSkeleton } from './components/homepage'
 
-// import LatestNewsIcon from '@/public/latest-news.svg'
-// import Image from 'next/image'
+import { getServerSession } from 'next-auth/next'
+import { options as authOptions } from './api/auth/[...nextauth]/options'
 
 import { StoryServices } from '@/api/services'
 import dynamic from 'next/dynamic'
@@ -16,6 +16,28 @@ const MainCarousel = dynamic(
   }
 )
 
+const verifyToken = async (token: string | undefined) => {
+  const response = await fetch('http://localhost:3000/api/verifyToken', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token }),
+  })
+
+  const parsedRes = await response.json()
+
+  const { claims, expired, error } = parsedRes
+
+  if (error) {
+    return
+  }
+
+  const parseData = { claim: JSON.parse(claims), expired }
+  console.log(parseData)
+
+  return parseData
+}
 // const stories = [
 //   {
 //     id: '48f60ce3-1bb7-4f83-9614-dc8ee5647403',
@@ -62,6 +84,9 @@ const MainCarousel = dynamic(
 
 export default async function Home() {
   const stories = await StoryServices.getCarouselStories()
+
+  const session = await getServerSession(authOptions)
+  await verifyToken(session?.user.refreshToken)
 
   return (
     <main className="min-h-lvh flex flex-col items-center py-8">
