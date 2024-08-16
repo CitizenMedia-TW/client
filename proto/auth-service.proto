@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "citizenmedia/auth";
+package auth;
+
+// import "google/protobuf/struct.proto";
+
+service AuthService {
+    rpc Hello (Empty) returns (HelloResponse) {}
+    rpc VerifyToken (VerifyTokenRequest) returns (VerifyTokenResponse) {}
+}
+
+message Empty {}
+message HelloResponse {
+    string message = 1;
+}
+
+message VerifyTokenRequest {
+    string token = 1;
+}
+message VerifyTokenResponse {
+    string claims = 1;
+    bool expired = 2;
+    // bool valid = 1;
+    // google.protobuf.Struct claims = 2;
+    // bool expired = 3;
+}
+
