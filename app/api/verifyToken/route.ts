@@ -5,6 +5,10 @@ export async function POST(request: NextRequest) {
   try {
     const { token } = await request.json()
 
+    if (!token) {
+      return NextResponse.json({ error: 'no token' }, { status: 403 })
+    }
+
     const response = await new Promise((resolve, reject) => {
       grpcClient.VerifyToken({ token }, (error: any, response: any) => {
         if (error) {
