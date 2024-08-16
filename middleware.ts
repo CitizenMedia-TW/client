@@ -15,17 +15,7 @@ export default withAuth(
       return
     }
 
-    console.log(token)
-
-    const {
-      user: { refreshToken },
-      exp,
-    } = token
-    const currTime = Math.floor(Date.now() / 1000)
-
-    if (currTime > exp) {
-      // TODO: refresh here
-    }
+    // console.log(token)
   },
   {
     callbacks: {
